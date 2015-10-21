@@ -66,9 +66,6 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 		try {
 			oCn =(Connection) MySqlDAOFactory.obtenerConexion();
 			Statement stmt = oCn.createStatement();
-			String delete="DELETE FROM t_horario_tmp";
-			filas1=stmt.executeUpdate(delete);
-
 			String query="INSERT INTO t_horario_tmp "
 						+"(codFac,c01,cicest,tur,codCur,codCurteo,profesor,curso,desRes,codSec,aula,escual,numCre,lunes,martes,miercoles,jueves,viernes,sabado,domingo)"
 						+ " VALUES "
@@ -375,6 +372,26 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 		    System.out.println("pintando getCargarHorario 4: "+query);
 		    stmt3.executeUpdate(query);
 		}
+	}
+
+	@Override
+	public void deleteHorarioTmp() throws Exception {
+		Connection oCn = null;
+		PreparedStatement oPs = null;
+		ResultSet oRs = null;
+		int filas1=0;
+		try {
+			oCn =(Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = oCn.createStatement();
+			String delete="DELETE FROM t_horario_tmp";
+			System.out.println(delete);
+			filas1=stmt.executeUpdate(delete);
+		}  finally {
+			close(oRs);
+			close(oPs);
+			close(oCn);
+		}
+		
 	}
 
 }
