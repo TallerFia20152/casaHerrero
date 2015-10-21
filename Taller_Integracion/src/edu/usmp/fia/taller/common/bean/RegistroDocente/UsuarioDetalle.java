@@ -1,8 +1,7 @@
 package edu.usmp.fia.taller.common.bean.RegistroDocente;
 
-import java.io.Serializable;
 
-public class UsuarioDetalle implements Serializable {
+public class UsuarioDetalle  {
 
 
 	private UserType userType;

@@ -1,1 +1,1 @@
-<li><a href="ElaboracionHorariosServlet?f=leerHorario"><i class="entypo-gauge"></i><span class="title">ELABORACION DE HORARIOS</span></a></li>
+<li><a data-toggle="modal" href="#myModalElaboracionHorario"><i class="entypo-gauge"></i><span class="title">ELABORACION DE HORARIOS</span></a></li>

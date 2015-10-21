@@ -97,6 +97,6 @@
 	</div>
 
 	<jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
-	
+		
 </body>
 </html>
