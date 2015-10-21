@@ -14,7 +14,6 @@ public interface DAORegistroDocente {
 	public Vector<Hora> listarHoras()throws Exception;
 	public Vector<Personaa> listarDocentes()throws Exception;
 	public Vector<Curso> listarCursos()throws Exception;
-	
 	//INICIO metodos de email
 	public boolean guardarEmail(Email emal) throws Exception;
 	public boolean guardarEmails(String json_email,String id_profesor) throws Exception;

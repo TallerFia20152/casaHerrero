@@ -167,10 +167,14 @@ public class Gestionar_Docente extends ActionServlet {
 			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
 			Vector<Dia> dias = regdoce.regDocente().listarDias();
 			Vector<Hora> horas=regdoce.regDocente().listarHoras();
-			
+			Vector<Personaa> docentes=regdoce.regDocente().listarDocentes();
+			Vector<Curso> cursos=regdoce.regDocente().listarCursos();
 			request.setAttribute("dias", dias);
 			request.setAttribute("horas", horas);
-
+			request.setAttribute("docentes", docentes);
+			request.setAttribute("cursos", cursos);
+			
+			
 			
 			request.getRequestDispatcher("/RegistroDocente/registroDisponibilidadDocente.jsp").forward(request, response);
 			
