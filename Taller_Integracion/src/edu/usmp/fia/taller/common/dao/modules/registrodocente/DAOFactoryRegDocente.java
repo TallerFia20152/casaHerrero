@@ -4,5 +4,5 @@ import edu.usmp.fia.taller.registrodocente.dataaccess.interfaces.DAORegistroDoce
 
 public interface DAOFactoryRegDocente {
 
-	public DAORegistroDocente regisDocente();
+		public DAORegistroDocente regDocente();
 }

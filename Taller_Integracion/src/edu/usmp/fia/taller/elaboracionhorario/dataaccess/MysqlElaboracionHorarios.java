@@ -29,6 +29,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 		List <Curso> listCurso= new ArrayList<Curso>();
 		try {
 			oCn = (Connection) MySqlDAOFactory.obtenerConexion();
+			System.out.println("Pintando getCursoAll: "+"SELECT * FROM t_curso");
 			oPs = (PreparedStatement) oCn.prepareStatement("SELECT * FROM t_curso");
 			oRs = oPs.executeQuery();
 			while(oRs.next()) {
@@ -60,41 +61,40 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 		Connection oCn = null;
 		PreparedStatement oPs = null;
 		ResultSet oRs = null;
-		Curso objCurso = null;
-		int estado=0;
-		int id=0;
+		int filas1=0;
+		int filas2=0;
 		try {
 			oCn =(Connection) MySqlDAOFactory.obtenerConexion();
-			System.out.println("INSERT INTO t_horario_tmp ('codFac','c01','cicest','tur','codCur','codCurteo','profesor','curso','desRes','codSec','aula','escual','numCre','lunes','martes','miercoles','jueves','viernes','sabado','domingo') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			oPs =  (PreparedStatement) oCn.prepareStatement("INSERT INTO t_horario_tmp ('codFac','c01','cicest','tur','codCur','codCurteo','profesor','curso','desRes','codSec','aula','escual','numCre','lunes','martes','miercoles','jueves','viernes','sabado','domingo') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
-			
-			oPs.setInt(1, objHor.getCodFac());
-			oPs.setInt(2, objHor.getC01());
-			oPs.setString(3, objHor.getCicest());
-			oPs.setString(4, objHor.getTur());
-			oPs.setInt(5, objHor.getCodCur());
-			oPs.setInt(6, objHor.getCodCurteo());
-			oPs.setString(7, objHor.getProfesor());
-			oPs.setString(8, objHor.getCurso());
-			oPs.setString(9, objHor.getDesRes());
-			oPs.setString(10, objHor.getCodSec());
-			oPs.setString(11, objHor.getAula());
-			oPs.setString(12, objHor.getEscual());
-			oPs.setInt(13, objHor.getNumCre());	
-			oPs.setString(14, objHor.getLunes());
-			oPs.setString(15, objHor.getMartes());
-			oPs.setString(16, objHor.getMiercoles());
-			oPs.setString(17, objHor.getJueves());
-			oPs.setString(18, objHor.getViernes());
-			oPs.setString(19, objHor.getSabado());
-			oPs.setString(20, objHor.getDomingo());
+			Statement stmt = oCn.createStatement();
+			String delete="DELETE FROM t_horario_tmp";
+			filas1=stmt.executeUpdate(delete);
 
-
-			estado=oPs.executeUpdate();
-			ResultSet rs=oPs.getGeneratedKeys();
-			if(rs.next()){
-				id=rs.getInt(1);
-			} 
+			String query="INSERT INTO t_horario_tmp "
+						+"(codFac,c01,cicest,tur,codCur,codCurteo,profesor,curso,desRes,codSec,aula,escual,numCre,lunes,martes,miercoles,jueves,viernes,sabado,domingo)"
+						+ " VALUES "
+						+ "("
+						+ " '"+objHor.getCodFac()+"', "
+						+ " '"+objHor.getC01()+"', "
+						+ " '"+objHor.getCicest()+"', "
+						+ " '"+objHor.getTur()+"', "
+						+ " '"+objHor.getCodCur()+"', "
+						+ " '"+objHor.getCodCurteo()+"', "
+						+ " '"+objHor.getProfesor()+"', "
+						+ " '"+objHor.getCurso()+"', "
+						+ " '"+objHor.getDesRes()+"', "
+						+ " '"+objHor.getCodSec()+"', "
+						+ " '"+objHor.getAula()+"', "
+						+ " '"+objHor.getEscual()+"', "
+						+ " '"+objHor.getNumCre()+"', "
+						+ " '"+objHor.getLunes()+"', "
+						+ " '"+objHor.getMartes()+"', "
+						+ " '"+objHor.getMiercoles()+"', "
+						+ " '"+objHor.getJueves()+"', "
+						+ " '"+objHor.getViernes()+"', "
+						+ " '"+objHor.getSabado()+"', "
+						+ " '"+objHor.getDomingo()+"') ";
+			System.out.println(query);
+			filas2=stmt.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
 			close(oRs);
 
 		} finally {
@@ -102,14 +102,14 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 			close(oPs);
 			close(oCn);
 		}
-		return estado;
+		return filas2;
 	}
 
 	@Override
 	public List<String> getHorarioDetalle() throws Exception {
 		// TODO Auto-generated method stub
 		String query = "SELECT DISTINCT version FROM t_horario_detalle";
-		System.out.println(query);
+		System.out.println("Pintando getHorarioDetalle: "+query);
 		Connection con = (Connection) MySqlDAOFactory.obtenerConexion();
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery(query);
@@ -188,7 +188,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 						"a.nombre = '"+cycle+"' "+
 					"GROUP BY CONCAT(i.abreviatura,' - ', j.nombre, ' ', k.apellido_paterno) "+
 					" ORDER BY name ASC ) tt GROUP BY tt.name";
-				System.out.println("QUERY: "+query);
+				System.out.println("Pintando query 1 getHoraTotales: "+query);
 				Connection con = (Connection) MySqlDAOFactory.obtenerConexion();
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
@@ -290,7 +290,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 	  					"WHERE "+
 	  						"f.nombre = '"+cycle+"' AND a.version = '"+sesion.getAttribute("versionHorario")+"'";
 	  	//System.out.print(query2);
-	  	System.out.println("QUERY2: "+query2);
+	  	System.out.println("Pintando QUERY  getHoras: "+query2);
 	  	Connection con2 = (Connection) MySqlDAOFactory.obtenerConexion();
 		Statement stmt2 = con2.createStatement();
 		ResultSet rs2 = stmt2.executeQuery(query2);
@@ -319,7 +319,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 	public JSONArray getDisponibilidadAula(String[] hArray) throws Exception {
 		String query = "SELECT * FROM t_disponibilidad_aula a INNER JOIN t_aula b ON a.aula_id = b.id INNER JOIN t_pabellon c ON c.id = b.pabellon_id WHERE dia_id = "+hArray[0]+" AND hora_id = "+hArray[1];
 		//out.print(query);
-
+		System.out.println("Pintando query getDisponibilidadAula: "+query);
 		Connection con = (Connection) MySqlDAOFactory.obtenerConexion();
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery(query);
@@ -343,7 +343,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 		Statement stmt3 = con3.createStatement();
 		
 		String queryDelete = "DELETE FROM t_horario_detalle WHERE curso_seccion_id IN (SELECT b.id FROM t_plan_curricular_detalle a INNER JOIN t_curso_seccion b ON a.curso_id = b.curso_id INNER JOIN t_ciclo c ON c.id = a.ciclo_id WHERE c.nombre = '"+cycle+"') AND version = '"+versionHorario+"'";
-		System.out.print(queryDelete);
+		System.out.print("pintando getCargarHorario: "+queryDelete);
 		stmt3.executeUpdate(queryDelete);
 		System.out.println("siso despues del delete");
 		String query = "";
@@ -353,7 +353,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 		    String[] arrayHoras = arrayDatos[2].split("-");
 		    
 		    String buscarCursoSeccion = "SELECT a.id as id FROM t_curso_seccion a INNER JOIN t_seccion b ON a.seccion_id = b.id WHERE CONCAT(a.abreviatura,' - ',b.nombre) = '"+arrayDatos[0]+"'";
-			System.out.println("buscarCursoSeccion: "+buscarCursoSeccion);
+			System.out.println("pintando getCargarHorario 2: "+buscarCursoSeccion);
 		    ResultSet rs3 = stmt3.executeQuery(buscarCursoSeccion);
 			String idSeccion = "";
 			while(rs3.next())
@@ -363,7 +363,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 			close(con3);
 			
 			String buscarDisponibilidadProfesor = "SELECT a.id as id FROM t_disponibilidad_profesor a INNER JOIN t_persona b ON a.profesor_id = b.id WHERE CONCAT(b.nombre,' ',b.apellido_paterno) = '"+arrayDatos[1]+"' AND dia_id = '"+arrayHoras[0]+"' AND hora_id = '"+arrayHoras[1]+"'";
-			System.out.println(buscarDisponibilidadProfesor);
+			System.out.println("pintando getCargarHorario 3: "+buscarDisponibilidadProfesor);
 			ResultSet rs2 = stmt3.executeQuery(buscarDisponibilidadProfesor);
 			String idDisponibilidadProfesor = "";
 			while(rs2.next())
@@ -372,7 +372,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 			}
 		    
 		    query = "INSERT INTO t_horario_detalle (id, curso_seccion_id, disponibilidad_aula_id, disponibilidad_profesor_id, version) VALUES (1, '"+idSeccion+"', '68', '"+idDisponibilidadProfesor+"', '"+versionHorario+"')";
-		    System.out.println(query);
+		    System.out.println("pintando getCargarHorario 4: "+query);
 		    stmt3.executeUpdate(query);
 		}
 	}
