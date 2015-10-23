@@ -8,6 +8,8 @@ package edu.usmp.fia.taller.convalidacioncurso.dataaccess.interfaces;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Convalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Curso;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.UniversidadOrigen;
+
 import java.util.List;
 
 /**
@@ -20,4 +22,5 @@ public interface DAOHistoriaConvalidacion {
     public List<Convalidacion> listarconvalidaciones();
     public List<Alumno> listaralumnos(Alumno wAlumno)throws Exception;
     public Alumno obtenerDatosAlumno(Alumno wAlumno)throws Exception;
+    public List<UniversidadOrigen> listaruniversidades()throws Exception;
 }

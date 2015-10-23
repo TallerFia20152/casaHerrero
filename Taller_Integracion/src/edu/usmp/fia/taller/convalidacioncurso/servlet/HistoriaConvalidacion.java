@@ -17,6 +17,7 @@ import edu.usmp.fia.taller.common.action.RequireLogin;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Curso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Persona;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.UniversidadOrigen;
 import edu.usmp.fia.taller.common.dao.DAOFactory;
 
 
@@ -51,7 +52,7 @@ public class HistoriaConvalidacion extends ActionServlet {
 	        if (request.getParameter("codigo") == null) {
 	            alumno.getPersona().setNomcom(request.getParameter("nombre"));
 	        } else {
-	            alumno.getPersona().setId(Integer.parseInt(request.getParameter("codigo")));
+	            alumno.getPersona().setId(request.getParameter("codigo"));
 	        }
 
 	        DAOFactory oDAOFactory;
@@ -71,28 +72,13 @@ public class HistoriaConvalidacion extends ActionServlet {
 	        }
 	    }
 
-	    @Default
-	    @RequireLogin(false)
-	    public void inicio() throws ServletException, IOException {
-	        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/inicio.jsp");
-	    }
-	    @Default
-	    @RequireLogin(false)
-	    public void mantenimiento() throws ServletException, IOException {
-	        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/mantenimientAlumno.jsp");
-	    }
-	    @Default
-	    @RequireLogin(false)
-	    public void reporte() throws ServletException, IOException {
-	        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/convalidarCursos.jsp");
-	    }
-
+	    
 	    @HttpMethod(HttpMethodType.POST)
 	    @RequireLogin(false)
 	    public void obtenerDatosAlumno() throws IOException, Exception {
 	        Alumno alu = new Alumno();
 	        alu.setPersona(new Persona());
-	        alu.getPersona().setId(Integer.parseInt(request.getParameter("codalu")));
+	        alu.getPersona().setId(request.getParameter("codalu"));
 	        DAOFactory oDAOFactory;
 	        response.setContentType("application/json;charset=UTF-8");
 	        PrintWriter out = response.getWriter();
@@ -109,6 +95,27 @@ public class HistoriaConvalidacion extends ActionServlet {
 	            alu = null;
 	        }
 	    }
-	
+	    
+
+	    @HttpMethod(HttpMethodType.POST)
+	    @RequireLogin(false)
+	    public void listarUniversidades() throws IOException, Exception {
+	    	List<UniversidadOrigen> unis = null;
+        
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            unis = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listaruniversidades();
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(unis));
+	            out.close();
+	        }
+	    }
 
 }
