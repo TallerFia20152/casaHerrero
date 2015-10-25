@@ -14,13 +14,13 @@ public class Redireccion extends ActionServlet {
 
 	@Default
     @RequireLogin(false)
-    public void inicio() throws ServletException, IOException {
+    public void regcur() throws ServletException, IOException {
         response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/inicio.jsp");
     }
     @Default
     @RequireLogin(false)
-    public void mantenimiento() throws ServletException, IOException {
-        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/mantenimientoAlumno.jsp");
+    public void regalu() throws ServletException, IOException {
+        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/registroAlumno.jsp");
     }
     @Default
     @RequireLogin(false)

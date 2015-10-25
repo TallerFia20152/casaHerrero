@@ -32,12 +32,7 @@
 				}
 
 				);
-				comboUniversidades.on("load", function(data) {
-					if (data.length === 1) {
-						comboUniversidades.addItem(data[0].codsed);
-						comboUniversidades.lock();
-					}
-				});
+				
 				return xhr;
 			}
 		};
