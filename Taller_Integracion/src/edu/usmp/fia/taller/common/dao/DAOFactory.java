@@ -12,6 +12,7 @@ import edu.usmp.fia.taller.common.dao.modules.convalidacioncurso.DAOFactoryConva
 import edu.usmp.fia.taller.common.dao.modules.elaboracionhorario.DAOFactoryElabHorarios;
 import edu.usmp.fia.taller.common.dao.modules.registrodocente.DAOFactoryRegDocente;
 import edu.usmp.fia.taller.mallacurricular.interfaces.DAOFactoryMCurricular;
+import edu.usmp.fia.taller.silabo.interfaces.DAOSilabo;
 import edu.usmp.fia.taller.simulacionMatricula.interfaces.DAOFactorySMatricula;
 
 
@@ -24,6 +25,7 @@ public abstract class DAOFactory {
 	
 	public abstract DAOFactoryGeneral getGeneral();
 	public abstract DAOFactorySMatricula getSimulacionMatricula();
+	public abstract DAOSilabo getSilaboDAO();
 
 	public abstract DAOFactoryElabHorarios getElaboracionHorario();
 	public abstract DAOFactoryRegDocente getRegistroDocente();

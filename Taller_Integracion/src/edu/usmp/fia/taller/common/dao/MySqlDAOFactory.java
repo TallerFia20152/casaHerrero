@@ -35,6 +35,8 @@ import edu.usmp.fia.taller.common.dao.modules.registrodocente.MysqlFactoryRegDoc
 import edu.usmp.fia.taller.common.util.ThreadUtil;
 import edu.usmp.fia.taller.mallacurricular.MySql.MySqlFactoryMCurricular;
 import edu.usmp.fia.taller.mallacurricular.interfaces.DAOFactoryMCurricular;
+import edu.usmp.fia.taller.silabo.MySql.MySqlSilaboDao;
+import edu.usmp.fia.taller.silabo.interfaces.DAOSilabo;
 import edu.usmp.fia.taller.simulacionMatricula.MySql.MySqlFactorySMatricula;
 import edu.usmp.fia.taller.simulacionMatricula.interfaces.DAOFactorySMatricula;
 
@@ -198,6 +200,6 @@ public class MySqlDAOFactory extends DAOFactory {
 		return new MySqlFactoryPCurricular();
 	}
 
-
+	public DAOSilabo getSilaboDAO(){return new MySqlSilaboDao();}
 
 }

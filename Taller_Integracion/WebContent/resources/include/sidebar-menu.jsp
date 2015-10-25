@@ -50,6 +50,7 @@
 			<jsp:include page="/resources/include/menu/elaboracion-horario.jsp"></jsp:include>
 			<jsp:include page="/resources/include/menu/malla-curricular.jsp"></jsp:include>
 			<jsp:include page="/resources/include/menu/plan-curricular.jsp"></jsp:include>
+			<jsp:include page="/resources/include/menu/silabo.jsp"></jsp:include>
 		</ul>
 	</div>
 	
