@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 
 import edu.usmp.fia.taller.common.bean.MallaCurricular.T_course;
 import edu.usmp.fia.taller.common.dao.modules.DAOFactoryGeneral;
+import edu.usmp.fia.taller.common.dao.modules.PlanCurricular.DAOFactoryPCurricular;
 import edu.usmp.fia.taller.common.dao.modules.convalidacioncurso.DAOFactoryConvalidacion;
 import edu.usmp.fia.taller.common.dao.modules.elaboracionhorario.DAOFactoryElabHorarios;
 import edu.usmp.fia.taller.common.dao.modules.registrodocente.DAOFactoryRegDocente;
@@ -26,6 +27,7 @@ public abstract class DAOFactory {
 
 	public abstract DAOFactoryElabHorarios getElaboracionHorario();
 	public abstract DAOFactoryRegDocente getRegistroDocente();
+	public abstract DAOFactoryPCurricular getCourseDAO();
 	
 	//public abstract DAOFactoryMCurricular getMallaCurricular();
 	public abstract DAOFactoryConvalidacion getConvalidacion();

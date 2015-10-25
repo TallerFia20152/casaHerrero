@@ -17,8 +17,6 @@
 					href="<%=application.getContextPath() %>/ListaCursosISServlet">Malla
 						IS</a></li>
 
-				<!-- <li style="text-align:center"><a href="#"> Visualizar </a></li> -->
-				<!-- <li><a href="#"></a></li> -->
 			</ul>
 		</nav>
 	</div>
