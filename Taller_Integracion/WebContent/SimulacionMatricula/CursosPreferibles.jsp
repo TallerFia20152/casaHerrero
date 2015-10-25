@@ -51,8 +51,8 @@
 
 			<br />
 			<%
-				List<Curso> listaCursos = (List<Curso>) request.getAttribute("CursosPropuestos");
-				if (listaCursos.size()==0)
+				List<Curso> listaCursos = (List<Curso>) request.getAttribute("CursosPeferibles");
+				if (listaCursos==null)
 				{
 			%>
 				<div class="row">

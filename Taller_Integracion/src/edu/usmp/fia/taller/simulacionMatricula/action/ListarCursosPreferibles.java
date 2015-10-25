@@ -1,5 +1,7 @@
 package edu.usmp.fia.taller.simulacionMatricula.action;
 
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 
 import edu.usmp.fia.taller.common.dao.DAOFactory;
@@ -10,54 +12,40 @@ import edu.usmp.fia.taller.common.action.HttpMethodType;
 import edu.usmp.fia.taller.common.action.RequireLogin;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso;
 
-@WebServlet("/GenerarPreMatricula")
-public class GenerarPreMatricula extends ActionServlet {
+@WebServlet("/ListarCursosPreferibles")
+public class ListarCursosPreferibles extends ActionServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Default()
 	@RequireLogin(true)
 	@HttpMethod(HttpMethodType.GET)	
-	public void GeneraPreMatricula() throws Exception {
+	public void ListarCursosPreferible() throws Exception {
 		
-		
+		List<Curso> listaCursos= null;
 		DAOFactory factory =null;
 		
 		try 
 		{
-			boolean registro=false;
-			String mensaje="";
-			
-			System.out.println("INGRESO AL GET");
-			String codAlumno = request.getParameter("codAlumno");			
-			String[] codCurso = request.getParameterValues("codCurso");
-			
-			System.out.println("COD ALUMNO => " + codCurso);
-			
+			int codigoAlumno = Integer.parseInt(request.getParameter("codAlumno"));			
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			registro= factory.getSimulacionMatricula().GenerarPreMatricula(codAlumno,codCurso);
 			
-			if(registro)
-			{
-				mensaje="Se generó correctamente la Pre Matricula";
-			}
-			else
-			{
-				mensaje="No se generó la Pre Matricula";
-			}
-			
-			request.setAttribute(mensaje, "mensaje");
-			request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/mensaje.jsp").forward(request, response);
+			listaCursos = factory.getSimulacionMatricula().CursosPreferibles(codigoAlumno);
+					
+			request.setAttribute("CursosPeferibles", listaCursos);
+			request.getRequestDispatcher("SimulacionMatricula/CursosPreferibles.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			System.out.println("ERROR ====>> " +e.getMessage() + "");
 			e.printStackTrace();
 		}
 		finally
-		{			
+		{
+			if (listaCursos!=null)
+				listaCursos=null;
+			
 			if (factory!=null)							
 				factory=null;					
 		}
-
 	}
 }
