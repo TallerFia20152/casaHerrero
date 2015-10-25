@@ -1,6 +1,7 @@
 package edu.usmp.fia.taller.mallacurricular.action;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -42,6 +43,40 @@ public class ListaCursosTIServlet extends ActionServlet {
 		List<T_course> cursos9 = factory.getMallaCurricular().findAl9TI();
 		List<T_course> cursos10 = factory.getMallaCurricular().findAl10TI();
 
+		for (Iterator<T_course> iter = cursos11.iterator(); iter.hasNext();) {
+			T_course temp = iter.next();
+			if (temp.getId() == 90675) {
+				cursos6.add(temp);
+			}
+			if (temp.getId() == 90676) {
+				cursos7.add(temp);
+			}
+			if (temp.getId() == 91119) {
+				cursos7.add(temp);
+			}
+			if (temp.getId() == 90179) {
+				cursos8.add(temp);
+			}
+			if (temp.getId() == 90677) {
+				cursos8.add(temp);
+			}
+			if (temp.getId() == 90548) {
+				cursos8.add(temp);
+			}
+			if (temp.getId() == 90674) {
+				cursos9.add(temp);
+			}
+			if (temp.getId() == 90678) {
+				cursos9.add(temp);
+			}
+			if (temp.getId() == 90088) {
+				cursos9.add(temp);
+			}
+			if (temp.getId() == 90670) {
+				cursos10.add(temp);
+			}
+		}
+		
 		request.setAttribute("cursos", cursos);
 		request.setAttribute("cursos2", cursos2);
 		request.setAttribute("cursos3", cursos3);
