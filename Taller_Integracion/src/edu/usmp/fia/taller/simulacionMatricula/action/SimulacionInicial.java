@@ -33,7 +33,7 @@ public class SimulacionInicial extends ActionServlet {
 			listaArea = factory.getSimulacionMatricula().SimulacionIncial();
 			
 			System.out.println("LISTADO DE CURSOS Y AREAS");
-			
+			/*
 			for (int i=0;i<listaArea.size();i++)
 			{
 				System.out.println("CODIGO =>"+  listaArea.get(i).getId());
@@ -48,7 +48,7 @@ public class SimulacionInicial extends ActionServlet {
 					System.out.println("CANTIDAD ALUMNOS =>"+  listaArea.get(i).getCursoList().get(j).getCantidadAlumnos());					
 				}				
 			}		
-			
+			*/
 			request.setAttribute("listaAreaCurso", listaArea);
 			request.getRequestDispatcher("SimulacionMatricula/SimulacionInicial.jsp").forward(request, response);
 			

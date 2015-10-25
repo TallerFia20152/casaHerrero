@@ -1,6 +1,7 @@
 package edu.usmp.fia.taller.simulacionMatricula.interfaces;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.*;
 
@@ -15,25 +16,26 @@ public interface DAOFactorySMatricula {
 		
 	//ENCARGADO
 	public List<Alumno> ListarAlumnos() throws Exception;	
-	public List<Curso> ListarCursoObligatorios(int codAlumno) throws Exception;
-	public List<Curso> ListarCursoCantAlumno() throws Exception;	
+	public List<Curso> ListarCursoObligatorios(int codAlumno) throws Exception;	
 	public Curso ListarDetalleCurso(String curso) throws Exception;
+	public List<Curso> ListarCursoCantAlumno() throws Exception;	
 	
 	public List<Curso> ListarPreMatricula(int codigoAlumno) throws Exception ;
 	
 	
 	//LOS DOS MODULOS(ENCARGADO Y ALUMNO)
-	public List<Curso> CursosPropuestos(int codigoAlumno) throws Exception ;
+	public List<Curso> CursosProbables(int codigoAlumno) throws Exception ;
 	public List<Curso> ListarCursosAptos(int codAlumno) throws Exception;
 	
 	
 	//SIMULACION DE MATRICULA
 	public List<Area> SimulacionCursosPreferidos() throws Exception;	
-	public List<Area> SimulacionIncial() throws Exception;
-	public List<Area> SimulacionConcluyente()throws Exception;	
+	public List<Area> SimulacionIncial() throws Exception;	
+	public List<Area> SimulacionProbable() throws Exception;
+
 	
-	//ENVIO CORREO	
-	public boolean EnvioCorreo(boolean masivo,Mensaje mensaje) throws Exception;
+	public List<Area> SimulacionConcluyente()throws Exception;	
+
 	
 	
 }

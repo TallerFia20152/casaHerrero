@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<%@page
-	import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso"%>
-<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="edu.usmp.fia.taller.common.action.SessionParameters"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Persona"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Usuario"%>
+<%@page
+	import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Alumno"%>
+<%@page import="java.util.List"%>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -23,35 +24,39 @@
 	Persona oPersona = oUsuario.getPersona();
 %>
 
-
 <body class="page-body skin-red">
 
-	<div class="page-container">
-		<jsp:include page="/resources/include/sidebar-menu.jsp"></jsp:include>		
-
+	<div class="page-container">	
+		<jsp:include page="/resources/include/sidebar-menu.jsp"></jsp:include>
+				
 		<div class="main-content">
-			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
+		
+		<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 
 			<hr />
 
 			<ol class="breadcrumb bc-3">
-				<li><a href="index.html"><i class="fa-home"></i>Inicio</a></li>
-				<li><a href="#">Matricula Progresiva</a></li>
-				<li class="active"><strong>Cursos</strong></li>
+				<li><a href="SimulacionMatricula/index.jsp"><i
+						class="fa-home"></i>Inicio</a></li>
+				<li><a href="#">Simulacion de Matricula</a></li>
+				<li class="active"><strong>Alumnos</strong></li>
 			</ol>
 
-			<h2>Listar Curso</h2>
+			<h2>Listado de Alumnos</h2>
+
 			<br />
 
 			<%
-				List<Curso> listado = (List) request.getAttribute("listaCursos");
+				ArrayList<Alumno> listado = (ArrayList) request.getAttribute("listaAlumno");
+			
 			%>
+<!-- 
 			<div class="row">
 				<div class="col-md-12 opcion">
-					<a download="ListadoCursos.xls" href=""
+					<a download="Demanda_Cursos_Prrobables.xls" href=""
 						onclick="return ExcellentExport.excel(this, 'table-1');"
 						class="btn btn-lg btn-black">Exportar</a>
-						
+					
 					<a href="javascript:window.print();" class="btn btn-lg btn-black btn-icon icon-left hidden-print">
 							Imprimir
 						<i class="entypo-doc-text"></i>
@@ -59,20 +64,21 @@
 				</div>
 				<p>
 			</div>
+ -->
 
 			<div id="export">
 				<table class="table table-bordered datatable" id="table-1">
 					<thead>
 						<tr>
-							<th>N&deg;</th>
+							<th data-hide="phone">N&deg;</th>
 							<th>Codigo</th>
-							<th>Curso</th>
-							<th>
-								<center>Cantidad de Alumnos</center>
-							</th>
-							<th>
-								<center>Detalle Curso</center>
-							</th>
+							<th data-hide="phone">Nombre</th>
+							<th data-hide="phone,tablet">Apellido Paterno</th>
+							<th>Apellido Materno</th>
+							<!-- <th>Curso Obligatorio</th> -->
+							<th>Curso Apto</th>
+							<th>Cursos Probables</th>
+							<th>Pre-Matricula</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -81,15 +87,32 @@
 						%>
 						<tr class="odd gradeX">
 							<td><%=i + 1%></td>
-							<td><%=listado.get(i).getCodigo()%></td>
-							<td><%=listado.get(i).getCurso()%></td>
-							<td align="center"><%=listado.get(i).getCantidadAlumnos()%></td>
+							<td><%=listado.get(i).getCodUSMP()%></td>
+							<td><%=listado.get(i).getNombre()%></td>
+							<td class="center"><%=listado.get(i).getApPaterno()%></td>
+							<td class="center"><%=listado.get(i).getApMaterno()%></td>
+							<!-- 
 							<td align="center"><a
-								href="<%=request.getContextPath()%>/DetalleCurso?codCurso=<%=listado.get(i).getCodigo()%>"
+								href="<%=request.getContextPath()%>/ListarCursosObligatorios?codAlumno=<%=listado.get(i).getCodUSMP()%>"
 								class="btn btn-default btn-sm btn-icon icon-left"> <i
-									class="entypo-pencil"></i> <strong>Ver Detalle</strong>
+									class="entypo-pencil"></i> <strong>Ver</strong>
 							</a></td>
-
+							 -->
+							<td align="center"><a
+								href="<%=request.getContextPath()%>/ListarCursosAptos?codAlumno=<%=listado.get(i).getCodUSMP()%>"
+								class="btn btn-default btn-sm btn-icon icon-left"> <i
+									class="entypo-pencil"></i> <strong>Ver</strong>
+							</a></td>
+							<td align="center"><a
+								href="<%=request.getContextPath()%>/ListarCursosPropuesto?codAlumno=<%=listado.get(i).getCodUSMP()%>"
+								class="btn btn-default btn-sm btn-icon icon-left"> <i
+									class="entypo-pencil"></i> <strong>Ver</strong>
+							</a></td>
+							<td align="center"><a
+								href="<%=request.getContextPath()%>/ListaPre_Matricula?codAlumno=<%=listado.get(i).getCodUSMP()%>"
+								class="btn btn-default btn-sm btn-icon icon-left"> <i
+									class="entypo-pencil"></i> <strong>Ver</strong>
+							</a></td>
 						</tr>
 						<%
 							}
@@ -99,13 +122,13 @@
 						<tr>
 							<th>N&deg;</th>
 							<th>Codigo</th>
-							<th>Curso</th>
-							<th>
-								<center>Cantidad de Alumnos</center>
-							</th>
-							<th>
-								<center>Detalle Curso</center>
-							</th>
+							<th>Nombre</th>
+							<th>Apellido Paterno</th>
+							<th>Apellido Materno</th>
+							<!-- <th>Curso Obligatorio</th> -->
+							<th>Curso Apto</th>
+							<th>Cursos Probables</th>
+							<th>Pre-Matricula</th>
 						</tr>
 					</tfoot>
 				</table>
@@ -139,6 +162,7 @@
 												bAutoWidth : false,
 												fnPreDrawCallback : function() {
 													// Initialize the responsive datatables helper once.
+							
 													if (!responsiveHelper) {
 														responsiveHelper = new ResponsiveDatatablesHelper(
 																tableContainer,
@@ -166,12 +190,12 @@
 			<!-- Footer -->
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>
-
-
 		<jsp:include page="/resources/include/chat.jsp"></jsp:include>
-
 	</div>
 
-	<jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
+<jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
+
+
+
 </body>
 </html>

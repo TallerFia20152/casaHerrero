@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso"%>
 <%@page
 	import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Area"%>
 <%@page import="java.util.List"%>
@@ -36,11 +37,7 @@
 			<h1>Simulacion Matricula</h1>
 
 			<br />
-
-			<%
-				List<Area> listaArea = (List<Area>) request.getAttribute("listaAreaCurso");
-			%>
-
+<!-- 
 			<div class="row">
 				<div class="col-md-12 opcion">
 					<a download="Demanda_Cursos_Prrobables.xls" href=""
@@ -54,6 +51,22 @@
 				</div>
 				<p>
 			</div>
+ -->
+ 
+ 			<%
+				List<Area> listaArea = (List<Area>) request.getAttribute("listaAreaCurso");
+ 			
+	 			if (listaArea.size()==0)
+				{
+			%>
+				<div class="row">
+					<div class="alert alert-danger"><strong>Lo sentimos</strong> No tiene cursos aptos</div>
+				</div>
+			<%
+				}
+				else
+				{
+			%>
 
 			<div class="row">
 
@@ -89,21 +102,21 @@
 										</tr>
 									</thead>
 									<%
-										for (int i = 0; i < listaArea.size(); i++) {
+										for (Area area :listaArea) {
 									%>
 									<tbody>
 										<tr>
-											<td><font size="3" , color="#B04444"> <strong><%=listaArea.get(i).getNombre().toUpperCase()%></strong>
+											<td><font size="3" , color="#B04444"> <strong><%=area.getNombre().toUpperCase()%></strong>
 											</font></td>
 										</tr>
 										<%
-											for (int j = 0; j < listaArea.get(i).getCursoList().size(); j++) {
+											for (Curso curso:area.getCursoList()) {
 										%>
 										<tr>
-											<td><%=listaArea.get(i).getCursoList().get(j).getCodigo()%></td>
-											<td><%=listaArea.get(i).getCursoList().get(j).getCurso()%>
+											<td><%=curso.getCodigo()%></td>
+											<td><%=curso.getCurso() %>
 											</td>
-											<td align="center"><%=listaArea.get(i).getCursoList().get(j).getCantidadAlumnos()%>
+											<td align="center"><%=curso.getCantidadAlumnos()%>
 											</td>
 										</tr>
 										<%
@@ -123,6 +136,7 @@
 				</div>
 
 			</div>
+			<%} %>
 
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>

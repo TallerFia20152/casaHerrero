@@ -35,7 +35,7 @@
 
 			<ol class="breadcrumb bc-3">
 				<li><a href="#"><i class="fa-home"></i>Inicio</a></li>
-				<li><a href="#">UI Elements</a></li>
+				<li><a href="#">Listar Cursos</a></li>
 				<li class="active"><strong>Detalle Curso</strong></li>
 			</ol>
 
@@ -137,8 +137,9 @@
 												%>
 												<tr>
 													<td><%=curso.getProfesor().get(i).getNombre().toUpperCase() + " "
-						+ curso.getProfesor().get(i).getApPaterno().toUpperCase() + " "
-						+ curso.getProfesor().get(i).getApMaterno().toUpperCase() + " "%></td>
+														+ curso.getProfesor().get(i).getApPaterno().toUpperCase() + " "
+														+ curso.getProfesor().get(i).getApMaterno().toUpperCase() + " "%>
+													</td>
 												</tr>
 												<%
 													}
@@ -154,17 +155,9 @@
 
 				</div>
 
-
-
 			</div>
 
-
-
-
 			<br />
-
-
-
 
 			<!-- Footer -->
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>

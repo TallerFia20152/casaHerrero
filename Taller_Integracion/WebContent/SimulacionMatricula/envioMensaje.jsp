@@ -46,7 +46,6 @@
 						<div class="mail-title">
 							Envio Mensaje <i class="entypo-pencil"></i>
 							<br>
-							Favor de escoger la opcion <strong>TODOS(Masivo)</strong>
 						</div>
 						
 					</div>

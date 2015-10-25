@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso"%>
 <%@page
 	import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Area"%>
 <%@page import="java.util.List"%>
@@ -37,10 +38,7 @@
 
 			<br />
 
-			<%
-				List<Area> listaArea = (List<Area>) request.getAttribute("listaAreaCurso");
-			%>
-
+<!-- 
 			<div class="row">
 				<div class="col-md-12 opcion">
 					<a download="Demanda_Cursos_Prrobables.xls" href=""
@@ -55,7 +53,22 @@
 				</div>
 				<p>
 			</div>
-
+ -->
+<br />
+			<%
+				List<Area> listaArea = (List<Area>) request.getAttribute("listaCursos");
+			
+				if (listaArea==null)
+				{
+			%>
+				<div class="row">
+					<div class="alert alert-danger"><strong>LO SENTIMOS</strong> No hay los datos necesarios para generar la Simulacion de Matricula Probable</div>
+				</div>
+			<%
+				}
+				else
+				{
+			%>
 			<div class="row">
 
 				<div class="col-md-12">
@@ -100,13 +113,13 @@
 											</font></td>
 										</tr>
 										<%
-											for (int j = 0; j < listaArea.get(i).getCursoList().size(); j++) {
+											for (Curso curso: listaArea.get(i).getCursoList()) {
 										%>
 										<tr>
-											<td><%=listaArea.get(i).getCursoList().get(j).getCodigo()%></td>
-											<td><%=listaArea.get(i).getCursoList().get(j).getCurso()%>
+											<td><%=curso.getCodigo()%></td>
+											<td><%=curso.getCurso()%>
 											</td>
-											<td align="center"><%=listaArea.get(i).getCursoList().get(j).getCantidadAlumnos()%>
+											<td align="center"><%=curso.getCantidadAlumnos()%>
 											</td>
 										</tr>
 										<%
@@ -127,6 +140,7 @@
 				</div>
 
 			</div>
+			<%} %>
 
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>

@@ -49,31 +49,20 @@ public class MySqlDAOFactory extends DAOFactory {
 	public static Connection obtenerConexion(){
 		Connection con = null;
 		try {
-			//String userName = "root";
-			//String password = "root"; //sbd7230gTAf73p
-			//String userName = "operador"; 
-			//String password = "operadorBD";
-			//String userName = "adminnL3Z24a";
-			//String password = "wtRtWYXxZqIu";
-			
-            //String url = "jdbc:mysql://localhost:3306/bd_taller_proyectos";
-            //String url = "jdbc:mysql://localhost:3306/bdtaller201502";
-			//String url = "jdbc:mysql://TALLER:3306/bd_seguridad_proyectos"; //Server FIA
-			//String url = "jdbc:mysql://127.12.131.2:3306/bdtaller201502"; //Server Openshit
+
 			Map<String, String> oParameters = getMysqlJDBC();
 			
             Class.forName ("com.mysql.jdbc.Driver").newInstance();
             con = (Connection) DriverManager.getConnection (oParameters.get("jdbc:url"), oParameters.get("usuario"), oParameters.get("clave"));
-            //System.out.println ("Database connection established");
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.print(e.getMessage());
 			System.out.print("Connection Failed!");
 			e.printStackTrace();
 		}
 		return con;
-	}//obtenerConexion
+	}
+	//obtenerConexion
 
 
 	private static HashMap<String, String> getMysqlJDBC() throws Exception {
@@ -183,7 +172,6 @@ public class MySqlDAOFactory extends DAOFactory {
 
 	@Override
 	public DAOFactoryConvalidacion getConvalidacion() {
-		// TODO Auto-generated method stub
 		return new MysqlFactoryConvalidacion();
 	}
 

@@ -9,7 +9,7 @@
 <script type="text/javascript" src="resources/js/hash.js"></script>
 <link href="css/boostrap/bootstrap.min.css" rel="stylesheet" />
 <link href="css/login.css" rel="stylesheet" />
-<title>Insert title here</title>
+<title>Taller de Proyectos</title>
 </head>
 <script type="text/javascript">
 	var login = {};
@@ -19,6 +19,7 @@
 		return true;
 	}
 </script>
+
 <body>
 	<div class="container">
 		<form action="login" method="post" class="form-signin">

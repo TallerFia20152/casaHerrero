@@ -40,19 +40,28 @@
 				<li><a
 					href="<%=request.getContextPath()%>/SimulacionMatricula/index.jsp">
 
-						<i class="fa-home"></i>Matricula Progresiva
+						<i class="fa-home"></i>Simulacion de Matricula
 				</a></li>
 
 				<li><a href="#">Listar Alumnos</a></li>
-				<li class="active"><strong>Curso Propuestos</strong></li>
+				<li class="active"><strong>Curso Probables</strong></li>
 			</ol>
 
-			<h1>Matricula Progresiva</h1>
+			<h1>Simulacion de Matricula</h1>
 
 			<br />
-
 			<%
 				List<Curso> listaCursos = (List<Curso>) request.getAttribute("CursosPropuestos");
+				if (listaCursos.size()==0)
+				{
+			%>
+				<div class="row">
+					<div class="alert alert-danger"><strong>Lo sentimos</strong> No tiene cursos propuestos</div>
+				</div>
+			<%
+				}
+				else
+				{
 			%>
 
 			<div class="row">
@@ -64,7 +73,7 @@
 						<!-- panel head -->
 						<div class="panel-heading">
 							<div class="panel-title">
-								<strong>CURSOS PROPUESTOS</strong>
+								<strong>CURSOS PROBABLES</strong>
 							</div>
 
 							<div class="panel-options">
@@ -73,8 +82,7 @@
 						</div>
 
 						<div class="panel-body">
-
-							<p>
+							<p>						
 							<table class="table responsive">
 
 								<thead>
@@ -90,28 +98,36 @@
 								</thead>
 								<tbody>
 									<%
-										for (int j = 0; j < listaCursos.size(); j++) {
+										Integer cantidadCreditos=0;
+										for (Curso curso:listaCursos) 
+										{
+											cantidadCreditos+=Integer.parseInt(curso.getCredito());	
 									%>
 									<tr>
-										<td><%=listaCursos.get(j).getCodigo()%></td>
-										<td><%=listaCursos.get(j).getCurso()%></td>
-										<td align="center"><%=listaCursos.get(j).getCredito()%></td>
+										<td><%=curso.getCodigo()%></td>
+										<td><%=curso.getCurso()%></td>
+										<td align="center"><%=curso.getCredito()%></td>
 									</tr>
 									<%
 										}
 									%>
 								</tbody>
+								<thead>
+									<tr>
+										<th><STRONG></STRONG></th>
+										<th><STRONG></STRONG></th>
+										<th><STRONG><font color="red">TOTAL CREDITOS : <%=cantidadCreditos %></font></STRONG></th>
+									</tr>
+								</thead>
 							</table>
-
 							</p>
-
 						</div>
 
 					</div>
 
 				</div>
-
 			</div>
+			<%} %>
 			<!-- Footer -->
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>

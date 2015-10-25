@@ -40,7 +40,7 @@ public class ListarAlumnos extends ActionServlet {
 			
 			System.out.println("Envia datos al jsp");
 			request.setAttribute("listaAlumno", listado);
-			request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Encargado/ListarAlumnos.jsp").forward(request, response);
+			request.getRequestDispatcher("SimulacionMatricula/ListarAlumnos.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			System.out.println("ERROR ====>> " +e.getMessage() + "");

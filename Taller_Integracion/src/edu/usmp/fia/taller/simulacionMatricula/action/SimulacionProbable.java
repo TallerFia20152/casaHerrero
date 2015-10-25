@@ -20,7 +20,7 @@ public class SimulacionProbable extends ActionServlet {
 	@Default()
 	@RequireLogin(true)
 	@HttpMethod(HttpMethodType.GET)	
-	public void SimularCursosConcluyente() throws Exception {
+	public void SimulacionCursosProbables() throws Exception {
 		
 		List<Area> listaArea= null;
 		DAOFactory factory =null;
@@ -30,7 +30,7 @@ public class SimulacionProbable extends ActionServlet {
 			System.out.println("INGRESO AL GET");
 			 
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			listaArea = factory.getSimulacionMatricula().SimulacionConcluyente();
+			listaArea = factory.getSimulacionMatricula().SimulacionProbable();
 			
 			System.out.println("LISTA DEL AREA Y CURSOS"+ listaArea);
 						

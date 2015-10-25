@@ -33,7 +33,7 @@ public class DetalleCurso extends ActionServlet {
 			curso= factory.getSimulacionMatricula().ListarDetalleCurso(codCurso);
 			
 			request.setAttribute("listaCursos", curso);
-			request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Encargado/DetalleCurso.jsp").forward(request, response);
+			request.getRequestDispatcher("SimulacionMatricula/DetalleCurso.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			System.out.println("ERROR ====>> " +e.getMessage() + "");
