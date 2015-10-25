@@ -38,7 +38,8 @@ public class AlumnoListarCursosPropuestos extends ActionServlet {
 
 
 			request.setAttribute("CursosPropuestos", listaCursos);
-			request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Alumno/CursosPropuestos.jsp").forward(request, response);
+			//request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/CursosPropuestos.jsp").forward(request, response);
+			request.getRequestDispatcher("SimulacionMatricula/CursosPropuestos.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			System.out.println("ERROR ====>> " +e.getMessage() + "");

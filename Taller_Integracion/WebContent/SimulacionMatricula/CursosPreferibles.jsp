@@ -56,7 +56,7 @@
 				{
 			%>
 				<div class="row">
-					<div class="alert alert-danger"><strong>Lo sentimos</strong> No tiene cursos propuestos</div>
+					<div class="alert alert-danger"><strong>Lo sentimos</strong> No tiene cursos preferibles</div>
 				</div>
 			<%
 				}

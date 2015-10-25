@@ -73,7 +73,7 @@ public class EnviarCorreo extends ActionServlet {
 			}
 			mensajeCorreo="Se envió corectamente los mensajes a los alumnos";
 			
-			request.setAttribute("mensajeCorreo", mensajeCorreo);
+			request.setAttribute("mensaje", mensajeCorreo);
 			
 			
 		} catch (Exception ex) {
@@ -85,7 +85,7 @@ public class EnviarCorreo extends ActionServlet {
 		}
 		finally 
 		{			
-			request.getRequestDispatcher("SimulacionMatricula/mensajeCorreo.jsp").forward(request, response);
+			request.getRequestDispatcher("SimulacionMatricula/mensaje.jsp").forward(request, response);
 		}
 	}
 }

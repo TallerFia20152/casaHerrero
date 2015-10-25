@@ -14,8 +14,6 @@
 <%
 	Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
 	Persona oPersona = oUsuario.getPersona();
-	
-	String mensaje= (String)request.getAttribute("mensajeCorreo");
 %>
 
 <body class="page-body skin-red">
@@ -23,7 +21,9 @@
 		<jsp:include page="/resources/include/sidebar-menu.jsp"></jsp:include>
 		<div class="main-content">
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
-			
+			<%
+				String mensaje= (String)request.getAttribute("mensaje");
+			%>
 			<div class="mail-env">
 				<div class="row">
 					<div class="alert alert-default"><strong><%=mensaje%></strong></div>
