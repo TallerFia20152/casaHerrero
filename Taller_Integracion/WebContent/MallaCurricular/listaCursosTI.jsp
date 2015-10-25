@@ -29,7 +29,7 @@ body {
 <style type="text/css">
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/main.js"></script>
+<script src="MallaCurricular/js/main.js"></script>
 	
 </head>
 
@@ -47,18 +47,14 @@ body {
 			<%@include file="/MallaCurricular/header.jsp"%>
 			
 			<div class="position">
-		<!-- importante version de cuross flecha punteada y normal-->
-		<!-- script -->
 		<script type="text/javascript"
 			src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
 		<script type="text/javascript"
 			src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 		<script type="text/javascript"
 			src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
-		<script type="text/javascript"
-			src="MallaCurricular/jquery.jsPlumb-1.3.3-all.js"></script>
-		<script type="text/javascript"
-			src="MallaCurricular/jquery.jsPlumb.Flowchart.js"></script>
+		<script type="text/javascript" src="MallaCurricular/jquery.jsPlumb-1.3.3-all.js"></script>
+		<script type="text/javascript" src="MallaCurricular/jquert.jsPlumb.Flowchart.js"></script>
 
 		<!--  -->
 		<%@ page import="java.util.List"%>
@@ -95,9 +91,6 @@ body {
 		<%
 			List<T_course> cursos10 = (List<T_course>) request.getAttribute("cursos10");
 		%>
-		<%
-					List<T_course> cursos11 = (List<T_course>) request.getAttribute("cursos11");
-				%>
 			
 		<div id="demo" style="background: white; overflow: hidden;">
 
@@ -287,7 +280,13 @@ body {
 				<%
 					}
 				%>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
 
+				</div>
+				<br> <br> <br> <br>
 			</div>
 
 			<!--ciclo8  -->
@@ -313,7 +312,13 @@ body {
 				<%
 					}
 				%>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
 
+				</div>
+				<br> <br> <br> <br>
 			</div>
 
 			<!--ciclo9  -->
@@ -339,7 +344,20 @@ body {
 				<%
  					}
  				%>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
 
+				</div>
+				<br> <br> <br> <br>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
 			</div>
 
 			<!--ciclo10  -->
@@ -365,89 +383,43 @@ body {
 				<%
 					}
 				%>
-			</div>
-						
-			<!--Electivo TI -->
-		
-		
-			<div id="TI"
-				style="background: WHITE; width: 10%; float: left; margin-right: 1%;">
-				<!--dividir2 width: 10%; float: left; margin-left: 0%;"> -->
-			
-				<%
-								for (T_course curso : cursos11) {
-							%>
-			
-				<div class="window<%=curso.getMencion()%>_M" id="<%=curso.getId()%>_estilo"
-					<% if (curso.getTop() != null && curso.getLeft() != null) { %>
-					style="top: <%=curso.getTop()%>; left: <%=curso.getLeft() %>"
-					<% } %>
-				>
-					<!-- style="border-color: green;"> -->
-					<%=curso.getId()%>
-					<br>
-					<%=curso.getName()%>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
 
 				</div>
-				<br><br><br> 
+				<br> <br> <br> <br>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
 
-				<%
-					}
-				%>
+				</div>
+				<br> <br> <br> <br>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
 			</div>
-			
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 317.5px; left: 1194.61px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 453.5px; left: 1194.61px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>		
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 521.5px; left: 1194.61px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>		
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 317.5px; left: 1069.95px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>	
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 521.5px; left: 1069.95px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>		
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 453.5px; left: 1069.95px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 317.5px; left: 946.297px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 521.5px; left: 946.297px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 521.5px; left: 813.969px; background-color: #80ff80;">
-			<br>Electivo Libre
-		</div>
+						
 		
 		<%----%>
 		<script>
 			jsPlumb.bind("ready", function() {
 				jsPlumb.setRenderMode(jsPlumb.SVG);
 
-			//-------------------------------by chino{^^}----------------------------------------------------
+			//-------------------------------by chinoAdo{^^}----------------------------------------------------
 				jsPlumb.Defaults.DragOptions = {
 				//cursor : 'pointer',
 					cursor : 'move',
@@ -470,6 +442,16 @@ body {
 							dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
 							isTarget : true,endpoint : [  "Rectangle" ,  {  width : 0.1 ,//width : 0.1 ,
 								height : 5  }  ]  }; //1
+								
+					var  sourceEndpointE  =  {  anchor : [  "RightMiddle" ],maxConnections : 5, 
+										dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
+										isSource : false ,  endpoint : [  "Dot" ,  {  radius:4//radius : 0.1
+											}  ]  }; 
+					var  targetEndpointE  =  { anchor : [  "LeftMiddle" ] ,maxConnections : 5,
+									
+										dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
+										isTarget : true,endpoint : [  "Rectangle" ,  {  width : 0.1 ,//width : 0.1 ,
+											height : 5  }  ]  }; //1							
 					var  source1EndpointExc  =  {  anchor : [ 1, 0.8, -1,0.5 ],maxConnections : 5, 
 										dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
 										isSource : false ,  endpoint : [  "Dot" ,  {  radius:4//radius : 0.1
@@ -531,7 +513,7 @@ body {
 					var s9exc91116=jsPlumb . addEndpoint (  "91116_estilo" ,  source9EndpointExc  );//fisicainformatica
 					var t9exc91161=jsPlumb . addEndpoint (  "91161_estilo" ,  target9EndpointExc  );//tecnologiainfo3
 				
-					
+					/*  */
 					var t90002=jsPlumb . addEndpoint (  "90002_estilo" ,  targetEndpoint  ); //lenguaje
 					var s90002=jsPlumb . addEndpoint (  "90002_estilo" ,  sourceEndpoint  ); //lenguaje
 					var s90005=jsPlumb . addEndpoint (  "90005_estilo" ,  sourceEndpoint  );//actividades1
@@ -577,7 +559,7 @@ body {
 					var t91118=jsPlumb . addEndpoint (  "91118_estilo" ,  targetEndpoint  );//SISTEMAS DE INFO 2
 					var s91118=jsPlumb . addEndpoint (  "91118_estilo" ,  sourceEndpoint  );//SISTEMAS DE INFO 2
 					var t91161=jsPlumb . addEndpoint (  "91161_estilo" ,  targetEndpoint  );//TI3
-					//var s91161=jsPlumb . addEndpoint (  "91161_estilo" ,  sourceEndpoint  );//TI3
+					var s91161=jsPlumb . addEndpoint (  "91161_estilo" ,  sourceEndpoint  );//TI3
 					//ciclo5
 					//var t90034=jsPlumb . addEndpoint (  "90034_estilo" ,  targetEndpoint  );//ETICA Y MORAL
 					//var s90034=jsPlumb . addEndpoint (  "90034_estilo" ,  sourceEndpoint  )//ETICA Y MORAL
@@ -619,20 +601,61 @@ body {
 					var t90070=jsPlumb . addEndpoint (  "90070_estilo" ,  targetEndpoint  );//PROYECTO 2
 					//var s90070=jsPlumb . addEndpoint (  "90070_estilo" ,  sourceEndpoint  );//PROYECTO 2
 					
-					/* var t90003=jsPlumb . addEndpoint (  "90003_estilo" ,  targetEndpoint  );
-					var s90003=jsPlumb . addEndpoint (  "90003_estilo" ,  sourceEndpoint  ); */
-					jsPlumb.connect({source : s90002,target : t90003,//lenguaje, filosofia
-											
-							paintStyle : {dashstyle : "0",strokeStyle : "purple",//line color con y flecha
+					
+						/*ELECTIVO TI */
+					var te90675 =jsPlumb . addEndpoint (  "90675_estilo" ,  targetEndpointE  );
+					var se90675 =jsPlumb . addEndpoint (  "90675_estilo" ,  sourceEndpointE  );//Redes y Conectividad I (CCNA I CISCO)
+					var te90676 =jsPlumb . addEndpoint (  "90676_estilo" ,  targetEndpointE  );
+					var se90676 =jsPlumb . addEndpoint (  "90676_estilo" ,  sourceEndpointE  );//Redes y Conectividad II (CCNA II CISCO)
+					var te91119 =jsPlumb . addEndpoint (  "91119_estilo" ,  targetEndpointE  );
+					//var se91119 =jsPlumb . addEndpoint (  "91119_estilo" ,  sourceEndpointE  );//Sistemas Integrados de Gestión ERP
+					var te90677 =jsPlumb . addEndpoint (  "90677_estilo" ,  targetEndpointE  );
+					var se90677 =jsPlumb . addEndpoint (  "90677_estilo" ,  sourceEndpointE  );//Redes y Conectividad III (CCNA III CISCO)
+					var te90179 =jsPlumb . addEndpoint (  "90179_estilo" ,  targetEndpointE  );
+					//var se90179 =jsPlumb . addEndpoint (  "90179_estilo" ,  sourceEndpointE  );//Procesamiento Distribuido
+					var te90548 =jsPlumb . addEndpoint (  "90548_estilo" ,  targetEndpointE  );
+					//var se90548 =jsPlumb . addEndpoint (  "90548_estilo" ,  sourceEndpointE  );//Formulación y Evaluación de Proyectos
+					var te90678 =jsPlumb . addEndpoint (  "90678_estilo" ,  targetEndpointE  );
+					//var se90678 =jsPlumb . addEndpoint (  "90678_estilo" ,  sourceEndpointE  );//Redes y Conectividad IV (CCNA IV CISCO)
+					var te90674 =jsPlumb . addEndpoint (  "90674_estilo" ,  targetEndpointE  );
+					var se90674 =jsPlumb . addEndpoint (  "90674_estilo" ,  sourceEndpointE  );//Redes de Comunicaciones
+					//var te90088 =jsPlumb . addEndpoint (  "90088_estilo" ,  targetEndpointE  );
+					//var se90088 =jsPlumb . addEndpoint (  "90088_estilo" ,  sourceEndpointE  );//Teoría General de Sistemas
+					var te90670 =jsPlumb . addEndpoint (  "90670_estilo" ,  targetEndpointE  );
+					//var se90670 =jsPlumb . addEndpoint (  "90670_estilo" ,  sourceEndpointE  );//Planeamiento Estratégico de TI
+ 
+					/* LA CONEXION CAUSA DESCONEXIONES O VARIABLE ARRIBA NO ESTA DECLARADA  */
+					jsPlumb.connect({source : s91161,target : te90675,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//TI3,CCNA1
+					jsPlumb.connect({source : se90675,target : te90676,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//CCNA1,CCNA2
+					jsPlumb.connect({source : se90676,target : te90677,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//CCNA2,CCNA3
+					jsPlumb.connect({source : se90677,target : te90678,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//CCNA3,CCNA4
+					jsPlumb.connect({source : se90675,target : te90674,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//(ccna1,redes comunicaciones)Redes de ComunicacionesOJO necsesita S.O pero no hay electivos libres
+					jsPlumb.connect({source : se90674,target : te90179,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//Redes de Comunicaciones,Procesamiento Distribuido
+					jsPlumb.connect({source : s91162,target : te91119,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//SI3,Sistemas Integrados de Gestión ERP
+					jsPlumb.connect({source : s90664,target : te90670,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//Gestión de Recursos de TI,Planeamiento Estratégico de TI
+					jsPlumb.connect({source : s90145,target : te90548,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "green"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//Gestión de Financiera,Formulación y Evaluación de Proyectos
+						
+					
+					//-------------*
+					/*  */
+					
+					jsPlumb.connect({source : s90002,target : t90003,paintStyle : {dashstyle : "0",strokeStyle : "purple",//line color con y flecha
 							lineWidth : 2
 						},outlineColor:"white",outlineWidth:2,// endpoint : [  "Dot" ,"red"],
 						/*  endpointStyle:{ fillStyle:"lightgray", outlineColor:"gray" }, */
-						 overlays:[ 
-						            ["Arrow" , { width:12, length:12, location:1 }],//by chino
+						 overlays:[ ["Arrow" , { width:12, length:12, location:1 }],//by chino
 						            /*  [ "Label", { label:"-", location:0.5, id:"myLabel" } ] */
-						           ],// endpointStyle:{ fillStyle:"purple", outlineColor:"black", outlineWidth:1 }
-						        
-					});
+						           ],// endpointStyle:{ fillStyle:"purple", outlineColor:"black", outlineWidth:1 }   
+					});//lenguaje, filosofia	
 					jsPlumb.connect({source : s90005,target : t90020,paintStyle : {dashstyle : "0",lineWidth : 2,strokeStyle : "purple"
 						,outlineColor:"white",outlineWidth:2},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//actividades 1 ,2
 					jsPlumb.connect({source : s90971,target : t91155,paintStyle : {dashstyle : "0",lineWidth : 2,strokeStyle : "purple"

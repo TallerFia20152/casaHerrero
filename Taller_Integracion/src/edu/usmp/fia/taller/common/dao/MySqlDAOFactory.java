@@ -22,7 +22,8 @@ import com.mysql.jdbc.PreparedStatement;
 import edu.usmp.fia.taller.common.bean.MallaCurricular.T_course;
 import edu.usmp.fia.taller.common.dao.modules.DAOFactoryGeneral;
 import edu.usmp.fia.taller.common.dao.modules.MysqlFactoryGeneral;
-
+import edu.usmp.fia.taller.common.dao.modules.PlanCurricular.DAOFactoryPCurricular;
+import edu.usmp.fia.taller.common.dao.modules.PlanCurricular.MySqlFactoryPCurricular;
 import edu.usmp.fia.taller.common.dao.modules.convalidacioncurso.DAOFactoryConvalidacion;
 import edu.usmp.fia.taller.common.dao.modules.convalidacioncurso.MysqlFactoryConvalidacion;
 import edu.usmp.fia.taller.common.dao.modules.elaboracionhorario.DAOFactoryElabHorarios;
@@ -181,6 +182,9 @@ public class MySqlDAOFactory extends DAOFactory {
 
 	public DAOFactoryMCurricular getMallaCurricular() { return new MySqlFactoryMCurricular(); }
 
+	public DAOFactoryPCurricular getCourseDAO() {
+		return new MySqlFactoryPCurricular();
+	}
 
 
 
