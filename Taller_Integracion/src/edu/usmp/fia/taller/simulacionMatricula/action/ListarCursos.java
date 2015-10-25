@@ -32,9 +32,15 @@ public class ListarCursos extends ActionServlet {
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 			listado= factory.getSimulacionMatricula().ListarCursoCantAlumno();
 			
+			for(Curso curso:listado)
+			{
+				System.out.println("CURSO " + curso.getCurso());
+				System.out.println("CICLO " + curso.getCiclo());
+			}
+			
 			System.out.println("Envia datos al jsp");
 			request.setAttribute("listaCursos", listado);
-			request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Encargado/ListarCursos.jsp").forward(request, response);
+			request.getRequestDispatcher("SimulacionMatricula/ListarCursos.jsp").forward(request, response);
 			System.out.println("listado");
 			
 		} catch (Exception e) {

@@ -8,36 +8,46 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.JTable;
+
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Alumno;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Area;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso;
-import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Mensaje;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Profesor;
 import edu.usmp.fia.taller.common.dao.MySqlDAOFactory;
 import edu.usmp.fia.taller.simulacionMatricula.interfaces.DAOFactorySMatricula;
+
 
 public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 	private static final String CODIGO_CURSO_INGLESI = "090971";
 	private static final String CODIGO_CURSO_INGLESII = "091155";
+	
+	private Connection con = null;
 		
+	
+	public MySqlFactorySMatricula() {		
+		con= (Connection) MySqlDAOFactory.obtenerConexion();		
+	}	
+
 	@Override
 	public List<Alumno> ListarAlumnos() throws Exception {
 		List<Alumno> listado = null;
 		StringBuffer sql=null;		
 		Alumno alumno=null;
 		
-		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		try {
 			sql=new StringBuffer();
 			listado = new ArrayList<Alumno>();
 						
-			sql.append("SELECT t.id, p.nombre, p.apellido_paterno,p.apellido_materno ");
-			sql.append(" FROM t_alumno t, t_persona p ");
+			sql.append("SELECT t.id, p.nombre, p.apellido_paterno,p.apellido_materno,p.email ");
+			sql.append(" FROM t_alumno t, t_persona p,t_curso_apto ca ");
 			sql.append(" WHERE t.id=p.id");
-			sql.append(" Order by 1");
+			sql.append(" AND t.id=ca.alumno_id");
+			sql.append(" Group by 1");
+			sql.append(" Order by 1");			
 			
 			if (con==null)
 				con = MySqlDAOFactory.obtenerConexion();
@@ -51,15 +61,16 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				alumno.setCodUSMP(rs.getInt("t.id"));
 				alumno.setNombre(rs.getString("p.nombre").toUpperCase());
 				alumno.setApPaterno(rs.getString("p.apellido_paterno").toUpperCase());
-				alumno.setApMaterno(rs.getString("p.apellido_materno").toUpperCase());				
+				alumno.setApMaterno(rs.getString("p.apellido_materno").toUpperCase());
+				alumno.setCorreo(rs.getString("p.email"));
 				listado.add(alumno);
 			}			
 			return listado;
 			
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
-			throw new Exception("Error al listado a todos los alumnos");			
-			//return null;
+			System.out.println("Error al listado a todos los alumnos");			
+			return null;
 		}
 		finally
 		{			
@@ -79,7 +90,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		StringBuffer sql=null;		
 		Curso curso =null;
 		
-		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		try 
@@ -87,14 +97,15 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			sql=new StringBuffer();
 			listado = new ArrayList<Curso>();
 						
-			sql.append(" Select i.id,a.estado, i.nombre,i.tipo, p.ciclo_id,p.creditos ");
-			sql.append(" From t_curso_apto a, t_curso i ,t_plan_curricular_detalle p ");
-			sql.append(" Where a.curso_id=i.id");
-			sql.append(" And p.curso_id=a.curso_id");
-			sql.append(" And a.estado='Apto'");
-			sql.append(" And i.estado= 1");
+			sql.append(" Select i.id,a.estado, i.nombre,i.tipo, ci.nombre ,p.creditos ");
+			sql.append(" From t_curso_apto a, t_curso i ,t_plan_curricular_detalle p ,t_ciclo ci");
+			sql.append(" Where a.curso_id=i.id ");
+			sql.append(" And p.curso_id=a.curso_id ");
+			sql.append(" And ci.id=p.ciclo_id ");
+			sql.append(" And (a.estado='Apto' or a.estado='Repite') ");
+			sql.append(" And i.estado= 1 ");
 			sql.append(" And a.alumno_id='" + codAlumno + "'");
-			sql.append(" Order by 5 desc");
+			sql.append(" Order by ci.id");
 			
 			System.out.println("SQL SCRIPT ==> " + sql.toString());
 			
@@ -111,9 +122,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				curso.setEstado(rs.getString("estado"));
 				curso.setCurso(rs.getString("nombre"));
 				curso.setCredito(rs.getString("creditos"));
-				curso.setCiclo(rs.getString("ciclo_id"));
+				curso.setCiclo(rs.getString("ci.nombre"));
 				curso.setTipoCurso(rs.getString("tipo"));				
-				
 				listado.add(curso);
 			}
 			
@@ -139,7 +149,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		StringBuffer sql=null;		
 		Curso curso =null;
 		
-		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		
@@ -191,12 +200,12 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			
 		}
 	}
-		
+	
+
 	@Override
 	public List<Curso> ListarCursoCantAlumno() throws Exception {
 		List<Curso> listado = null;
 		StringBuffer sql=null;
-		Connection con = null;
 		Curso curso =null;
 		PreparedStatement ps=null;
 		ResultSet rs =null;
@@ -211,8 +220,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			sql.append(" where c.id=a.curso_id ");
 			sql.append(" order by 1");
 			
-			if (con==null)
-				con=MySqlDAOFactory.obtenerConexion();	
+			//if (con==null)
+				//con=MySqlDAOFactory.obtenerConexion();	
 			
 			ps = con.prepareStatement(sql.toString());
 			rs = ps.executeQuery();			
@@ -226,37 +235,13 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				
 				listado.add(curso);
 			}
-			rs.close();
-			ps.close();
-						
-			if( listado!=null)
-			{	
-				rs=null;
-				ps=null;
-				
-				for (int i=0;i<listado.size();i++)
-				{				
-					sql=new StringBuffer();
-					sql.append(" Select count(*) as cantidad");
-					sql.append(" From t_curso_apto ");
-					sql.append(" Where curso_id="+ listado.get(i).getCodigo());
-										
-					ps = con.prepareStatement(sql.toString());
-					rs= ps.executeQuery();
-				
-					while (rs.next())
-					{				
-						listado.get(i).setCantidadAlumnos(rs.getInt("cantidad"));						
-					}
-				}
-			}
-			
+
 			return listado;
 			
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
-			throw new Exception("Error al listar ");			
-			//return null;
+			System.out.println("Error al listar");
+			return null;
 		}
 		finally
 		{
@@ -272,7 +257,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	public Curso ListarDetalleCurso(String codigo) throws Exception {
 		
 		StringBuffer sql=null;
-		Connection con = null;
+
 		Curso curso =null;
 		Profesor profesor=null;
 		ArrayList<Profesor> listaProfesor=null;
@@ -308,8 +293,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 			ps = con.prepareStatement(sql.toString());
 			rs = ps.executeQuery();
-			
-			System.out.println("Por Ingeso cargar datos del profesor");
+
 			curso = new Curso();			
 			listaProfesor= new ArrayList<>();
 
@@ -340,7 +324,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			System.out.println("RETORNA CURSO Y PROFESORES");
 			return curso;
 		} catch (Exception e) {
-			System.out.print("ENTRO  " + e.getMessage());
+			System.out.print("Error al Listar Detalle Curso  " + e.getMessage());
 			return null;
 		}
 		finally
@@ -366,8 +350,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		
 		Area area = null;
 		Curso curso = null;		
-		
-		Connection con = null;		
+				
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		
@@ -485,7 +468,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			}
 		}
 	}
-		
+	
+	
 	@Override
 	public List<Area> SimulacionIncial() throws Exception {
 		
@@ -494,6 +478,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		
+		List<Area> listadoArea=null;
 		try {		
 			query = new StringBuffer();
 			
@@ -533,8 +518,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 				boolean areaInList = false;
 				if (returnSimulacionAreaList.size() == 0) {
-					simulacionAreaBean
-							.setCursoList(new ArrayList<Curso>());
+					simulacionAreaBean.setCursoList(new ArrayList<Curso>());
 					simulacionAreaBean.getCursoList().add(simulacionCursoBean);
 					returnSimulacionAreaList.add(simulacionAreaBean);
 				} else {
@@ -564,35 +548,39 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		finally 
 		{
 			LimpiarConexion(con, query, ps, rs);
+			
+			if (listadoArea!=null)
+					listadoArea=null;
 		}
 	}
-
+	
+	
 	@Override
-	public List<Curso> CursosPropuestos(int codigoAlumno) throws Exception {			
+	public List<Curso> CursosProbables(int codigoAlumno) throws Exception {			
 		List<Curso> listaCurso = null;
 		Curso cursoAlumno = null;
-		
-		Connection con = null;		
+				
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		StringBuffer query=null;
 		
 		try {
 			
+			System.out.println("SCRIPT NUEVO");
+			
 			query = new StringBuffer();
-			query.append("SELECT cu.id as cod_curso ,cu.nombre as nom_curso, ca.estado as estado, pc.ciclo_id, cap.nombre as area, pc.creditos ");
-			query.append("FROM t_curso_apto ca ");
-			query.append("INNER JOIN t_curso cu ON ca.curso_id = cu.id ");
-			query.append("INNER JOIN t_plan_curricular_detalle pc ON cu.id = pc.curso_id ");
-			query.append("INNER JOIN t_curso_area cap ON pc.curso_area_id = cap.id ");
-			query.append("WHERE ca.alumno_id=" + codigoAlumno + " " );
-			query.append("and ( pc.curso_condicion_id = 1 OR pc.curso_condicion_id = 2 or pc.curso_condicion_id = 3) ");
-			query.append("ORDER BY ca.estado desc, pc.ciclo_id asc, cap.id asc,  pc.creditos asc");
+			query.append("SELECT cu.id as cod_curso ,cu.nombre as nom_curso, ca.estado as estado, pc.ciclo_id, cap.nombre as area, pc.creditos,cu.estado");
+			query.append(" FROM t_curso_apto ca ");
+			query.append(" INNER JOIN t_curso cu ON ca.curso_id = cu.id ");
+			query.append(" INNER JOIN t_plan_curricular_detalle pc ON cu.id = pc.curso_id ");
+			query.append(" INNER JOIN t_curso_area cap ON pc.curso_area_id = cap.id ");
+			query.append(" WHERE ca.alumno_id=" + codigoAlumno + " " );
+			query.append(" And ( pc.curso_condicion_id = 1 OR pc.curso_condicion_id = 2 or pc.curso_condicion_id = 3) ");
+			query.append(" ORDER BY ca.estado desc, pc.ciclo_id asc, cap.id asc,  pc.creditos asc");
 			
-			System.out.println("QUERY SCRIPT + " + query.toString());
+			System.out.println("QUERY SCRIPT => " + query.toString());
 			
-			if (con==null)
-				con=MySqlDAOFactory.obtenerConexion();
+			con=MySqlDAOFactory.obtenerConexion();
 			
 			ps = con.prepareStatement(query.toString());
 			rs = ps.executeQuery();
@@ -605,12 +593,15 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				cursoAlumno.setCodigo(rs.getInt("cod_curso"));
 				cursoAlumno.setCurso(rs.getString("nom_curso"));
 				cursoAlumno.setCredito(rs.getString("creditos"));
-				//cursoAlumno.setCuenta(1);
+				cursoAlumno.setEstado(rs.getString("estado"));
 				listaCurso.add(cursoAlumno);					
 			}
-							
-			listaCurso = FiltrarXCredito(listaCurso);
-							
+			
+			System.out.println("FILTRAR POR CREDITO");
+			
+			listaCurso = FiltrarCursoXCredito(listaCurso);
+			
+			System.out.println("FILTRADO");				
 
 			return listaCurso;
 			
@@ -624,27 +615,27 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		}
 	}
 	
-	public List<Curso> FiltrarXCredito(List<Curso> listaCursos) throws Exception {
+	public List<Curso> FiltrarCursoXCredito(List<Curso> listaCursos) throws Exception {
 		List<Curso> lista=new ArrayList<>();
 		int credito=0;
 		
 		for( Curso curso : listaCursos)
 		{
-			if (credito + Integer.parseInt(curso.getCredito())<22)
-			{
-				switch (Integer.toString(curso.getCodigo())) {
-				case CODIGO_CURSO_INGLESI:
-					lista.add(curso);
-					break;
-				case CODIGO_CURSO_INGLESII:
-					lista.add(curso);
-					break;
-				default:
+			switch (Integer.toString(curso.getCodigo())) {
+			case CODIGO_CURSO_INGLESI:
+				lista.add(curso);
+				break;
+			case CODIGO_CURSO_INGLESII:
+				lista.add(curso);
+				break;
+			default:
+				if (credito + Integer.parseInt(curso.getCredito())<=22)
+				{
 					credito+=Integer.parseInt(curso.getCredito());
 					lista.add(curso);
-					break;
 				}
-			}	
+				break;
+			}
 		}
 		return lista;
 	}
@@ -652,14 +643,13 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	@Override
 	public List<Area> SimulacionConcluyente() throws Exception {
 
-		Connection con = null;		
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		StringBuffer query=null;
 		
 		try {
 		
-			List<String> alumnoIdList = ObtenerIdAlumno();
+			List<Alumno> alumnoIdList = ListarAlumnos();
 			
 			List<Area> returnAreaList = null;
 			boolean createReturnAreaList = true;
@@ -671,8 +661,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			
 			Integer cicloAlumno = null;
 
-			for (String alumnoId : alumnoIdList) {
-				cicloAlumno = ObtenerCicloAlumno(Integer.parseInt(alumnoId));
+			for (Alumno alumno : alumnoIdList) {
+				cicloAlumno = ObtenerCicloAlumno(alumno.getCodUSMP());
 				
 				cursoAlumnoList = null;
 				cursoAlumno = null;
@@ -684,7 +674,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				query.append(" INNER JOIN t_curso cu ON ca.curso_id = cu.id ");
 				query.append(" INNER JOIN t_plan_curricular_detalle pc ON cu.id = pc.curso_id ");
 				query.append(" INNER JOIN t_curso_area cap ON pc.curso_area_id = cap.id ");
-				query.append(" WHERE ca.alumno_id="+ alumnoId );
+				query.append(" WHERE ca.alumno_id="+ alumno.getCodUSMP() );
 				query.append(" And (pc.curso_condicion_id = 1 OR pc.curso_condicion_id = 2 or pc.curso_condicion_id = 3) ");
 				query.append(" ORDER BY ca.estado desc, pc.ciclo_id asc, cap.id asc,  pc.creditos desc");
 				
@@ -711,7 +701,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 					cursoAlumno.setCredito(rs.getString("creditos"));
 					cursoAlumno.setCuenta(1);
 					cursoAlumnoList.add(cursoAlumno);					
-					cursoAlumnoList = FiltarCursosXAlumno(cursoAlumnoList);
+					cursoAlumnoList = FiltrarCursoXCredito(cursoAlumnoList); 
 					System.out.println("SALIO FILTRAR X ALUMNO");
 				}
 				
@@ -792,49 +782,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		
 	}
 	
-	private List<String> ObtenerIdAlumno() throws Exception {
-
-		Connection con = null;		
-		PreparedStatement ps=null;
-		ResultSet rs =null;
-		StringBuffer query=null;
-		
-		try {
-			query= new StringBuffer();
-			query.append("select id from t_alumno");
-			
-			if (con==null)
-				con=MySqlDAOFactory.obtenerConexion();
-			
-			ps = con.prepareStatement(query.toString());
-			rs = ps.executeQuery();
-			
-			List<String> alumnoIdList = null;
-			boolean createAlumnosList = true;
-
-			while (rs.next()) {
-				if (createAlumnosList) {
-					alumnoIdList = new ArrayList<>();
-					createAlumnosList = false;
-				}
-				alumnoIdList.add(rs.getString("id"));
-			}
-
-			return alumnoIdList;
-			
-		} catch (Exception e) {
-			System.out.println("ERROR AL OBTENER EL ID DEL ALUMNO   => "+ e.getMessage());
-			return null;
-		}
-		finally 
-		{
-			LimpiarConexion(con, query, ps, rs);
-		}
-	}
-	
 	private Integer ObtenerCicloAlumno(Integer alumnoId) throws Exception {
-		
-		Connection con = null;		
+				
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		StringBuffer query=null;
@@ -861,7 +810,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			ps = con.prepareStatement(query.toString());
 			ps.setInt(1,alumnoId);
 			rs = ps.executeQuery();
-			
 						
 			if (rs.next()) {
 				if(rs.getString("creditos") !=null){
@@ -901,37 +849,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		}
 	}
 	
-	private List<Curso> FiltarCursosXAlumno(List<Curso> listaCursoAlumno) {
-		List<Curso> lista = null;
-		int cuenta = 0;
-		if (listaCursoAlumno != null) 
-		{
-			if (listaCursoAlumno.size() != 0) 
-			{
-				lista = new ArrayList<>();
-				for (Curso cursoAlumno : listaCursoAlumno)
-				{
-					if ((cursoAlumno.getCodigo()==	Integer.parseInt(CODIGO_CURSO_INGLESI) || cursoAlumno.getCodigo()== Integer.parseInt((CODIGO_CURSO_INGLESII)))) 
-					{
-						lista.add(cursoAlumno);
-					}
-					else 
-					{						
-						if (cuenta + Integer.parseInt(cursoAlumno.getCredito()) <= 22) 
-						{
-							lista.add(cursoAlumno);
-							cuenta += Integer.parseInt(cursoAlumno.getCredito());
-						}
-					}
-				}
-			}
-		}		
-		return lista;
-	}
-	
 	private Curso ObtenerCursoSeccion(String cursoId, Integer cicloAlumno) throws Exception {
-		
-		Connection con = null;		
+				
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		StringBuffer query=null;
@@ -1030,10 +949,11 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		StringBuffer sql=null;		
 		Curso curso=null;
 		
-		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs =null;
-		try {
+		
+		try 
+		{
 			sql=new StringBuffer();
 			listado = new ArrayList<Curso>();
 						
@@ -1041,8 +961,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			sql.append(" FROM t_pre_matricula m, t_pre_matricula_detalle p, t_curso c ");
 			sql.append(" WHERE m.correlativo=p.correlativo");
 			sql.append(" And m.alumno_id="+ codigoAlumno);
-			sql.append(" and p.id_curso=c.id");
-			
+			sql.append(" and p.id_curso=c.id");			
 			
 			if (con==null)
 				con=MySqlDAOFactory.obtenerConexion();
@@ -1062,8 +981,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
-			throw new Exception("Error al listado a todos los alumnos");			
-			//return null;
+			System.out.println("Error al listado a todos los alumnos");			
+			return null;
 		}
 		finally
 		{
@@ -1081,10 +1000,9 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	public boolean GenerarPreMatricula(int codigoAlumno, List<Curso> listaCursos) throws Exception {
 
 		StringBuffer sql=null;		
-		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs =null;
-		boolean generar;
+		boolean generar = false;
 		try {
 					
 			sql=new StringBuffer();		
@@ -1171,8 +1089,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			LimpiarConexion(con, sql, ps, rs);					
 		}
 	}
-
-	
 	
 	private Timestamp ObtenerFechaActual()
 	{
@@ -1185,7 +1101,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	@Override
 	public boolean EliminarPreMatricula(int correlativo) throws Exception {
 		StringBuffer sql=null;		
-		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		
@@ -1193,8 +1108,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		{					
 			sql=new StringBuffer();		
 			
-			if (con==null)
-				con=MySqlDAOFactory.obtenerConexion();
+			//if (con==null)
+				//con=MySqlDAOFactory.obtenerConexion();
 			
 			//INICIAR TRANSACCION
 			con.setAutoCommit(false);
@@ -1227,7 +1142,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	@Override
 	public boolean InsertarPreMatricula(int correlativo, int idAlumno, String curso, String seccion) throws Exception {
 		StringBuffer sql=null;		
-		Connection con = null;
 		PreparedStatement ps=null;
 		ResultSet rs =null;
 		
@@ -1237,7 +1151,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			sql=new StringBuffer();		
 			
 			if (con==null)
-				con=MySqlDAOFactory.obtenerConexion();
+				//con=MySqlDAOFactory.obtenerConexion();
 			
 			//INICIAR TRANSACCION
 			con.setAutoCommit(false);
@@ -1289,99 +1203,225 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			{
 				MySqlDAOFactory.close(rs); rs = null;
 			}
-
-			
 		} catch (Exception e) {
 			System.out.println("Error al limpiar Conexion" + e.getMessage());
 		}
-		
-		
 	}
 
 	@Override
-	public boolean EnvioCorreo(boolean masivo, Mensaje mensaje) throws Exception {
-		StringBuffer sql=null;
-		StringBuffer sqlInsert=null;
-		Connection con = null;
+	public List<Area> SimulacionProbable() throws Exception {
+
+		List<Alumno> listaAlumno= null;
+		Curso cursoAlumno = null;
+				
 		PreparedStatement ps=null;
 		ResultSet rs =null;
+		StringBuffer query=null;
+		List<Area> listaArea = null;
 		try {
-			sql=new StringBuffer();
 			
-			if (con==null)
-				con=MySqlDAOFactory.obtenerConexion();
-									
-			con.setAutoCommit(false);
+			System.out.println("SCRIPT NUEVO");
 			
-			if (masivo)
-			{			
-				sql.append("SELECT id ");				
-				sql.append(" FROM t_alumno");
+			query = new StringBuffer();
+			query.append("SELECT ca.alumno_id,cu.id as cod_curso ,cu.nombre as nom_curso, ca.estado as estado, pc.ciclo_id, cap.nombre as area, pc.creditos,cu.estado");
+			query.append(" FROM t_curso_apto ca ");
+			query.append(" INNER JOIN t_curso cu ON ca.curso_id = cu.id ");
+			query.append(" INNER JOIN t_plan_curricular_detalle pc ON cu.id = pc.curso_id ");
+			query.append(" INNER JOIN t_curso_area cap ON pc.curso_area_id = cap.id ");
+			query.append(" WHERE ( pc.curso_condicion_id = 1 OR pc.curso_condicion_id = 2 or pc.curso_condicion_id = 3) ");
+			query.append(" ORDER BY ca.alumno_id,ca.estado desc, pc.ciclo_id asc, cap.id asc,  pc.creditos asc");
+			
+			System.out.println("QUERY SCRIPT => " + query.toString());
+			
+			con=MySqlDAOFactory.obtenerConexion();
+			
+			ps = con.prepareStatement(query.toString());
+			rs = ps.executeQuery();
+			
+			listaAlumno = new ArrayList<Alumno>();
+			
+			while (rs.next()) {
+				cursoAlumno = new Curso();
+				cursoAlumno.setArea(rs.getString("area"));
+				cursoAlumno.setCodigo(rs.getInt("cod_curso"));
+				cursoAlumno.setCurso(rs.getString("nom_curso"));
+				cursoAlumno.setCredito(rs.getString("creditos"));
+				cursoAlumno.setEstado(rs.getString("estado"));
 				
-				ps = con.prepareStatement(sql.toString());
-				rs = ps.executeQuery();			
-				
-				while (rs.next()) 
-				{				
-					sqlInsert=new StringBuffer();
-					sqlInsert.append("INSERT INTO t_mensaje(idAlumno,tipoCorreo,asunto,detalle,fechaEnvio)");
-					sqlInsert.append(" VALUES ("+rs.getInt("id_curso"));
-					sqlInsert.append(","+mensaje.getTipoCorreo());
-					sqlInsert.append(",'"+mensaje.getAsunto()+"'");
-					sqlInsert.append(",'"+mensaje.getDetalle()+"'");
-					sqlInsert.append(",'"+ObtenerFechaActual()+"')");
-					
-					if (con==null)
-						con=MySqlDAOFactory.obtenerConexion();
-					
-					ps = con.prepareStatement(sql.toString());
-					int inserta = ps.executeUpdate();
-					
-					if (inserta==0)
-					{
-						con.rollback();
-						LimpiarConexion(con, sqlInsert, ps, rs);
-						return false;
-					}
-					LimpiarConexion(con, sqlInsert, ps, rs);
-				}				
-			}
-			else
-			{				
-				sqlInsert=new StringBuffer();
-				sqlInsert.append("INSERT INTO t_mensaje(idAlumno,tipoCorreo,asunto,detalle,fechaEnvio)");
-				sqlInsert.append(" VALUES ("+ mensaje.getIdAlumno());
-				sqlInsert.append(","+mensaje.getTipoCorreo());
-				sqlInsert.append(",'"+mensaje.getAsunto()+"'");
-				sqlInsert.append(",'"+mensaje.getDetalle()+"'");
-				sqlInsert.append(",'"+ObtenerFechaActual()+"')");
-							
-				ps = con.prepareStatement(sql.toString());
-				int inserta = ps.executeUpdate();
-				
-				if (inserta==0)
-				{
-					con.rollback();
-					LimpiarConexion(con, sqlInsert, ps, rs);
-					return false;
-				}
-				
+				Alumno alumno= new Alumno();				
+				alumno.setCodUSMP(rs.getInt("ca.alumno_id"));;
+				alumno.setCurso(cursoAlumno);
+				listaAlumno.add(alumno);					
 			}
 			
-			return true;
+			//OBTENER CURSO PROBABLES POR ALUMNO
+			//List<Alumno>=ObtenerCursosProbablesXAlumno(listaAlumno);
+			
+			//listaCurso = FiltrarCursoXCredito(listaCurso);
+			
+			System.out.println("FILTRADO");				
+
+			return listaArea;
+			
 		} catch (Exception e) {
-			System.out.print(e.getMessage());						
-			con.rollback();
-			return false;
+			System.out.println("ERROR SIMULACION INICIAL");
+			return null;
 		}
-		finally
+		finally 
 		{
-			LimpiarConexion(con, sql, ps, rs);				
-		}		
+			LimpiarConexion(con, query, ps, rs);			
+		}
 		
 	}
 	
+	private List<Curso> ObtenerCursosProbablesXAlumno(List<Alumno> listado) throws Exception
+	{
+		PreparedStatement ps=null;
+		ResultSet rs =null;
+		StringBuffer query=null;
+		
+		List<Alumno> listaAlumo=null;
+		List<Alumno> listaTotalAlumnos=null;
+		List<Curso> listaCurso=null;
+		
+		try 
+		{						
+			listaAlumo = new ArrayList<>();
+			listaTotalAlumnos = new ArrayList<>();
+			listaCurso= new ArrayList<>();
+			
+			listaTotalAlumnos= ListarAlumnos();
+			
+			for(Alumno alumno:listaTotalAlumnos)
+			{
+				for (Alumno alumnoListado: listaAlumo)
+				{
+					if(alumno.getCodUSMP()== alumnoListado.getCodUSMP())
+					{
+						listaCurso.add(alumnoListado.getCurso());
+					}
+					else
+					{
+						listaCurso=FiltrarCursoXCredito(listaCurso);
+						List<Curso> prueba= new ArrayList<>();
+						//List<List<Curso>> prueba= new ArrayList<List<Curso>>();
+						//prueba.add(listaCurso);
+						prueba.addAll(listaCurso);
+					}
+				}				
+			}
+			
+			return listaCurso;			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL OBTENER LISTA CURSOS ALUMNO   => "+ e.getMessage());
+			return null;
+		}
+		finally 
+		{
+			LimpiarConexion(con, query, ps, rs);		
+		}
+	}
 	
+	private List<Area> ObtenerAreaCursos() throws Exception
+	{
+		PreparedStatement ps=null;
+		ResultSet rs =null;
+		StringBuffer query=null;
+		
+		List<Area > listaArea=null;
+		List<Area > listaAreaEnvio=null;
+		List<Curso> listaCurso=null;
+		Curso curso=null;
+		
+		try 
+		{						
+			listaArea= ObtenerArea();
+			listaAreaEnvio= new ArrayList<Area>();
+			
+			for(Area area:listaArea)
+			{
+				
+				query = new StringBuffer();
+				query.append("SELECT ca.nombre, d.curso_id,t.nombre ");
+				query.append(" FROM t_plan_curricular_detalle d , t_curso_area ca, t_curso t ");
+				query.append(" WHERE d.curso_area_id=ca.id");
+				query.append(" AND ca.id= " + area.getId());	
+				query.append(" AND d.curso_id=t.id");				
+				
+				if (con==null)
+					con=MySqlDAOFactory.obtenerConexion();
+				
+				System.out.println("SCRIPT "+ query);
+				
+				ps = con.prepareStatement(query.toString());
+				rs = ps.executeQuery();				
+		
+				listaCurso= new ArrayList<Curso>();
+				while (rs.next()) 
+				{	
+					curso= new Curso();
+					curso.setCodigo(rs.getInt("id"));
+					curso.setCurso(rs.getString("nombre"));
+					listaCurso.add(curso);					
+				}
+				area.setCursoList(listaCurso);				
+				listaAreaEnvio.add(area);
+			}
+			return listaAreaEnvio;			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL OBTENER LA SIMULACION CONCLUYENTE   => "+ e.getMessage());
+			return null;
+		}
+		finally 
+		{
+			LimpiarConexion(con, query, ps, rs);		
+		}
+		
+	}
 	
+	private List<Area> ObtenerArea() throws Exception
+	{
+		PreparedStatement ps=null;
+		ResultSet rs =null;
+		StringBuffer query=null;
+		
+		List<Area > listaArea=null;
+		Area area= null;
+		
+		try 
+		{							
+			query = new StringBuffer();
+			query.append("SELECT id, nombre ");
+			query.append(" FROM t_curso_area ");
+			
+			if (con==null)
+				con=MySqlDAOFactory.obtenerConexion();
+			
+			System.out.println("SCRIPT "+ query);
+			
+			ps = con.prepareStatement(query.toString());
+			rs = ps.executeQuery();				
 	
+			listaArea= new ArrayList<Area>();
+			
+			while (rs.next()) 
+			{	area = new Area();				
+				area.setId(rs.getInt("id"));
+				area.setNombre(rs.getString("nombre"));
+				
+				listaArea.add(area);					
+			}								
+			return listaArea;			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL OBTENER LA AREAS   => "+ e.getMessage());
+			return null;
+		}
+		finally 
+		{
+			LimpiarConexion(con, query, ps, rs);		
+		}
+	}
 }

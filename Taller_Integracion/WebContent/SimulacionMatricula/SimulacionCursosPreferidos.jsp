@@ -44,6 +44,7 @@
 				List<Area> listaArea = (List<Area>) request.getAttribute("listaAreaCurso");
 			%>
 
+<!-- 
 			<div class="row">
 				<div class="col-md-12 opcion">
 					<a download="Demanda_Cursos_Prrobables.xls" href=""
@@ -57,6 +58,7 @@
 				</div>
 				<p>
 			</div>
+ -->
 
 			<div class="row">
 

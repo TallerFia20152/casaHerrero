@@ -1,6 +1,5 @@
 package edu.usmp.fia.taller.simulacionMatricula.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
@@ -28,22 +27,12 @@ public class CursosPropuestos extends ActionServlet {
 		
 		try 
 		{
-			System.out.println("INGRESO AL GET");
-			int codigoAlumno = Integer.parseInt(request.getParameter("codAlumno"));
-			
-			System.out.println("codigo del alumno " + codigoAlumno);
-			
+			int codigoAlumno = Integer.parseInt(request.getParameter("codAlumno"));			
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			listaCursos = factory.getSimulacionMatricula().CursosPropuestos(codigoAlumno);
-			
-			if (listaCursos==null)
-				listaCursos=new ArrayList<Curso>();
-			
-			System.out.println("DATOS " + listaCursos);
-			System.out.println("LISTADO DE CURSOS Y AREAS");
-
+			listaCursos = factory.getSimulacionMatricula().CursosProbables(codigoAlumno);
+						
 			request.setAttribute("CursosPropuestos", listaCursos);
-			request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Encargado/CursosPropuestos.jsp").forward(request, response);
+			request.getRequestDispatcher("SimulacionMatricula/CursosPropuestos.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			System.out.println("ERROR ====>> " +e.getMessage() + "");

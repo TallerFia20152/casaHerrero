@@ -31,7 +31,7 @@ public class AlumnoListarCursosPropuestos extends ActionServlet {
 			int codigoAlumno =2010106278;
 						
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			listaCursos = factory.getSimulacionMatricula().CursosPropuestos(codigoAlumno);
+			listaCursos = factory.getSimulacionMatricula().CursosProbables(codigoAlumno);
 			
 			if (listaCursos==null)
 				listaCursos=new ArrayList<Curso>();

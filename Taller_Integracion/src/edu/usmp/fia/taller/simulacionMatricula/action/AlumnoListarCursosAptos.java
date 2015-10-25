@@ -12,10 +12,6 @@ import edu.usmp.fia.taller.common.action.HttpMethodType;
 import edu.usmp.fia.taller.common.action.RequireLogin;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso;
 
-/**
- * Servlet implementation class ListaCursosServlet
- */
-
 @WebServlet("/AlumnoListarCursosAptos")
 public class AlumnoListarCursosAptos extends ActionServlet {
 

@@ -6,6 +6,8 @@ public class Alumno {
 	private String mNombre;
 	private String mApPaterno;
 	private String mApMaterno;
+	private String mCorreo;
+	private Curso mCurso;
 
 	public Alumno()
 	{
@@ -13,6 +15,8 @@ public class Alumno {
 		mNombre="";
 		mApPaterno="";
 		mApMaterno="";
+		mCorreo="";
+		mCurso=null;
 	}
 	
 	public int getCodUSMP() {
@@ -45,6 +49,22 @@ public class Alumno {
 
 	public void setApMaterno(String mApMaterno) {
 		this.mApMaterno = mApMaterno;
+	}
+	
+	public String getCorreo() {
+		return mCorreo;
+	}
+
+	public void setCorreo(String mCorreo) {
+		this.mCorreo = mCorreo;
+	}
+	
+	public Curso getCurso() {
+		return mCurso;
+	}
+
+	public void setCurso(Curso mCurso) {
+		this.mCurso = mCurso;
 	}
 
 	/*

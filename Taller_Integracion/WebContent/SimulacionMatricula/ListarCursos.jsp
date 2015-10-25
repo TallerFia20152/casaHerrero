@@ -1,13 +1,10 @@
+<!DOCTYPE html>
 <%@page
 	import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="edu.usmp.fia.taller.common.action.SessionParameters"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Persona"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Usuario"%>
-<%@page
-	import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Alumno"%>
-<%@page import="java.util.List"%>
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -17,6 +14,7 @@
 
 <title>Taller Proyectos</title>
 <jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+<script src="SimulacionMatricula/excellexport/excellentexport.js"></script>
 
 </head>
 
@@ -25,6 +23,7 @@
 	Persona oPersona = oUsuario.getPersona();
 %>
 
+
 <body class="page-body skin-red">
 
 	<div class="page-container">
@@ -32,71 +31,97 @@
 
 		<div class="main-content">
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
-			
 
 			<hr />
 
 			<ol class="breadcrumb bc-3">
-				<li><a href="SimulacionMatricula/index.jsp"><i
-						class="fa-home"></i>Inicio</a></li>
+				<li><a href="index.html"><i class="fa-home"></i>Inicio</a></li>
 				<li><a href="#">Matricula Progresiva</a></li>
-				<li>Alumnos</li>
-				<li class="active"><strong>Cursos Aptos</strong></li>
+				<li class="active"><strong>Cursos</strong></li>
 			</ol>
 
-			<h2>Cursos Aptos</h2>
-
+			<h2>Listar Curso</h2>
 			<br />
-
-			<%
-				ArrayList<Curso> listado = (ArrayList) request.getAttribute("listaCursoApto");
+			
+<!-- 
+			<div class="row">
+				<div class="col-md-12 opcion">
+					<a download="Demanda_Cursos_Prrobables.xls" href=""
+						onclick="return ExcellentExport.excel(this, 'table-1');"
+						class="btn btn-lg btn-black">Exportar</a>
+					
+					<a href="javascript:window.print();" class="btn btn-lg btn-black btn-icon icon-left hidden-print">
+							Imprimir
+						<i class="entypo-doc-text"></i>
+					</a>
+				</div>
+				<p>
+			</div>
+ -->
+ 			<%
+				List<Curso> listado = (List) request.getAttribute("listaCursos");
 			%>
 
-			<table class="table table-bordered datatable" id="table-1">
-				<thead>
-					<tr>
-						<th data-hide="phone">Codigo</th>
-						<th>Estado</th>
-						<th data-hide="phone">Curso</th>
-						<th data-hide="phone,tablet">Credito</th>
-						<th>Ciclo</th>
-						<th>Tipo de Curso</th>
-						<th>Detalles</th>
-					</tr>
-				</thead>
-				<tbody>
-					<%
-						for (int i = 0; i < listado.size(); i++) {
-					%>
-					<tr class="odd gradeX">
-						<td><%=listado.get(i).getCodigo()%></td>
-						<td><%=listado.get(i).getEstado()%></td>
-						<td><%=listado.get(i).getCurso()%></td>
-						<td><%=listado.get(i).getCredito()%></td>
-						<td><%=listado.get(i).getCiclo()%></td>
-						<td><%=listado.get(i).getTipoCurso()%></td>
-						<td><a
-							href="<%=request.getContextPath()%>/DetalleCurso?codCurso=<%=listado.get(i).getCodigo()%>"
-							class="btn btn-default btn-sm btn-icon icon-left"> <i
-								class="entypo-pencil"></i> <strong>Ver Detalle</strong>
-						</a></td>
-					</tr>
-					<%
-						}
-					%>
-				</tbody>
-				<tfoot>
-					<tr>
-						<th>Codigo</th>
-						<th>Estado</th>
-						<th>Curso</th>
-						<th>Credito</th>
-						<th>Ciclo</th>
-						<th>Tipo de Curso</th>
-						<th>Detalles</th>
-					</tr>
-				</tfoot>
-			</table>
+			<div id="export">
+				<table class="table table-bordered datatable" id="table-1">
+					<thead>
+						<tr>
+							<!-- 
+							<th>N&deg;</th>
+							 -->
+							<th>Codigo</th>
+							<th>Curso</th>
+							<!-- 
+							<th>
+								<center>Cantidad de Alumnos</center>
+							</th>
+							 -->
+							<th>
+								<center>Detalle Curso</center>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<%
+							for (Curso curso:listado) {
+						%>
+						<tr class="odd gradeX">
+							
+							<td><%=curso.getCodigo()%></td>
+							<td><%=curso.getCurso()%></td>
+							<!-- 
+							<td align="center"><%=curso.getCantidadAlumnos()%></td>
+							 -->
+							<td align="center"><a
+								href="<%=request.getContextPath()%>/DetalleCurso?codCurso=<%=curso.getCodigo()%>"
+								class="btn btn-default btn-sm btn-icon icon-left"> <i
+									class="entypo-pencil"></i> <strong>Ver Detalle</strong>
+							</a></td>
+
+						</tr>
+						<%
+							}
+						%>
+					</tbody>
+					<tfoot>
+						<tr>
+							<!-- 
+							<th>N&deg;</th>
+							 -->
+							<th>Codigo</th>
+							<th>Curso</th>
+							<!--
+							<th>
+								<center>Cantidad de Alumnos</center>
+							</th>
+							 -->
+							<th>
+								<center>Detalle Curso</center>
+							</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
 
 			<script type="text/javascript">
 				var responsiveHelper;
@@ -159,6 +184,6 @@
 
 	</div>
 
-<jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
+	<jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
 </body>
 </html>
