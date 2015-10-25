@@ -14,6 +14,8 @@
 <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
 <script src="js/selectize.min.js" type="text/javascript"></script>
 <script src="js/selectizes/alumnoSelectize.js" type="text/javascript"></script>
+<script src="js/selectizes/universidadSelectize.js"
+	type="text/javascript"></script>
 <script src="js/inicio.js" type="text/javascript"></script>
 </head>
 
@@ -26,143 +28,89 @@
 		<div class="main-content">
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 
-<div></div>
+			<div>
+				<div class="row">
+					<h1>Proceso de Convalidacion > Convalidar Cursos</h1>
+					<section id="SeleccionarAlumno">
+						<div>
+							<div id="label">
+								<span>ALUMNO</span>
+							</div>
+							<div>
+								<input type="text" id="comboAlumno"
+									placeholder="Ingrese primer apellido o código de alumno para comenzar" />
+							</div>
+						</div>
+					</section>
+					
 
-			<h1>Proceso de Convalidacion > Convalidar Cursos</h1>
-			<section id="SeleccionarAlumno">
-				<div>
-					<div id="label">
-						<span>ALUMNO</span>
+					<div id="imprcab">
+						<fieldset>
+							<legend>Datos Generales</legend>
+							<table style="height: 30px">
+								<tr id="datosalumno">
+									<td class="subsubtit" style="width: 50px;">Código:</td>
+									<td style="width: 100px;">
+										<div id="codigo"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Apellidos:</td>
+									<td style="width: 120px;">
+										<div id="apellidos"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Nombres:</td>
+									<td style="width: 120px;">
+										<div id="nombres"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Facultad:</td>
+									<td style="width: 150px;">
+										<div id="facultad"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Escuela:</td>
+									<td style="width: 150px;">
+										<div id="escuela"></div>
+									</td>
+								</tr>
+							</table>
+						</fieldset>
 					</div>
-					<div>
-						<input type="text" id="comboAlumno"
-							placeholder="Ingrese primer apellido o código de alumno para comenzar" />
+					<hr>
+					<div class="row">
+						<div class="col-md-offset-2 col-md-8">
+							<div class="form-group">
+								<label>Universidad Origen<span class="required">*</span>
+								</label> <input type="text" id="comboUniversidad" />
+
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-offset-2 col-md-8">
+						<label class="col-md-12 col-xs-12 col-sm-12">Cursos de la
+							universidad de Origen</label>
+						<div class="col-md-6 col-xs-6 col-sm-6">
+							<button id="agregarcurso"
+								class="btn btn-primary btn-lg mitooltip" data-placement="right"
+								title="AGREGAR UN CURSO">+</button>
+						</div>
+						<hr style="visibility: hidden">
+						<hr style="visibility: hidden">
+						<hr style="visibility: hidden">
+
+						<form id="form">
+							<div id="cursosaprobados"></div>
+							<hr style="visibility: hidden">
+							<hr style="visibility: hidden">
+							<div style="text-align:center;">
+								<input type="submit" class="btn btn-success"
+									value="Registrar Cursos" />
+							</div>
+						</form>
+						<hr style="visibility: hidden">
 					</div>
 				</div>
-			</section>
-
-			<div id="imprcab">
-				<fieldset>
-					<legend>Datos Generales</legend>
-					<table style="height: 30px">
-						<tr id="datosalumno">
-							<td class="subsubtit" style="width: 50px;">Código:</td>
-							<td style="width: 100px;">
-								<div id="codigo"></div>
-							</td>
-							<td class="subsubtit" style="width: 50px;">Apellidos:</td>
-							<td style="width: 150px;">
-								<div id="apellidos"></div>
-							</td>
-							<td class="subsubtit" style="width: 50px;">Nombres:</td>
-							<td style="width: 150px;">
-								<div id="nombres"></div>
-							</td>
-							<td class="subsubtit" style="width: 50px;">Facultad:</td>
-							<td style="width: 220px;">
-								<div id="facultad"></div>
-							</td>
-							<td class="subsubtit" style="width: 50px;">Escuela:</td>
-							<td style="width: 250px;">
-								<div id="escuela"></div>
-							</td>
-						</tr>
-					</table>
-				</fieldset>
 			</div>
-			<div class="summary-content">
-				<fieldset style="float: left; width: 45%; max-width: 45%">
-					<legend>Datos de Ingreso</legend>
-					<table>
-						<tr>
-							<td class="subsubtit ajuste">Modalidad Ingreso</td>
-							<td>
-								<div id="desmoding"></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="subsubtit ajuste">Semestre de Ingreso</td>
-							<td>
-								<div id="seming"></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="subsubtit ajuste">Grado Academico</td>
-							<td>
-								<div id="desgraaca"></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="subsubtit ajuste">Ultimo Semestre Matriculado</td>
-							<td>
-								<div id="ultsemmat"></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="subsubtit ajuste">Requisitos para egresar:</td>
-							<td>
-								<div id="credreq"></div>
-							</td>
-						</tr>
-					</table>
-				</fieldset>
-			</div>
-			<div>
-				<fieldset style="float: right; width: 45%; max-width: 45%">
-					<legend>Datos Adicionales</legend>
-					<table>
-						<tr>
-							<td class="subsubtit ajuste">DNI:</td>
-							<td>
-								<div id="documentos"></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="subsubtit ajuste">Domicilio:</td>
-							<td>
-								<div id="domicilio"></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="subsubtit ajuste">Telefonos:</td>
-							<td>
-								<div id="telefonos"></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="subsubtit ajuste">Correos:</td>
-							<td>
-								<div id="correos"></div>
-							</td>
-						<tr>
-							<td class="subsubtit ajuste">Fecha Nacimiento:</td>
-							<td>
-								<div id="fecnac"></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="subsubtit ajuste">Sexo:</td>
-							<td>
-								<div id="sexcli"></div>
-							</td>
-						</tr>
-
-					</table>
-				</fieldset>
-			</div>
-			<div>
-				<fieldset style="float: left; width: 45%; max-width: 45%">
-					<legend>Datos de Familiares</legend>
-					<div></div>
-				</fieldset>
-			</div>
-
-
-
+			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>
-
-		<jsp:include page="/resources/include/footer.jsp"></jsp:include></di
-						v>
 		<jsp:include page="/resources/include/chat.jsp"></jsp:include>
 	</div>
 	</div>

@@ -11,50 +11,59 @@ package edu.usmp.fia.taller.common.bean.convalidacioncurso;
  */
 public class Convalidacion {
 
-    private int id;
-    private Curso curso;
-    private CursoOrigen cursoorigen;
-    private String fecha;
-    private String comentarios;
+	private PlanCurricular plancurricular;
+	private Curso curso;
+	private String cursoorigencodigo;
+	private Alumno alumno;
+	private String fecha;
+	private String comentarios;
 
-    public int getId() {
-        return id;
-    }
+	public PlanCurricular getPlancurricular() {
+		return plancurricular;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setPlancurricular(PlanCurricular plancurricular) {
+		this.plancurricular = plancurricular;
+	}
 
-    public Curso getCurso() {
-        return curso;
-    }
+	public Curso getCurso() {
+		return curso;
+	}
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
 
-    public CursoOrigen getCursoorigen() {
-        return cursoorigen;
-    }
+	public String getCursoorigencodigo() {
+		return cursoorigencodigo;
+	}
 
-    public void setCursoorigen(CursoOrigen cursoorigen) {
-        this.cursoorigen = cursoorigen;
-    }
+	public void setCursoorigencodigo(String cursoorigencodigo) {
+		this.cursoorigencodigo = cursoorigencodigo;
+	}
 
-    public String getFecha() {
-        return fecha;
-    }
+	public Alumno getAlumno() {
+		return alumno;
+	}
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
+	public void setAlumno(Alumno alumno) {
+		this.alumno = alumno;
+	}
 
-    public String getComentarios() {
-        return comentarios;
-    }
+	public String getFecha() {
+		return fecha;
+	}
 
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
-    }
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(String comentarios) {
+		this.comentarios = comentarios;
+	}
 
 }

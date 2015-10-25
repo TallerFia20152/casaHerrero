@@ -25,11 +25,14 @@
 		<div class="main-content">
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 			
+			 
+			 
+			 
 			 <h1 style="text-align: center">HISTORICO DE CONVALIDACIONES</h1>
         <!--Cursos del Plan-->
         <div class="col-md-6">
             <div>
-                <h2 style='text-align:center;' id="plan"></h2>
+                <h2 style='text-align:center;'>Plan de Estudios del alumno</h2>
                 <table style="width: 100%" class="table table-hover table-bordered ">
                     <thead>
                         <tr style='text-align:center;font-size:14px;'>
