@@ -176,10 +176,6 @@ public class MySqlDAOFactory extends DAOFactory {
 		return new MysqlFactoryConvalidacion();
 	}
 
-	
-
-
-
 	public DAOFactoryMCurricular getMallaCurricular() { return new MySqlFactoryMCurricular(); }
 
 
