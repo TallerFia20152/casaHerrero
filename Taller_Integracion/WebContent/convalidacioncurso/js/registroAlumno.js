@@ -29,7 +29,7 @@ $(document).ready(function() {
 			'numcas' : $('#numcas').val(),
 			'mod' : comboModalidad.getValue(),
 			'dis' : comboDistrito.getValue(),
-			'especialidad' : comboEspecialidad.getValue()
+			'especialidad' : comboEspecial.getValue()
 		// ,'universidad':comboUniversidad.getValue()
 
 		};
