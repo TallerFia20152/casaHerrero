@@ -31,6 +31,8 @@ public class SimulacionPreferido extends ActionServlet {
 						
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 			listaArea = factory.getSimulacionMatricula().SimulacionCursosPreferidos();
+			
+			System.out.println("LISTA DE AREAS "+ listaArea);
 
 			request.setAttribute("listaAreaCurso", listaArea);
 			request.getRequestDispatcher("SimulacionMatricula/SimulacionCursosPreferidos.jsp").forward(request, response);

@@ -87,13 +87,13 @@
 						%>
 						<tr class="odd gradeX">
 							
-							<td><%=curso.getCodigo()%></td>
-							<td><%=curso.getCurso()%></td>
+							<td><%=curso.getCodigo().toString()%></td>
+							<td><%=curso.getCurso().toString()%></td>
 							<!-- 
 							<td align="center"><%=curso.getCantidadAlumnos()%></td>
 							 -->
 							<td align="center"><a
-								href="<%=request.getContextPath()%>/DetalleCurso?codCurso=<%=curso.getCodigo()%>"
+								href="<%=request.getContextPath()%>/DetalleCurso?codCurso=<%=curso.getCodigo().toString()%>"
 								class="btn btn-default btn-sm btn-icon icon-left"> <i
 									class="entypo-pencil"></i> <strong>Ver Detalle</strong>
 							</a></td>

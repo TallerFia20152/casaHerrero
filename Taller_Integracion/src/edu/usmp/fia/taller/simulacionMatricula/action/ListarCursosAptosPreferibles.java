@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.sun.org.apache.xalan.internal.lib.ExsltBase;
+
 import edu.usmp.fia.taller.common.dao.DAOFactory;
 import edu.usmp.fia.taller.common.action.ActionServlet;
 import edu.usmp.fia.taller.common.action.Default;
@@ -34,23 +36,37 @@ public class ListarCursosAptosPreferibles extends ActionServlet {
 		
 		try 
 		{
+			int existe=0;
 			System.out.println("ingreso ListarCursosAptosPreferibles");
-			//int codAlumno= Integer.parseInt(request.getParameter("codAlumno"));
-			int codAlumno= 2010106278;
+			//String codAlumno= request.getParameter("codAlumno");
+			String codAlumno= "2010106278";
 			
 			System.out.println("COD ALUMNO => " + codAlumno );
-			
+
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			listado= factory.getSimulacionMatricula().ListarCursosAptos(codAlumno);
-						
-			System.out.println("LISTADO CURSOS APTOS  " + listado);
+			existe= factory.getSimulacionMatricula().BuscarPreMatricula(codAlumno);
+			System.out.println("EXISTE " + existe);
 			
-			request.setAttribute("codigoAlumno", codAlumno);
-			request.setAttribute("listaCursoAptoPreferibles", listado);
-			request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Pre_Matricula.jsp").forward(request, response);
+			if(existe==0)
+			{
+				listado= factory.getSimulacionMatricula().ListarCursosAptos(codAlumno);							
+				System.out.println("LISTADO CURSOS APTOS  " + listado);
+				
+				request.setAttribute("codigoAlumno", codAlumno);
+				request.setAttribute("listaCursoAptoPreferibles", listado);
+				request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Pre_Matricula.jsp").forward(request, response);
+			}
+			else				
+			{
+				System.out.println("EXISTE ENTRO => "+ existe);
+				request.setAttribute("mensaje", "Usted ya realizó la Pre Matricula");				
+				request.getRequestDispatcher("SimulacionMatricula/mensaje.jsp").forward(request, response);
+			}
+			
+			
 			
 		} catch (Exception e) {
-			System.out.println("ERROR ====>> " +e.getMessage() + "");
+			System.out.println("ERROR ListarCursosAptosPreferibles ====>> " +e.getMessage() + "");
 		}
 		finally
 		{

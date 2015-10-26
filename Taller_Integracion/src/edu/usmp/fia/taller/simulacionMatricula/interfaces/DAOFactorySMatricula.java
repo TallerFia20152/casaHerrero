@@ -18,13 +18,13 @@ public interface DAOFactorySMatricula {
 	public Curso ListarDetalleCurso(String curso) throws Exception;
 	public List<Curso> ListarCursoCantAlumno() throws Exception;	
 	
-	public List<Curso> ListarPreMatricula(int codigoAlumno) throws Exception ;
+	public List<Curso> ListarPreMatricula(String codigoAlumno) throws Exception ;
 	
 	
 	//LOS DOS MODULOS(ENCARGADO Y ALUMNO)
-	public List<Curso> CursosProbables(int codigoAlumno) throws Exception ;
-	public List<Curso> CursosPreferibles(int codigoAlumno) throws Exception ;
-	public List<Curso> ListarCursosAptos(int codAlumno) throws Exception;
+	public List<Curso> CursosProbables(String codigoAlumno) throws Exception ;
+	public List<Curso> CursosPreferibles(String codigoAlumno) throws Exception ;
+	public List<Curso> ListarCursosAptos(String codAlumno) throws Exception;
 	
 	
 	//SIMULACION DE MATRICULA
@@ -33,6 +33,7 @@ public interface DAOFactorySMatricula {
 	public List<Area> SimulacionProbable() throws Exception;
 
 	
+	public int BuscarPreMatricula(String codAlumno) throws Exception;
 	public List<Area> SimulacionConcluyente()throws Exception;	
 
 	

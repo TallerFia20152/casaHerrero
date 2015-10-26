@@ -44,7 +44,7 @@
 				</a></li>
 
 				<li><a href="#">Listar Alumnos</a></li>
-				<li class="active"><strong>Curso Probables</strong></li>
+				<li class="active"><strong>Cursos Preferibles</strong></li>
 			</ol>
 
 			<h1>Simulacion de Matricula</h1>
@@ -73,7 +73,7 @@
 						<!-- panel head -->
 						<div class="panel-heading">
 							<div class="panel-title">
-								<strong>CURSOS PROBABLES</strong>
+								<strong>CURSOS PREFERIBLES</strong>
 							</div>
 
 							<div class="panel-options">
@@ -89,24 +89,17 @@
 									<tr>
 										<th><STRONG>CODIGO</STRONG></th>
 										<th><STRONG>CURSO</STRONG></th>
-										<th>
-											<center>
-												<STRONG>CREDITOS</STRONG>
-											</center>
-										</th>
 									</tr>
 								</thead>
 								<tbody>
 									<%
 										Integer cantidadCreditos=0;
 										for (Curso curso:listaCursos) 
-										{
-											cantidadCreditos+=Integer.parseInt(curso.getCredito());	
+										{										
 									%>
 									<tr>
-										<td><%=curso.getCodigo()%></td>
-										<td><%=curso.getCurso()%></td>
-										<td align="center"><%=curso.getCredito()%></td>
+										<td><%=curso.getCodigo().toString()%></td>
+										<td><%=curso.getCurso().toString()%></td>									
 									</tr>
 									<%
 										}
@@ -116,7 +109,6 @@
 									<tr>
 										<th><STRONG></STRONG></th>
 										<th><STRONG></STRONG></th>
-										<th><STRONG><font color="red">TOTAL DE CREDITOS : <%=cantidadCreditos %></font></STRONG></th>
 									</tr>
 								</thead>
 							</table>

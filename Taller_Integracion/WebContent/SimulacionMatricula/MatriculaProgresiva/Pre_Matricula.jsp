@@ -31,7 +31,7 @@
 
 		<%
 			List<Curso> listado = (List) request.getAttribute("listaCursoAptoPreferibles");
-			Integer codigoAlumno= (Integer) request.getAttribute("codigoAlumno");
+			String codigoAlumno= (String) request.getAttribute("codigoAlumno");
 			if (listado.size()==0)
 			{
 		%>
@@ -43,7 +43,7 @@
 		%>
 		<form action="<%=request.getContextPath()%>/GenerarPreMatricula" method="post">
 		
-		<p><input type="tel" name="codigoAlumno" value="<%=codigoAlumno%>"></p>
+		<p><input type="text" name="codigoAlumno" value="<%=codigoAlumno%>"></p>
 		
 			<table class="table table-bordered table-striped datatable" id="table-2">
 				<thead>

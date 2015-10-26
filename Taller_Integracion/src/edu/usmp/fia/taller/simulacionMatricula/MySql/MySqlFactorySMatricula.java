@@ -3,9 +3,7 @@ package edu.usmp.fia.taller.simulacionMatricula.MySql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +45,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			sql.append(" Group by 1");
 			sql.append(" Order by 1");
 
-			// if (con==null)
 			con = MySqlDAOFactory.obtenerConexion();
 
 			ps = con.prepareStatement(sql.toString());
@@ -80,7 +77,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	}
 
 	@Override
-	public List<Curso> ListarCursosAptos(int codAlumno) throws Exception {
+	public List<Curso> ListarCursosAptos(String codAlumno) throws Exception {
 		List<Curso> listado = null;
 		StringBuffer sql = null;
 		Curso curso = null;
@@ -111,7 +108,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 			while (rs.next()) {
 				curso = new Curso();
-				curso.setCodigo(rs.getInt("id"));
+				curso.setCodigo(rs.getString("id"));
 				curso.setEstado(rs.getString("estado"));
 				curso.setCurso(rs.getString("nombre"));
 				curso.setCredito(rs.getString("creditos"));
@@ -164,7 +161,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 			while (rs.next()) {
 				curso = new Curso();
-				curso.setCodigo(rs.getInt("id"));
+				curso.setCodigo(rs.getString("id"));
 				curso.setEstado(rs.getString("estado"));
 				curso.setCurso(rs.getString("nombre"));
 				curso.setCredito(rs.getString("creditos"));
@@ -213,7 +210,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 			while (rs.next()) {
 				curso = new Curso();
-				curso.setCodigo(rs.getInt("codigo"));
+				curso.setCodigo(rs.getString("codigo"));
 				curso.setCurso(rs.getString("nombre"));
 				curso.setTipoCurso(rs.getString("tipo").toUpperCase());
 
@@ -290,7 +287,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				curso = new Curso();
 
 				// DATOS DE LOS CURSOS
-				curso.setCodigo(rs.getInt("cu.id"));
+				curso.setCodigo(rs.getString("cu.id"));
 				curso.setCredito(rs.getString("pcd.creditos"));
 				curso.setCurso(rs.getString("cu.nombre"));
 				curso.setCiclo(rs.getString("ci.nombre"));
@@ -400,7 +397,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				simulacionAreaBean.setNombre(rs.getString("area"));
 
 				simulacionCursoBean = new Curso();
-				simulacionCursoBean.setCodigo(rs.getInt("cod_curso"));
+				simulacionCursoBean.setCodigo(rs.getString("cod_curso"));
 				simulacionCursoBean.setCurso(rs.getString("nom_curso"));
 				simulacionCursoBean.setCantidadAlumnos(Integer.parseInt(rs.getString("cuenta")));
 
@@ -438,7 +435,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	}
 
 	@Override
-	public List<Curso> CursosPreferibles(int codigoAlumno) throws Exception {
+	public List<Curso> CursosPreferibles(String codigoAlumno) throws Exception {
 		List<Curso> listaCurso = null;
 		Curso cursoAlumno = null;
 
@@ -450,14 +447,11 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 			System.out.println("SCRIPT NUEVO");
 			sql = new StringBuffer();
-
-			sql.append("SELECT cu.id as cod_curso ,cu.nombre as nom_curso, ca.estado as estado,");
-			sql.append(" pc.ciclo_id, cap.nombre as area, pc.creditos,cu.estado");
-			sql.append(" FROM t_pre_matricula_alumno pma ,t_curso cu,t_plan_curricular_detalle pc ");
-			sql.append(" WHERE pma.alumno_id= " + codigoAlumno);
-			sql.append(" AND ca.curso_id = cu.id");
-			sql.append(" AND cu.id = pc.curso_id ");
-
+			sql.append(" SELECT curso_id,c.nombre ");
+			sql.append(" FROM t_pre_matricula_alumno al, t_curso c ");
+			sql.append(" where alumno_id='"+ codigoAlumno+ "'");
+			sql.append(" AND c.id=al.curso_id ");
+			
 			System.out.println("QUERY SCRIPT PREFERIBLE => " + sql.toString());
 
 			con = MySqlDAOFactory.obtenerConexion();
@@ -469,17 +463,19 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 			while (rs.next()) {
 				cursoAlumno = new Curso();
-				cursoAlumno.setCodigo(rs.getInt("cod_curso"));
-				cursoAlumno.setCurso(rs.getString("nom_curso"));
+				cursoAlumno.setCodigo(rs.getString("curso_id"));				
+				cursoAlumno.setCurso(rs.getString("c.nombre"));
+				/*
 				cursoAlumno.setCredito(rs.getString("creditos"));
 				cursoAlumno.setEstado(rs.getString("estado"));
+				*/
 				listaCurso.add(cursoAlumno);
 			}
 
 			return listaCurso;
 
 		} catch (Exception e) {
-			System.out.println("ERROR SIMULACION INICIAL");
+			System.out.println("ERROR CURSOS PREFERIBLES");
 			return null;
 		} finally {
 			LimpiarConexion(con, sql, ps, rs);
@@ -487,7 +483,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	}
 
 	@Override
-	public List<Curso> CursosProbables(int codigoAlumno) throws Exception {
+	public List<Curso> CursosProbables(String codigoAlumno) throws Exception {
 		List<Curso> listaCurso = null;
 		Curso cursoAlumno = null;
 
@@ -506,7 +502,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			query.append(" INNER JOIN t_curso cu ON ca.curso_id = cu.id ");
 			query.append(" INNER JOIN t_plan_curricular_detalle pc ON cu.id = pc.curso_id ");
 			query.append(" INNER JOIN t_curso_area cap ON pc.curso_area_id = cap.id ");
-			query.append(" WHERE ca.alumno_id=" + codigoAlumno + " ");
+			query.append(" WHERE ca.alumno_id= '" + codigoAlumno + "'");
 			query.append(
 					" And ( pc.curso_condicion_id = 1 OR pc.curso_condicion_id = 2 or pc.curso_condicion_id = 3) ");
 			query.append(" ORDER BY ca.estado desc, pc.ciclo_id asc, cap.id asc,  pc.creditos asc");
@@ -523,7 +519,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			while (rs.next()) {
 				cursoAlumno = new Curso();
 				cursoAlumno.setArea(rs.getString("area"));
-				cursoAlumno.setCodigo(rs.getInt("cod_curso"));
+				cursoAlumno.setCodigo(rs.getString("cod_curso"));
 				cursoAlumno.setCurso(rs.getString("nom_curso"));
 				cursoAlumno.setCredito(rs.getString("creditos"));
 				cursoAlumno.setEstado(rs.getString("estado"));
@@ -546,7 +542,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		int credito = 0;
 
 		for (Curso curso : listaCursos) {
-			switch (Integer.toString(curso.getCodigo())) {
+			switch (curso.getCodigo()) {
 			case CODIGO_CURSO_INGLESI:
 				lista.add(curso);
 				break;
@@ -621,7 +617,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 					cursoAlumno = new Curso();
 					cursoAlumno.setArea(rs.getString("area"));
-					cursoAlumno.setCodigo(rs.getInt("cod_curso"));
+					cursoAlumno.setCodigo(rs.getString("cod_curso"));
 					cursoAlumno.setCurso(rs.getString("nom_curso"));
 					cursoAlumno.setCredito(rs.getString("creditos"));
 					cursoAlumno.setCuenta(1);
@@ -649,7 +645,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 					}
 
 					for (Curso curso : cursoAlumnoList) {
-						Curso cursoSeccion = ObtenerCursoSeccion(Integer.toString(curso.getCodigo()), cicloAlumno);
+						Curso cursoSeccion = ObtenerCursoSeccion(curso.getCodigo(), cicloAlumno);
 
 						if (cursoSeccion != null) {
 							curso.setSeccion(cursoSeccion.getSeccion());
@@ -864,7 +860,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	}
 
 	@Override
-	public List<Curso> ListarPreMatricula(int codigoAlumno) throws Exception {
+	public List<Curso> ListarPreMatricula(String codigoAlumno) throws Exception {
 		List<Curso> listado = null;
 		StringBuffer sql = null;
 		Curso curso = null;
@@ -890,7 +886,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 			while (rs.next()) {
 				curso = new Curso();
-				curso.setCodigo(rs.getInt("id_curso"));
+				curso.setCodigo(rs.getString("id_curso"));
 				curso.setCurso(rs.getString("nombre"));
 				curso.setSeccion(rs.getString("seccion"));
 				listado.add(curso);
@@ -939,7 +935,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				// INSERTAR PRE_MATRICULA
 				sql = new StringBuffer();
 				sql.append("INSERT INTO t_pre_matricula_alumno(alumno_id,curso_id,fecha)");
-				sql.append(" VALUES('" + codAlumno + "'," + codCurso[i] + ",'" + fechaActual + "')");
+				sql.append(" VALUES('" + codAlumno + "','" + codCurso[i] + "','" + fechaActual + "')");
 
 				System.out.println("QUERY INSERTAR " + sql.toString());
 				ps = con.prepareStatement(sql.toString());
@@ -1019,7 +1015,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			int cantidadAlumnos = 0;
 
 			for (Alumno alumno : listaAlumno) {
-				listaCursoProbables = CursosProbables(alumno.getCodUSMP());
+				listaCursoProbables = CursosProbables(Integer.toString(alumno.getCodUSMP()));
 
 				for (Area area : listaArea) {
 					for (int i = 0; i < area.getCursoList().size(); i++) {
@@ -1048,7 +1044,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		}
 	}
 
-	private Integer CantidadAlumnoPreferencial(Integer codigoCurso) throws Exception {
+	private Integer CantidadAlumnoPreferencial(String codigoCurso) throws Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		StringBuffer query = null;
@@ -1060,7 +1056,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			query = new StringBuffer();
 			query.append("SELECT count(*) as cantidad");
 			query.append(" FROM t_pre_matricula_alumno");
-			query.append(" WHERE curso_id=" + codigoCurso);
+			query.append(" WHERE curso_id= '" + codigoCurso+ "'");
 
 			con = MySqlDAOFactory.obtenerConexion();
 
@@ -1079,9 +1075,8 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			System.out.println("ERROR AL OBTENER AREAS CURSOS=> " + e.getMessage());
 			return null;
 		} finally {
-			LimpiarConexion(con, query, ps, rs);
+			//LimpiarConexion(con, query, ps, rs);
 		}
-
 	}
 
 	@Override
@@ -1100,15 +1095,17 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			listaArea = ObtenerArea();
 			listaAreaEnvio = new ArrayList<Area>();
 
+			con = MySqlDAOFactory.obtenerConexion();
+			
 			for (Area area : listaArea) {
 				query = new StringBuffer();
-				query.append("SELECT ca.nombre, d.curso_id,t.nombre ");
-				query.append(" FROM t_plan_curricular_detalle d , t_curso_area ca, t_curso t ");
-				query.append(" WHERE d.curso_area_id=ca.id");
+				query.append("SELECT ca.nombre, t.id, t.nombre ");
+				query.append(" FROM t_plan_curricular_detalle pc ,t_pre_matricula_alumno al,t_curso t, t_curso_area ca");
+				query.append(" WHERE pc.curso_id=al.curso_id");
+				query.append(" AND t.id=pc.curso_id");
 				query.append(" AND ca.id= " + area.getId());
-				query.append(" AND d.curso_id=t.id");
-
-				con = MySqlDAOFactory.obtenerConexion();
+				query.append(" AND pc.curso_area_id=ca.id");
+				query.append(" GROUP BY 2");
 
 				ps = con.prepareStatement(query.toString());
 				rs = ps.executeQuery();
@@ -1116,14 +1113,17 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				listaCurso = new ArrayList<Curso>();
 				while (rs.next()) {
 					curso = new Curso();
-					curso.setCodigo(rs.getInt("curso_id"));
-					curso.setCurso(rs.getString("nombre"));
+					curso.setCodigo(rs.getString("t.id"));
+					curso.setCurso(rs.getString("t.nombre"));
+					System.out.println("CURSO "+ curso.getCodigo());
 					curso.setCantidadAlumnos(CantidadAlumnoPreferencial(curso.getCodigo()));
 					listaCurso.add(curso);
 				}
 				area.setCursoList(listaCurso);
 				listaAreaEnvio.add(area);
 			}
+			
+			System.out.println("ENVIO DE LISTA AREA ENVIO "+ listaAreaEnvio);
 			return listaAreaEnvio;
 
 		} catch (Exception e) {
@@ -1167,7 +1167,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				listaCurso = new ArrayList<Curso>();
 				while (rs.next()) {
 					curso = new Curso();
-					curso.setCodigo(rs.getInt("curso_id"));
+					curso.setCodigo(rs.getString("curso_id"));
 					curso.setCurso(rs.getString("nombre"));
 					listaCurso.add(curso);
 				}
@@ -1218,6 +1218,46 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			System.out.println("ERROR AL OBTENER LA AREAS   => " + e.getMessage());
 			return null;
 		} finally {
+			LimpiarConexion(con, query, ps, rs);
+		}
+	}
+
+	@Override
+	public int BuscarPreMatricula(String codAlumno) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StringBuffer query = null;
+
+		int cantidad;
+		try {
+			cantidad = 0;
+
+			query = new StringBuffer();
+			query.append("SELECT count(*) as cantidad");
+			query.append(" FROM t_pre_matricula_alumno");
+			query.append(" WHERE alumno_id= '" + codAlumno+ "'");
+
+			con = MySqlDAOFactory.obtenerConexion();
+
+			System.out.println("SCRIPT " + query);
+
+			ps = con.prepareStatement(query.toString());
+			rs = ps.executeQuery();
+
+			if (rs.next()) 
+			{
+				cantidad = rs.getInt("cantidad");
+			}
+			
+			System.out.println("LA CANTIDAD ES " + cantidad);
+			
+			return cantidad;
+
+		} catch (Exception e) {
+			System.out.println("ERROR AL VERIFICAR LA PRE-MATRICULA DE UN ALUMNO=> " + e.getMessage());
+			return 0;
+		} finally 
+		{
 			LimpiarConexion(con, query, ps, rs);
 		}
 	}

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso"%>
 <%@page
 	import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Area"%>
 <%@page import="java.util.List"%>
@@ -94,21 +95,21 @@
 										</tr>
 									</thead>
 									<%
-										for (int i = 0; i < listaArea.size(); i++) {
+										for (Area area:listaArea) {
 									%>
 									<tbody>
 										<tr>
-											<td><font size="3" , color="#B04444"> <strong><%=listaArea.get(i).getNombre().toUpperCase()%></strong>
+											<td><font size="3" , color="#B04444"> <strong><%=area.getNombre().toUpperCase().toString()%></strong>
 											</font></td>
 										</tr>
 										<%
-											for (int j = 0; j < listaArea.get(i).getCursoList().size(); j++) {
+											for (Curso curso: area.getCursoList()) {
 										%>
 										<tr>
-											<td><%=listaArea.get(i).getCursoList().get(j).getCodigo()%></td>
-											<td><%=listaArea.get(i).getCursoList().get(j).getCurso()%>
+											<td><%=curso.getCodigo().toString()%></td>
+											<td><%=curso.getCurso().toString()%>
 											</td>
-											<td align="center"><%=listaArea.get(i).getCursoList().get(j).getCantidadAlumnos()%>
+											<td align="center"><%=curso.getCantidadAlumnos()%>
 											</td>
 										</tr>
 										<%

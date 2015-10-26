@@ -56,7 +56,7 @@
  			<%
 				List<Area> listaArea = (List<Area>) request.getAttribute("listaAreaCurso");
  			
-	 			if (listaArea.size()==0)
+	 			if (listaArea==null)
 				{
 			%>
 				<div class="row">
@@ -113,8 +113,8 @@
 											for (Curso curso:area.getCursoList()) {
 										%>
 										<tr>
-											<td><%=curso.getCodigo()%></td>
-											<td><%=curso.getCurso() %>
+											<td><%=curso.getCodigo().toString()%></td>
+											<td><%=curso.getCurso().toString()%>
 											</td>
 											<td align="center"><%=curso.getCantidadAlumnos()%>
 											</td>

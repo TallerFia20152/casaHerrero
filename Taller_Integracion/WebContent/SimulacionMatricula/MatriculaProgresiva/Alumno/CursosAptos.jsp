@@ -65,17 +65,17 @@
 				</thead>
 				<tbody>
 					<%
-						for (int i = 0; i < listado.size(); i++) {
+						for (Curso curso:listado) {
 					%>
 					<tr class="odd gradeX">
-						<td><%=listado.get(i).getCodigo()%></td>
-						<td><%=listado.get(i).getEstado()%></td>
-						<td><%=listado.get(i).getCurso()%></td>
-						<td><%=listado.get(i).getCredito()%></td>
-						<td><%=listado.get(i).getCiclo()%></td>
-						<td><%=listado.get(i).getTipoCurso()%></td>
+						<td><%=curso.getCodigo()%></td>
+						<td><%=curso.getEstado()%></td>
+						<td><%=curso.getCurso()%></td>
+						<td><%=curso.getCredito()%></td>
+						<td><%=curso.getCiclo()%></td>
+						<td><%=curso.getTipoCurso()%></td>
 						<td><a
-							href="<%=request.getContextPath()%>/DetalleCurso?codCurso=<%=listado.get(i).getCodigo()%>"
+							href="<%=request.getContextPath()%>/DetalleCurso?codCurso=<%=curso.getCodigo()%>"
 							class="btn btn-default btn-sm btn-icon icon-left"> <i
 								class="entypo-pencil"></i> <strong>Ver Detalle</strong>
 						</a></td>
@@ -148,99 +148,11 @@
 									});
 								});
 			</script>
-
-			<!-- Footer -->
-			<footer class="main">
-
-				&copy; 2015 <strong>SOID</strong> Solutions <a href="#"
-					target="_blank">SOID Solutions</a>
-
-			</footer>
+			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>
-
-
-		<div id="chat" class="fixed" data-current-user="Art Ramadani"
-			data-order-by-status="1" data-max-chat-history="25">
-
-			<div class="chat-inner">
-
-
-				<h2 class="chat-header">
-					<a href="#" class="chat-close"><i class="entypo-cancel"></i></a> <i
-						class="entypo-users"></i> Chat <span
-						class="badge badge-success is-hidden">0</span>
-				</h2>
-
-			</div>
-
-			<!-- conversation template -->
-			<div class="chat-conversation">
-
-				<div class="conversation-header">
-					<a href="#" class="conversation-close"><i class="entypo-cancel"></i></a>
-
-					<span class="user-status"></span> <span class="display-name"></span>
-					<small></small>
-				</div>
-
-				<ul class="conversation-body">
-				</ul>
-
-				<div class="chat-textarea">
-					<textarea class="form-control autogrow"
-						placeholder="Type your message"></textarea>
-				</div>
-
-			</div>
-
-		</div>
-
+		<jsp:include page="/resources/include/chat.jsp"></jsp:include>
 	</div>
 
-
-	<link rel="stylesheet" type="text/css"
-		href="//cdn.datables.net/1.10.7/css/jquery.datatables.min.css">
-
-	<link rel="stylesheet" type="text/css"
-		href="//cdn.datables.net/tabletools/2.2.4/css/datatables.tableTools.css">
-
-
-	<!-- Imported styles on this page -->
-	<link rel="stylesheet"
-		href="<%=request.getServletContext().getContextPath() %>/resources/assets/js/datatables/responsive/css/datatables.responsive.css">
-	<link rel="stylesheet"
-		href="<%=request.getServletContext().getContextPath() %>/resources/assets/js/select2/select2-bootstrap.css">
-	<link rel="stylesheet"
-		href="<%=request.getServletContext().getContextPath() %>/resources/assets/js/select2/select2.css">
-
-	<!-- Bottom scripts (common) -->
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/gsap/main-gsap.js"></script>
-	<script
-		src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/bootstrap.js"></script>
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/joinable.js"></script>
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/resizeable.js"></script>
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/neon-api.js"></script>
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/jquery.dataTables.min.js"></script>
-	<script
-		src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/datatables/TableTools.min.js"></script>
-
-
-	<!-- Imported scripts on this page -->
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/dataTables.bootstrap.js"></script>
-	<script
-		src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/datatables/jquery.dataTables.columnFilter.js"></script>
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/datatables/lodash.min.js"></script>
-	<script
-		src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/datatables/responsive/js/datatables.responsive.js"></script>
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/select2/select2.min.js"></script>
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/neon-chat.js"></script>
-
-	<!-- JavaScripts initializations and stuff -->
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/neon-custom.js"></script>
-
-	<!-- Demo Settings -->
-	<script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/neon-demo.js"></script>
-
+<jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
 </body>
 </html>

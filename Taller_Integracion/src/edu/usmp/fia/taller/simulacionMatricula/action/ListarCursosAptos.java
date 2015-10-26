@@ -34,7 +34,7 @@ public class ListarCursosAptos extends ActionServlet {
 		
 		try 
 		{
-			int codAlumno= Integer.parseInt(request.getParameter("codAlumno"));
+			String codAlumno= request.getParameter("codAlumno");
 			
 			System.out.println("COD ALUMNO => " + codAlumno );
 			

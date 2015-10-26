@@ -27,11 +27,12 @@ public class ListarCursosPreferibles extends ActionServlet {
 		
 		try 
 		{
-			int codigoAlumno = Integer.parseInt(request.getParameter("codAlumno"));			
+			String codigoAlumno = request.getParameter("codAlumno");			
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 			
 			listaCursos = factory.getSimulacionMatricula().CursosPreferibles(codigoAlumno);
-					
+			System.out.println("LISTADO DE CURSOS PREFERIBLES "+ listaCursos);
+			
 			request.setAttribute("CursosPeferibles", listaCursos);
 			request.getRequestDispatcher("SimulacionMatricula/CursosPreferibles.jsp").forward(request, response);
 			

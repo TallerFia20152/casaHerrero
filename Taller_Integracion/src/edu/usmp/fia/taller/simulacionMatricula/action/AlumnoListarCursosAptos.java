@@ -30,7 +30,7 @@ public class AlumnoListarCursosAptos extends ActionServlet {
 		
 		try 
 		{
-			int codAlumno=2010106278;
+			String codAlumno="2010106278";
 			
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 			listado= factory.getSimulacionMatricula().ListarCursosAptos(codAlumno);

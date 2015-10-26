@@ -6,7 +6,7 @@ import java.util.List;
 public class Curso {
 
 	
-	private int mCodigo;
+	private String mCodigo;
 	private String mEstado;	
 	private String mCurso;
 	private String mCredito;
@@ -25,7 +25,7 @@ public class Curso {
 	
 	public Curso()
 	{
-		mCodigo=0;
+		mCodigo="";
 		mEstado="";
 		mCurso="";
 		mCredito="";
@@ -42,10 +42,10 @@ public class Curso {
 		mCuenta=0;
 	}	
 	
-	public int getCodigo() {
+	public String getCodigo() {
 		return mCodigo;
 	}
-	public void setCodigo(int mCodigo) {
+	public void setCodigo(String mCodigo) {
 		this.mCodigo = mCodigo;
 	}
 	public String getEstado() {
