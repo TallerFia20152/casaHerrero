@@ -58,17 +58,18 @@ $(document).ready(function () {
     $(document).on("submit", '#form', function(event) {
     	event.preventDefault();
     	var convalidacionalumno=[];
-    	$("#cursosaprobados div").each(function(){
+    	$("#cursosaprobados .row").each(function(){
     		convalidacionalumno.push({
     			'cursoorigencodigo':$(this).find('.codigocurso').val(),
     			'cursoorigennombre':$(this).find('.nombrecurso').val(),
-    			'alumno.persona.id':comboAlumno.getValue(),
+    			'alumno':comboAlumno.getValue(),
     			'nota':$(this).find('.notacurso').val(),
-    			'universidadorigen.id':comboUniversidad.getValue()
+    			'universidadorigen':comboUniversidad.getValue()
     		});
     		
     	});
     	var ajaxdata={'f':'registrarCursos','convalidaciones':JSON.stringify(convalidacionalumno)};
+    	console.log(JSON.stringify(ajaxdata));
     	$.ajax({
 			url : "../registrodatos",
 			data : ajaxdata,

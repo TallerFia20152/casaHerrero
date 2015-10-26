@@ -6,6 +6,7 @@
 package edu.usmp.fia.taller.convalidacioncurso.dataaccess.interfaces;
 
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.AlumnoConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Convalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ConvalidacionAlumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Departamento;
@@ -33,7 +34,7 @@ public interface DAOHistoriaConvalidacion {
     public List<Distrito> listardistritos(Departamento wDepartamento)throws Exception;
     public List<ModalidadIngreso> listarmodalidades()throws Exception;
     public void registrarAlumno(Alumno wAlumno)throws Exception;
-    public void registrarConvalidacionAlumno(List<ConvalidacionAlumno> wConvalidacionAlumnos)throws Exception;
+    public void registrarConvalidacionAlumno(List<AlumnoConvalidacion> wConvalidacionAlumnos)throws Exception;
     public List<ConvalidacionAlumno> listarCursosxconvalidar(Alumno wAlumno)throws Exception;
     public PlanCurricularDetalle BuscarHistorico(ConvalidacionAlumno wConvalidacionAlumno)throws Exception;
     public List<ConvalidacionAlumno> BuscarEnConvalidacion(PlanCurricularDetalle wPlanCurricularDetalle)throws Exception;
