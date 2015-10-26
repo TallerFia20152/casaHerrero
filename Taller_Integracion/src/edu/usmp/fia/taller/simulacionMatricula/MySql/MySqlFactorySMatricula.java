@@ -1026,12 +1026,9 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 								cursoTemporal = new Curso();
 								cursoTemporal = area.getCursoList().get(i);
 								cursoTemporal.setCantidadAlumnos(cantidadAlumnos);
-
 								Collections.replaceAll(area.getCursoList(), area.getCursoList().get(i), cursoTemporal);
-
 							}
 						}
-
 					}
 				}
 			}

@@ -106,7 +106,7 @@ public class MySqlDAOFactory extends DAOFactory {
 			oParameters.put("clave", "wtRtWYXxZqIu");
 			
 		} else if (oStrDatabaseEnv.equalsIgnoreCase("openshift-deploy")) {
-			log.info("connection is localhost nube");
+			log.info("connection is localhost");
 			oParameters.put("jdbc:url", "jdbc:mysql://127.12.131.2:3306/bd_taller_proyectos");
 			oParameters.put("usuario", "adminnL3Z24a");
 			oParameters.put("clave", "wtRtWYXxZqIu");

@@ -3,6 +3,8 @@ package edu.usmp.fia.taller.simulacionMatricula.action;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.sun.org.apache.xalan.internal.lib.ExsltBase;
 
@@ -39,7 +41,10 @@ public class ListarCursosAptosPreferibles extends ActionServlet {
 			int existe=0;
 			System.out.println("ingreso ListarCursosAptosPreferibles");
 			//String codAlumno= request.getParameter("codAlumno");
-			String codAlumno= "2010106278";
+			
+			String codAlumno= "2010106278";			
+			//HttpSession sesion= request.getSession();			
+			//String codAlumno=sesion.getAttribute("codAlumno");
 			
 			System.out.println("COD ALUMNO => " + codAlumno );
 
