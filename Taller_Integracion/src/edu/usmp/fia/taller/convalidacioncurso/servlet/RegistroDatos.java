@@ -24,6 +24,7 @@ import edu.usmp.fia.taller.common.action.HttpMethod;
 import edu.usmp.fia.taller.common.action.HttpMethodType;
 import edu.usmp.fia.taller.common.action.RequireLogin;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.AlumnoConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Convalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ConvalidacionAlumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Distrito;
@@ -91,7 +92,7 @@ public class RegistroDatos extends ActionServlet {
     @HttpMethod(HttpMethodType.POST)
     @RequireLogin(false)
     public void registrarCursos() throws IOException, Exception {
-    	List<ConvalidacionAlumno> conalus;
+    	List<AlumnoConvalidacion> conalus;
         String listjson = request.getParameter("convalidaciones");
         
         JsonElement json = new JsonParser().parse(listjson);
@@ -102,7 +103,7 @@ public class RegistroDatos extends ActionServlet {
         while(iterator.hasNext()){
         	JsonElement json1 = (JsonElement) iterator.next();
         	Gson gson = new Gson();
-        	ConvalidacionAlumno conalu = gson.fromJson(json1, ConvalidacionAlumno.class);
+        	AlumnoConvalidacion conalu = gson.fromJson(json1, AlumnoConvalidacion.class);
         	conalus.add(conalu);
         	
         }
@@ -113,7 +114,7 @@ public class RegistroDatos extends ActionServlet {
         Gson gson = new Gson();
         try {
             oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-            oDAOFactory.getConvalidacion().getHistoriaConvalidacion();
+            oDAOFactory.getConvalidacion().getHistoriaConvalidacion().registrarConvalidacionAlumno(conalus);;
             mensaje="OK";
         } catch (Exception e) {
             

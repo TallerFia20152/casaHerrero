@@ -23,7 +23,7 @@ $(document).ready(function() {
 			'apemat' : $('#apemat').val(),
 			'sexo' : $('#sexo').val(),
 			'dni' : $('#dni').val(),
-			'fecnac' : $('fecnac').val(),
+			'fecnac' : $('#fecnac').val(),
 			'dir' : $('#dir').val(),
 			'numcel' : $('#numcel').val(),
 			'numcas' : $('#numcas').val(),

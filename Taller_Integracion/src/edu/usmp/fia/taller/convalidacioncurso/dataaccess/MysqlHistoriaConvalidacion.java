@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.AlumnoConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Ciclo;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Convalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ConvalidacionAlumno;
@@ -333,16 +334,16 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 	}
 
 	@Override
-	public void registrarConvalidacionAlumno(List<ConvalidacionAlumno> wConvalidacionAlumnos) throws Exception {
+	public void registrarConvalidacionAlumno(List<AlumnoConvalidacion> wConvalidacionAlumnos) throws Exception {
 		List<StringBuilder> listSql= new ArrayList<>();
         StringBuilder sql;
         
-        for(ConvalidacionAlumno conalu: wConvalidacionAlumnos){
+        for(AlumnoConvalidacion conalu: wConvalidacionAlumnos){
         	sql = new StringBuilder();
         	sql.append("INSERT INTO t_convalidacion_alumno(alumno_id,curso_origen_codigo,curso_origen_nombre,nota,universidad_origen_id)").
-        	    append(" VALUES('").append(conalu.getAlumno().getPersona().getId()).append("','").append(conalu.getCursoorigencodigo()).
+        	    append(" VALUES('").append(conalu.getAlumno()).append("','").append(conalu.getCursoorigencodigo()).
         	    append("','").append(conalu.getCursoorigennombre()).append("',").append(conalu.getNota()).append(",").
-        	    append(conalu.getUniversidadorigen().getId()).append(");");
+        	    append(conalu.getUniversidadorigen()).append(");");
         	listSql.add(sql);
         }
         
