@@ -3,19 +3,17 @@ package edu.usmp.fia.taller.simulacionMatricula.action;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import com.sun.org.apache.xalan.internal.lib.ExsltBase;
-
 import edu.usmp.fia.taller.common.dao.DAOFactory;
 import edu.usmp.fia.taller.common.action.ActionServlet;
 import edu.usmp.fia.taller.common.action.Default;
 import edu.usmp.fia.taller.common.action.HttpMethod;
 import edu.usmp.fia.taller.common.action.HttpMethodType;
 import edu.usmp.fia.taller.common.action.RequireLogin;
+import edu.usmp.fia.taller.common.action.SessionParameters;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso;
 
+import edu.usmp.fia.taller.common.bean.Usuario;
 /**
  * Servlet implementation class ListaCursosServlet
  */
@@ -42,28 +40,31 @@ public class ListarCursosAptosPreferibles extends ActionServlet {
 			System.out.println("ingreso ListarCursosAptosPreferibles");
 			//String codAlumno= request.getParameter("codAlumno");
 			
-			String codAlumno= "2010106278";			
-			//HttpSession sesion= request.getSession();			
-			//String codAlumno=sesion.getAttribute("codAlumno");
+			//String codAlumno= "2010106278";			
+			HttpSession sesion= request.getSession();
+			Usuario oUsuario= (Usuario) sesion.getAttribute(SessionParameters.USUARIO.text());
 			
-			System.out.println("COD ALUMNO => " + codAlumno );
+			System.out.println("COD ALUMNO => " + oUsuario.getPersona().getIdPersona());
 
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			existe= factory.getSimulacionMatricula().BuscarPreMatricula(codAlumno);
+			existe= factory.getSimulacionMatricula().BuscarPreMatricula(oUsuario.getPersona().getIdPersona().toString());
 			System.out.println("EXISTE " + existe);
 			
 			if(existe==0)
 			{
-				listado= factory.getSimulacionMatricula().ListarCursosAptos(codAlumno);							
+				System.out.println("INGRESO A LISTAR CURSOS APTOS");
+				
+				listado= factory.getSimulacionMatricula().ListarCursosAptos(oUsuario.getPersona().getIdPersona().toString());							
 				System.out.println("LISTADO CURSOS APTOS  " + listado);
 				
-				request.setAttribute("codigoAlumno", codAlumno);
+				request.setAttribute("codigoAlumno", oUsuario.getPersona().getIdPersona().toString());
 				request.setAttribute("listaCursoAptoPreferibles", listado);
 				request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Pre_Matricula.jsp").forward(request, response);
 			}
 			else				
 			{
-				System.out.println("EXISTE ENTRO => "+ existe);
+				System.out.println("INGRESO A ERROR");
+				
 				request.setAttribute("mensaje", "Usted ya realizó la Pre Matricula");				
 				request.getRequestDispatcher("SimulacionMatricula/mensaje.jsp").forward(request, response);
 			}
