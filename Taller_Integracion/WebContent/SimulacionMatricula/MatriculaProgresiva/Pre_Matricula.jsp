@@ -43,7 +43,7 @@
 		%>
 		<form action="<%=request.getContextPath()%>/GenerarPreMatricula" method="post">
 		
-		<p><input type="text" name="codigoAlumno" value="<%=codigoAlumno%>"></p>
+		<p><input type="hidden" name="codigoAlumno" value="<%=codigoAlumno%>"></p>
 		
 			<table class="table table-bordered table-striped datatable" id="table-2">
 				<thead>
@@ -74,7 +74,6 @@
 						<td><%=curso.getTipoCurso()%></td>
 					</tr>
 					<%	}
-					}
 					%>
 				</tbody>
 			</table>
@@ -84,7 +83,8 @@
 				</div>
 				<p>
 			</div>
-			
+			<%	}
+			%>
 			</form>
 			
 			<script type="text/javascript">
