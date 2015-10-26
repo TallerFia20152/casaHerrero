@@ -29,7 +29,7 @@ body {
 <style type="text/css">
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/main.js"></script>
+<script src="MallaCurricular/js/main.js"></script>
 	
 </head>
 

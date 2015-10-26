@@ -5,15 +5,17 @@
 ._jsPlumb_endpoint {
 	z-index: 10;
 	cursor: move;
+	
 }
 
 ._jsPlumb_connector {
 	z-index: 1;
+	
 }
 
 .window {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -28,21 +30,21 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #A901DB; /*DivDelCurso*/
+	background-color: #A901DB;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
-------------------------------
--DESDE ACA LOS DIV POR MENCIÒN----------------------------------------------
+
+-------------------------------DESDE ACA LOS DIV POR MENCIÒN----------------------------------------------
 
 
 .window8 {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -57,17 +59,18 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: yellow; /*DivDelCurso*/
+	background-color: yellow;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
+
 
 .window2 {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -82,17 +85,18 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #7A4D29; /*DivDelCurso*/
+	background-color: #7A4D29;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
+
 .window3 {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -107,17 +111,17 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #E2AF40; /*DivDelCurso*/
+	background-color: #E2AF40;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
 .window1 {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -132,17 +136,18 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #3339DF; /*DivDelCurso*/
+	background-color: #3339DF;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
+
 .window4 {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -157,17 +162,17 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #6F23B0; /*DivDelCurso*/
+	background-color: #6F23B0;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
 .window6 {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -182,17 +187,17 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #bdcfdf; /*DivDelCurso*/
+	background-color: #bdcfdf;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
 .window7 {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -207,17 +212,17 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: BLUE; /*DivDelCurso*/
+	background-color: BLUE;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
 .window5 {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -232,17 +237,17 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #D02FDF; /*DivDelCurso*/
+	background-color: #D02FDF;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
 .window1_M {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -257,17 +262,17 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #18D50E; /*DivDelCurso*/
+	background-color: #18D50E;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
 .window2_M {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -282,17 +287,17 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #287524; /*DivDelCurso*/
+	background-color: #287524;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
 .window3_M {
 	border: 2px solid black;
-	border-color: black;
+	border-color:black;
 	/* box-shadow: 2px 2px 19px #aaa;
 	-o-box-shadow: 2px 2px 19px #aaa;
 	-webkit-box-shadow: 2px 2px 19px #aaa;
@@ -307,16 +312,47 @@
 	text-align: center;
 	z-index: 20;
 	position: absolute;
-	background-color: #10C4D0; /*DivDelCurso*/
+	background-color: #10C4D0;/*DivDelCurso*/
 	color: white;
 	font-family: helvetica;
 	padding: 0.3em;
-	font-size: 0.7em;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
-------------------------------
--HASTA ACA LOS DIV POR MENCIÒN----------------------------------------------
+.windowELibre {
+	border: 2px solid black;
+	border-color:black;
+	/* box-shadow: 2px 2px 19px #aaa;
+	-o-box-shadow: 2px 2px 19px #aaa;
+	-webkit-box-shadow: 2px 2px 19px #aaa;
+	-moz-box-shadow: 2px 2px 19px #aaa;
+	-moz-border-radius: 0.5em; */
+	border-radius: 0em;
+	opacity: 1;
+	filter: alpha(opacity = 80);
+	width: 100px;
+	height: 60px;
+	line-height: 100%;
+	text-align: center;
+	z-index: 20;
+	position: absolute;
+	background-color: #80ff80;/*DivDelCurso*/
+	color: white;
+	font-family: helvetica;
+	padding: 0.3em;
+	font-size: 0.9em;
+	font-weight: bold;
+}
+
+
+
+
+
+
+
+
+-------------------------------HASTA ACA LOS DIV POR MENCIÒN----------------------------------------------
 .window:hover {
 	box-shadow: 2px 2px 19px #444;
 	-o-box-shadow: 2px 2px 19px #444;
