@@ -76,17 +76,17 @@
 											<tbody>
 												<tr>
 													<td>CODIGO</td>
-													<td><%=curso.getCodigo()%></td>
+													<td><%=curso.getCodigo().toString()%></td>
 												</tr>
 
 												<tr>
 													<td>CREDITOS</td>
-													<td><%=curso.getCredito()%></td>
+													<td><%=curso.getCredito().toString()%></td>
 												</tr>
 
 												<tr>
 													<td>CICLO</td>
-													<td><%=curso.getCiclo()%></td>
+													<td><%=curso.getCiclo().toString()%></td>
 												</tr>
 
 												<tr>
@@ -150,7 +150,6 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 
 				</div>
@@ -162,11 +161,7 @@
 			<!-- Footer -->
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>
-
-
 		<jsp:include page="/resources/include/chat.jsp"></jsp:include>
-
-
 	</div>
 <jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
 

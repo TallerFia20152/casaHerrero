@@ -60,8 +60,8 @@
 			<div>
 				<input type="submit" value="Ingresar"
 					onclick="return login.submit();"
-					class="btn btn-lg btn-primary btn-block" />
-					v0.13
+					class="btn btn-lg btn-danger btn-block" />
+					v0.15
 			</div>
 		</form>
 	</div>

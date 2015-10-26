@@ -46,7 +46,7 @@
 			<br />
 			<%
 				List<Curso> listado = (List) request.getAttribute("listaCursoApto");
-				if (listado.size()==0)
+				if (listado==null)
 				{
 			%>
 				<div class="alert alert-danger"><strong>Lo sentimos</strong> No tiene cursos aptos</div>

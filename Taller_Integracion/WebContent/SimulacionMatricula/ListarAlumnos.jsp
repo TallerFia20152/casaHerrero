@@ -78,7 +78,7 @@
 							<!-- <th>Curso Obligatorio</th> -->
 							<th>Curso Apto</th>
 							<th>Cursos Probables</th>
-							<th>Pre-Matricula</th>
+							<th>Cursos Preferibles</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -109,7 +109,7 @@
 									class="entypo-pencil"></i> <strong>Ver</strong>
 							</a></td>
 							<td align="center"><a
-								href="<%=request.getContextPath()%>/ListaPre_Matricula?codAlumno=<%=listado.get(i).getCodUSMP()%>"
+								href="<%=request.getContextPath()%>/ListarCursosPreferibles?codAlumno=<%=listado.get(i).getCodUSMP()%>"
 								class="btn btn-default btn-sm btn-icon icon-left"> <i
 									class="entypo-pencil"></i> <strong>Ver</strong>
 							</a></td>
@@ -128,7 +128,7 @@
 							<!-- <th>Curso Obligatorio</th> -->
 							<th>Curso Apto</th>
 							<th>Cursos Probables</th>
-							<th>Pre-Matricula</th>
+							<th>Cursos Preferibles</th>
 						</tr>
 					</tfoot>
 				</table>

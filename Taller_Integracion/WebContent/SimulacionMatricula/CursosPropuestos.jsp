@@ -52,7 +52,7 @@
 			<br />
 			<%
 				List<Curso> listaCursos = (List<Curso>) request.getAttribute("CursosPropuestos");
-				if (listaCursos.size()==0)
+				if (listaCursos==null)
 				{
 			%>
 				<div class="row">
@@ -101,12 +101,15 @@
 										Integer cantidadCreditos=0;
 										for (Curso curso:listaCursos) 
 										{
-											cantidadCreditos+=Integer.parseInt(curso.getCredito());	
+											if(!curso.getCredito().equals(""))
+											{
+												cantidadCreditos+=Integer.parseInt(curso.getCredito());
+											}
 									%>
 									<tr>
-										<td><%=curso.getCodigo()%></td>
-										<td><%=curso.getCurso()%></td>
-										<td align="center"><%=curso.getCredito()%></td>
+										<td><%=curso.getCodigo().toString()%></td>
+										<td><%=curso.getCurso().toString()%></td>
+										<td align="center"><%=curso.getCredito().toString()%></td>
 									</tr>
 									<%
 										}
@@ -116,7 +119,7 @@
 									<tr>
 										<th><STRONG></STRONG></th>
 										<th><STRONG></STRONG></th>
-										<th><STRONG><font color="red">TOTAL CREDITOS : <%=cantidadCreditos %></font></STRONG></th>
+										<th><STRONG><font color="red">TOTAL DE CREDITOS : <%=cantidadCreditos %></font></STRONG></th>
 									</tr>
 								</thead>
 							</table>

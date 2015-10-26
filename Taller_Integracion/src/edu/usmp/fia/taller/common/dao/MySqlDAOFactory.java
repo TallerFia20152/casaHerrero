@@ -66,6 +66,7 @@ public class MySqlDAOFactory extends DAOFactory {
 
 
 	private static HashMap<String, String> getMysqlJDBC() throws Exception {
+		
 		HashMap<String, String> oParameters = new HashMap<String, String>();
 		String oStrDatabaseEnv = ResourceBundle.getBundle("config").getString("database-environment");
 		oStrDatabaseEnv = oStrDatabaseEnv==null? "": oStrDatabaseEnv.trim();
@@ -111,11 +112,11 @@ public class MySqlDAOFactory extends DAOFactory {
 			oParameters.put("clave", "wtRtWYXxZqIu");
 			
 		} else {
-			log.info("connection is localhost");
+			log.info("connection is localhost");			
 			oParameters.put("jdbc:url", "jdbc:mysql://localhost:3306/bd_taller_proyectos");
 			oParameters.put("usuario", "root");
 			oParameters.put("clave", "root");
-		}
+		}		
 		log.info("oStrMysqlJDBC: " + oParameters.get("jdbc:url"));
 		return oParameters;
 	}
@@ -174,10 +175,6 @@ public class MySqlDAOFactory extends DAOFactory {
 	public DAOFactoryConvalidacion getConvalidacion() {
 		return new MysqlFactoryConvalidacion();
 	}
-
-	
-
-
 
 	public DAOFactoryMCurricular getMallaCurricular() { return new MySqlFactoryMCurricular(); }
 
