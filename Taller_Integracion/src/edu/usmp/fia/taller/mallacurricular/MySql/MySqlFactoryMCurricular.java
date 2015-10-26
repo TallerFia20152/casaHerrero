@@ -26,7 +26,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 			
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -41,12 +41,13 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos.add(curso);
 
 			}
 
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -64,7 +65,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 			
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -79,11 +80,11 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos2.add(curso);
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -100,7 +101,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 //			String sql = "SELECT * FROM bd_tallerproyectos.t_course  where t_cycle_id=3";
 			StringBuffer sentencia=new StringBuffer();
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -115,13 +116,13 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				
 				cursos3.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -138,7 +139,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 //			String sql = "SELECT * FROM bd_tallerproyectos.t_course  where t_cycle_id=4";
 			StringBuffer sentencia=new StringBuffer();
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -153,12 +154,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos4.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -175,7 +176,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 //			String sql = "SELECT * FROM bd_tallerproyectos.t_course  where t_cycle_id=5";
 			StringBuffer sentencia=new StringBuffer();
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -190,12 +191,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos5.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -212,7 +213,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 //			String sql = "SELECT * FROM bd_tallerproyectos.t_course  where t_cycle_id=6";
 			StringBuffer sentencia=new StringBuffer();
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -227,12 +228,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos6.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -249,7 +250,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 //			String sql = "SELECT * FROM bd_tallerproyectos.t_course  where t_cycle_id=7";
 			StringBuffer sentencia=new StringBuffer();
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -264,12 +265,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos7.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -286,7 +287,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 //			String sql = "SELECT * FROM bd_tallerproyectos.t_course  where t_cycle_id=8";
 			StringBuffer sentencia=new StringBuffer();
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -301,12 +302,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos8.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -323,7 +324,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 //			String sql = "SELECT * FROM bd_tallerproyectos.t_course  where t_cycle_id=9";
 			StringBuffer sentencia=new StringBuffer();
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -338,12 +339,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos9.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -360,7 +361,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 //			String sql = "SELECT * FROM bd_tallerproyectos.t_course  where t_cycle_id=10";
 			StringBuffer sentencia=new StringBuffer();
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -375,12 +376,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos10.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -423,7 +424,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 			
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -438,11 +439,11 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos.add(curso);
 
-			}
+			}MySqlDAOFactory.close(con);
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
@@ -462,7 +463,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -477,12 +478,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos2.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -500,7 +501,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -515,12 +516,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos3.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -538,7 +539,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -553,12 +554,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos4.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -576,7 +577,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -591,11 +592,11 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos5.add(curso);
 
-			}
+			}MySqlDAOFactory.close(con);
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
@@ -614,7 +615,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -629,12 +630,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos6.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -652,7 +653,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -667,12 +668,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos7.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -690,7 +691,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -705,11 +706,11 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos8.add(curso);
 
-			}
+			}MySqlDAOFactory.close(con);
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
@@ -728,7 +729,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -743,12 +744,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos9.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -766,7 +767,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -781,12 +782,12 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos10.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -807,7 +808,7 @@ public class MySqlFactoryMCurricular implements DAOFactoryMCurricular<T_course> 
 			StringBuffer sentencia=new StringBuffer();
 			
 			
-sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join  t_curso_mencion cm on c.id=cm.curso_id where mencion_id='1'");
+			sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join  t_curso_mencion cm on c.id=cm.curso_id where mencion_id='1'");
 			
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
 			ResultSet rs = ps.executeQuery();
@@ -821,52 +822,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("c.id"));
 				curso.setName(rs.getString("c.nombre"));
 				//curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("cm.mencion_id"));
+				curso.setMencion(rs.getString("cm.mencion_id") + "_M");
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos.add(curso);
-				
-				if (curso.getId() == 90861) {
-					curso.setLeft("681.641px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 90085) {
-					curso.setLeft("813.969px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 91119) {
-					curso.setLeft("813.969px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 90548) {
-					curso.setLeft("946.297px");	
-					curso.setTop("317.5px");
-				}
-				if (curso.getId() == 90116) {
-					curso.setLeft("946.297px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 90934) {
-					curso.setLeft("946.297px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 90670) {
-					curso.setLeft("1069.95px");	
-					curso.setTop("249.5px");
-				}
-				if (curso.getId() == 91122) {
-					curso.setLeft("1069.95px");
-					curso.setTop("317.5px");
-				}
-				if (curso.getId() == 90088) {
-					curso.setLeft("1069.95px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 90933) {
-					curso.setLeft("1194.61px");	
-					curso.setTop("249.5px");
-				}
+			
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -934,7 +895,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 			
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -949,12 +910,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -973,7 +934,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -988,12 +949,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos2.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1011,7 +972,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1026,12 +987,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos3.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1049,7 +1010,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1064,12 +1025,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos4.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1087,7 +1048,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1102,12 +1063,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos5.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1125,7 +1086,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1140,12 +1101,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos6.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1163,7 +1124,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1178,12 +1139,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos7.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1201,7 +1162,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1216,12 +1177,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos8.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1239,7 +1200,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1254,12 +1215,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos9.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1277,7 +1238,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1292,12 +1253,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos10.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1332,52 +1293,13 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("c.id"));
 				curso.setName(rs.getString("c.nombre"));
 				//curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("cm.mencion_id"));
+				curso.setMencion(rs.getString("cm.mencion_id") + "_M");
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
-				if (curso.getId() == 90671) {
-					curso.setLeft("681.641px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 90665) {
-					curso.setLeft("813.969px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 90672) {
-					curso.setLeft("813.969px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 90861) {
-					curso.setLeft("946.297px");	
-					curso.setTop("317.5px");
-				}
-				if (curso.getId() == 90659) {
-					curso.setLeft("946.297px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 91124) {
-					curso.setLeft("946.297px");	
-					curso.setTop("453.5px");
-				}
 				
-				if (curso.getId() == 90085) {
-					curso.setLeft("1069.95px");	
-					curso.setTop("249.5px");
-				}
-				if (curso.getId() == 90660) {
-					curso.setLeft("1069.95px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 90658) {
-					curso.setLeft("1069.95px");	
-					curso.setTop("317.5px");
-				}
-				if (curso.getId() == 90666) {
-					curso.setLeft("1194.61px");	
-					curso.setTop("317.5px");
-				}
 				cursos.add(curso);
 
 			}
+			MySqlDAOFactory.close(con);
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
@@ -1453,7 +1375,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 			
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1468,12 +1390,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1492,7 +1414,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1507,12 +1429,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos2.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1530,7 +1452,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1545,12 +1467,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos3.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1568,7 +1490,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1583,12 +1505,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos4.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1606,7 +1528,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1621,12 +1543,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos5.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1644,7 +1566,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1659,12 +1581,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos6.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1682,7 +1604,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1697,12 +1619,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos7.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1720,7 +1642,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1735,12 +1657,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos8.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1758,7 +1680,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1773,12 +1695,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos9.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1796,7 +1718,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1811,12 +1733,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos10.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1851,53 +1773,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("c.id"));
 				curso.setName(rs.getString("c.nombre"));
 				//curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("cm.mencion_id"));
+				curso.setMencion(rs.getString("cm.mencion_id") + "_M");
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos.add(curso);
-
-				if (curso.getId() == 90675) {
-					curso.setLeft("681.641px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 91119) {
-					curso.setLeft("813.969px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 90676) {
-					curso.setLeft("813.969px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 90179) {
-					curso.setLeft("1194.61px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 90548) {
-					curso.setLeft("946.297px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 90677) {
-					curso.setLeft("946.297px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 90088) {
-					curso.setLeft("1069.95px");	
-					curso.setTop("249.5px");
-				}
-				if (curso.getId() == 90674) {
-					curso.setLeft("1069.95px");	
-					curso.setTop("385.5px");
-				}
-				if (curso.getId() == 90678) {
-					curso.setLeft("1069.95px");	
-					curso.setTop("453.5px");
-				}
-				if (curso.getId() == 90670) {
-					curso.setLeft("1194.61px");	
-					curso.setTop("249.5px");
-				}
 				
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1977,7 +1858,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 			
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='1' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -1992,12 +1873,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2016,7 +1897,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='2' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2031,12 +1912,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos2.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2054,7 +1935,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='3' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2069,12 +1950,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos3.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2092,7 +1973,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='4' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2107,12 +1988,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos4.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2130,7 +2011,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='5' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2145,12 +2026,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos5.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2168,7 +2049,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='6' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2183,12 +2064,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos6.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2206,7 +2087,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='7' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2221,12 +2102,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos7.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2244,7 +2125,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='8' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2259,12 +2140,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos8.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2282,7 +2163,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='9' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2297,11 +2178,11 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos9.add(curso);
 
-			}
+			}MySqlDAOFactory.close(con);
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
@@ -2320,7 +2201,7 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 			StringBuffer sentencia=new StringBuffer();
 
 			sentencia.append("select pcd.id, pcd.curso_id, pcd.ciclo_id, pcd.curso_area_id, c.nombre from t_plan_curricular_detalle pcd "); 
-			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10'"); 
+			sentencia.append("inner join t_curso c on pcd.curso_id=c.id where ciclo_id='10' order by Ordenar"); 
 			
 						
 			PreparedStatement ps = con.prepareStatement(sentencia.toString());
@@ -2335,12 +2216,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("pcd.curso_area_id"));
+				curso.setMencion(rs.getString("pcd.curso_area_id"));
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos10.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -2377,12 +2258,12 @@ sentencia.append("select c.id, c.nombre, cm.mencion_id from t_curso c inner join
 				curso.setId(rs.getInt("pcd.curso_id"));
 				curso.setName(rs.getString("c.nombre"));
 				curso.setT_cycle_id(rs.getInt("pcd.ciclo_id"));
-				curso.setMencion(rs.getInt("cm.mencion_id"));
+				curso.setMencion(rs.getString("cm.mencion_id") + "_M");
 			//	curso.setT_course_id(rs.getInt("t_course_id"));
 				cursos.add(curso);
 
 			}
-
+			MySqlDAOFactory.close(con);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}

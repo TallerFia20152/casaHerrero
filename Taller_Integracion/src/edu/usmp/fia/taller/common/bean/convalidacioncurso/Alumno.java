@@ -3,78 +3,104 @@ package edu.usmp.fia.taller.common.bean.convalidacioncurso;
 import com.mysql.jdbc.Blob;
 
 public class Alumno {
+	private Persona persona;
+	private String dni;
+	private String fechanacimiento;
+	private String direccion;
+	private Distrito distrito;
+	private int numerocelular;
+	private int numerocasa;
+	private Blob fotografia;
+	private ModalidadIngreso modalidadingreso;
+	private Especialidad especialidad;
+	private Facultad facultad;
 
-    private String dni;
-    private String fecha_nacimiento;
-    private String direccion;
-    private Distrito distrito;
-    private int numero_celular;
-    private int numero_casa;
-    private Persona persona;
-    private Blob fotografia;
+	public Persona getPersona() {
+		return persona;
+	}
 
-    public String getDni() {
-        return dni;
-    }
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
 
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
+	public String getDni() {
+		return dni;
+	}
 
-    public String getFecha_nacimiento() {
-        return fecha_nacimiento;
-    }
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
 
-    public void setFecha_nacimiento(String fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
-    }
+	public String getFechanacimiento() {
+		return fechanacimiento;
+	}
 
-    public String getDireccion() {
-        return direccion;
-    }
+	public void setFechanacimiento(String fechanacimiento) {
+		this.fechanacimiento = fechanacimiento;
+	}
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+	public String getDireccion() {
+		return direccion;
+	}
 
-    public Distrito getDistrito() {
-        return distrito;
-    }
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
 
-    public void setDistrito(Distrito distrito) {
-        this.distrito = distrito;
-    }
+	public Distrito getDistrito() {
+		return distrito;
+	}
 
-    public int getNumero_celular() {
-        return numero_celular;
-    }
+	public void setDistrito(Distrito distrito) {
+		this.distrito = distrito;
+	}
 
-    public void setNumero_celular(int numero_celular) {
-        this.numero_celular = numero_celular;
-    }
+	public int getNumerocelular() {
+		return numerocelular;
+	}
 
-    public int getNumero_casa() {
-        return numero_casa;
-    }
+	public void setNumerocelular(int numerocelular) {
+		this.numerocelular = numerocelular;
+	}
 
-    public void setNumero_casa(int numero_casa) {
-        this.numero_casa = numero_casa;
-    }
+	public int getNumerocasa() {
+		return numerocasa;
+	}
 
-    public Persona getPersona() {
-        return persona;
-    }
+	public void setNumerocasa(int numerocasa) {
+		this.numerocasa = numerocasa;
+	}
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
-    }
+	public Blob getFotografia() {
+		return fotografia;
+	}
 
-    public Blob getFotografia() {
-        return fotografia;
-    }
+	public void setFotografia(Blob fotografia) {
+		this.fotografia = fotografia;
+	}
 
-    public void setFotografia(Blob fotografia) {
-        this.fotografia = fotografia;
-    }
+	public ModalidadIngreso getModalidadingreso() {
+		return modalidadingreso;
+	}
+
+	public void setModalidadingreso(ModalidadIngreso modalidadingreso) {
+		this.modalidadingreso = modalidadingreso;
+	}
+
+	public Especialidad getEspecialidad() {
+		return especialidad;
+	}
+
+	public void setEspecialidad(Especialidad especialidad) {
+		this.especialidad = especialidad;
+	}
+
+	public Facultad getFacultad() {
+		return facultad;
+	}
+
+	public void setFacultad(Facultad facultad) {
+		this.facultad = facultad;
+	}
 
 }

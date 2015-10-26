@@ -1,9 +1,8 @@
 package edu.usmp.fia.taller.common.bean.RegistroDocente;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class User implements Serializable {
+public class User  {
 
 	private int idUser;
 	private String loginUser;

@@ -16,7 +16,14 @@ import edu.usmp.fia.taller.common.action.HttpMethodType;
 import edu.usmp.fia.taller.common.action.RequireLogin;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Curso;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Departamento;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Distrito;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Especialidad;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Facultad;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Persona;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricularDetalle;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.UniversidadOrigen;
 import edu.usmp.fia.taller.common.dao.DAOFactory;
 
 
@@ -25,19 +32,22 @@ public class HistoriaConvalidacion extends ActionServlet {
 	 @HttpMethod(HttpMethodType.POST)
 	    @RequireLogin(false)
 	    public void convalidacion() throws IOException, Exception {
-	        List<Curso> Cursos = null;
+	        List<PlanCurricularDetalle> detalles = null;
+	        Alumno alu = new Alumno();
+	        alu.setPersona(new Persona());
+	        alu.getPersona().setId(request.getParameter("codalu"));
 	        DAOFactory oDAOFactory;
 	        response.setContentType("application/json;charset=UTF-8");
 	        PrintWriter out = response.getWriter();
 	        Gson gson = new Gson();
 	        try {
 	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-	            Cursos = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listarcursos();
+	            detalles = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listarcursos(alu);
 	        } catch (Exception e) {
 	            e.getMessage();
 	            throw e;
 	        } finally {
-	            out.print(gson.toJson(Cursos));
+	            out.print(gson.toJson(detalles));
 	            out.close();
 	        }
 	    }
@@ -51,7 +61,7 @@ public class HistoriaConvalidacion extends ActionServlet {
 	        if (request.getParameter("codigo") == null) {
 	            alumno.getPersona().setNomcom(request.getParameter("nombre"));
 	        } else {
-	            alumno.getPersona().setId(Integer.parseInt(request.getParameter("codigo")));
+	            alumno.getPersona().setId(request.getParameter("codigo"));
 	        }
 
 	        DAOFactory oDAOFactory;
@@ -71,28 +81,13 @@ public class HistoriaConvalidacion extends ActionServlet {
 	        }
 	    }
 
-	    @Default
-	    @RequireLogin(false)
-	    public void inicio() throws ServletException, IOException {
-	        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/inicio.jsp");
-	    }
-	    @Default
-	    @RequireLogin(false)
-	    public void mantenimiento() throws ServletException, IOException {
-	        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/mantenimientAlumno.jsp");
-	    }
-	    @Default
-	    @RequireLogin(false)
-	    public void reporte() throws ServletException, IOException {
-	        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/convalidarCursos.jsp");
-	    }
-
+	    
 	    @HttpMethod(HttpMethodType.POST)
 	    @RequireLogin(false)
 	    public void obtenerDatosAlumno() throws IOException, Exception {
 	        Alumno alu = new Alumno();
 	        alu.setPersona(new Persona());
-	        alu.getPersona().setId(Integer.parseInt(request.getParameter("codalu")));
+	        alu.getPersona().setId(request.getParameter("codalu"));
 	        DAOFactory oDAOFactory;
 	        response.setContentType("application/json;charset=UTF-8");
 	        PrintWriter out = response.getWriter();
@@ -109,6 +104,91 @@ public class HistoriaConvalidacion extends ActionServlet {
 	            alu = null;
 	        }
 	    }
-	
+	    
 
+	    @HttpMethod(HttpMethodType.GET)
+	    @RequireLogin(false)
+	    public void listarUniversidades() throws IOException, Exception {
+	    	List<UniversidadOrigen> unis = null;
+        
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            unis = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listaruniversidades();
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(unis));
+	            out.close();
+	        }
+	    }
+	    
+	    @HttpMethod(HttpMethodType.GET)
+	    @RequireLogin(false)
+	    public void listardistritos() throws IOException, Exception {
+	    	List<Distrito> distritos = null;
+	    	Departamento depa = new Departamento();
+	    	depa.setId(Integer.parseInt(request.getParameter("coddep")));
+	    	
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            distritos = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listardistritos(depa);
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(distritos));
+	            out.close();
+	        }
+	    }
+	    @HttpMethod(HttpMethodType.GET)
+	    @RequireLogin(false)
+	    public void listarespecialidades() throws IOException, Exception {
+	    	List<Especialidad> especialidades = null;
+	    	Facultad fac = new Facultad();
+	    	fac.setId(Integer.parseInt(request.getParameter("codfac")));
+	    	
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            especialidades = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listarespecialidades(fac);
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(especialidades));
+	            out.close();
+	        }
+	    }
+	    @HttpMethod(HttpMethodType.GET)
+	    @RequireLogin(false)
+	    public void listarmodalidades() throws IOException, Exception {
+	    	List<ModalidadIngreso> modalidades = null;
+	    	
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            modalidades = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listarmodalidades();
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(modalidades));
+	            out.close();
+	        }
+	    }
 }

@@ -1,6 +1,7 @@
 package edu.usmp.fia.taller.mallacurricular.action;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -42,6 +43,40 @@ public class ListaCursosISServlet extends ActionServlet {
 		List<T_course> cursos8 = factory.getMallaCurricular().findAl8IS();
 		List<T_course> cursos9 = factory.getMallaCurricular().findAl9IS();
 		List<T_course> cursos10 = factory.getMallaCurricular().findAl10IS();
+		
+		for (Iterator<T_course> iter = cursos11.iterator(); iter.hasNext();) {
+			T_course temp = iter.next();
+			if (temp.getId() == 90671) {
+				cursos6.add(temp);
+			}
+			if (temp.getId() == 90672) {
+				cursos7.add(temp);
+			}
+			if (temp.getId() == 90665) {
+				cursos7.add(temp);
+			}
+			if (temp.getId() == 91124) {
+				cursos8.add(temp);
+			}
+			if (temp.getId() == 90861) {
+				cursos8.add(temp);
+			}
+			if (temp.getId() == 90659) {
+				cursos8.add(temp);
+			}
+			if (temp.getId() == 90658) {
+				cursos9.add(temp);
+			}
+			if (temp.getId() == 90660) {
+				cursos9.add(temp);
+			}
+			if (temp.getId() == 90085) {
+				cursos9.add(temp);
+			}
+			if (temp.getId() == 90666) {
+				cursos10.add(temp);
+			}
+		}
 
 		request.setAttribute("cursos", cursos);
 		request.setAttribute("cursos2", cursos2);
@@ -53,7 +88,6 @@ public class ListaCursosISServlet extends ActionServlet {
 		request.setAttribute("cursos8", cursos8);
 		request.setAttribute("cursos9", cursos9);
 		request.setAttribute("cursos10", cursos10);
-		request.setAttribute("cursos11", cursos11);
 		// response.sendRedirect("/MallaCurricular/listaCursosIS.jsp");
 		request.getRequestDispatcher("MallaCurricular/listaCursosIS.jsp").forward(request, response);
 
