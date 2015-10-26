@@ -68,7 +68,7 @@ $(document).ready(function () {
     		});
     		
     	});
-    	var ajaxdata={'f':'registroCursos','convalidaciones':JSON.stringify(convalidacionalumno)};
+    	var ajaxdata={'f':'registrarCursos','convalidaciones':JSON.stringify(convalidacionalumno)};
     	$.ajax({
 			url : "../registrodatos",
 			data : ajaxdata,
@@ -86,6 +86,17 @@ $(document).ready(function () {
 		});
     	
     });
+    
+    toastr.options = {
+            "timeOut": 3000,
+            newestOnTop: false,
+            hideDuration: 500,
+            "extendedTimeOut": 4000,
+            "closeButton": true,
+            "positionClass": "toast-bottom-right",
+            "debug": false,
+            "tapToDismiss": false
+        };
     
 });
 
