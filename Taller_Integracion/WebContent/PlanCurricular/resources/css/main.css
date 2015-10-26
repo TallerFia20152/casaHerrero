@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+body {
+	font-family: "Trebuchet MS", "Helvetica", "Arial", "Verdana",
+		"sans-serif";
+	font-size: 12px;
+}
+
+#toolbar {
+	font-family: "Trebuchet MS", "Helvetica", "Arial", "Verdana",
+		"sans-serif";
+	/*font-size: 90%;*/
+	padding: 5px;
+}
+
+button {
+	margin: 1px 0px 1px 0px;
+}
+.tDnD_whileDrag td {
+	background-color: #DEB2BE;
+	-webkit-box-shadow: 6px 3px 5px #555, 0 1px 0 #ccc inset, 0 -1px 0 #ccc
+		inset;
+}
+
+.tDnD_whileDrag td:last-child {
+	-webkit-box-shadow: 1px 8px 6px -4px #555, 0 1px 0 #ccc inset, 0 -1px 0
+		#ccc inset;
+}
+
+a#a-toggle-all {
+	text-decoration: none;
+	font-size: 24px;
+}
+
+.table-curriculum {
+	border: 1px #B3B3B3 solid;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    margin-top: 5px;
+    margin-bottom: 1px;
+    width: 100%;
+}
+
+.table-curriculum th {
+    border: 1px #B3B3B3 solid;
+    padding: 4px;
+    background:#6B6B6B;
+    color: #FFFFFF;
+    height: 20px;
+}
+
+.table-curriculum td {
+    border: 1px #B3B3B3 solid;
+    padding: 4px;
+    vertical-align: center;
+}
+
+td.subtitle {
+	font-family: Verdana;
+	font-weight: bold;
+	text-align: center;
+	color: #6B6B6B;
+}
+
+.label {
+	display: block;
+    float:left;
+    width: 130px;
+}
+
+.field {
+	width: 430px;	
+}
+
+.error-message {
+	color: 	#FF0000;
+}

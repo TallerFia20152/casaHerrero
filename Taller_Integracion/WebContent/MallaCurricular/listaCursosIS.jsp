@@ -29,7 +29,7 @@ body {
 <style type="text/css">
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/main.js"></script>
+<script src="MallaCurricular/js/main.js"></script>
 	
 </head>
 
@@ -47,18 +47,14 @@ body {
 			<%@include file="/MallaCurricular/header.jsp"%>
 			
 			<div class="position">
-		<!-- importante version de cuross flecha punteada y normal-->
-		<!-- script -->
 		<script type="text/javascript"
 			src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
 		<script type="text/javascript"
 			src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 		<script type="text/javascript"
 			src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
-		<script type="text/javascript"
-			src="MallaCurricular/jquery.jsPlumb-1.3.3-all.js"></script>
-		<script type="text/javascript"
-			src="MallaCurricular/jquery.jsPlumb.Flowchart.js"></script>
+		<script type="text/javascript" src="MallaCurricular/jquery.jsPlumb-1.3.3-all.js"></script>
+		<script type="text/javascript" src="MallaCurricular/jquert.jsPlumb.Flowchart.js"></script>
 
 		<!--  -->
 		<%@ page import="java.util.List"%>
@@ -95,10 +91,6 @@ body {
 		<%
 			List<T_course> cursos10 = (List<T_course>) request.getAttribute("cursos10");
 		%>
-		<%
-					List<T_course> cursos11 = (List<T_course>) request.getAttribute("cursos11");
-				%>
-			
 		<div id="demo" style="background: white; overflow: hidden;">
 
 
@@ -287,6 +279,14 @@ body {
 				<%
 					}
 				%>
+				
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
 
 			</div>
 
@@ -313,6 +313,14 @@ body {
 				<%
 					}
 				%>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
+				
 
 			</div>
 
@@ -339,6 +347,20 @@ body {
 				<%
  					}
  				%>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
 
 			</div>
 
@@ -365,89 +387,42 @@ body {
 				<%
 					}
 				%>
-			</div>
-						
-			<!--Electivo SI -->
-		
-		
-			<div id="IS"
-				style="background: WHITE; width: 10%; float: left; margin-right: 1%;">
-				<!--dividir2 width: 10%; float: left; margin-left: 0%;"> -->
-			
-				<%
-								for (T_course curso : cursos11) {
-							%>
-			
-				<div class="window<%=curso.getMencion()%>_M" id="<%=curso.getId()%>_estilo"
-					<% if (curso.getTop() != null && curso.getLeft() != null) { %>
-					style="top: <%=curso.getTop()%>; left: <%=curso.getLeft() %>"
-					<% } %>
-				>
-					<!-- style="border-color: green;"> -->
-					<%=curso.getId()%>
-					<br>
-					<%=curso.getName()%>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
 
 				</div>
-				<br><br><br>
+				<br> <br> <br> <br>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
 
-				<%
-					}
-				%>
+				</div>
+				<br> <br> <br> <br>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
+				<div class="windowELibre"
+					id="_estilo">
+					<!-- 	style="border-color: green;"> -->
+					<br>Electivo Libre
+
+				</div>
+				<br> <br> <br> <br>
 			</div>
-			
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 521.5px; left: 813.969px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>
-
-		<div class="window3_M" id="90933_estilo"
-					style="top: 521.5px; left: 946.297px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 249.5px; left: 1069.95px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>		
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 521.5px; left: 1069.95px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>		
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 453.5px; left: 1069.95px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>		
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 249.5px; left: 1194.61px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 385.5px; left: 1194.61px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 453.5px; left: 1194.61px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>
-		
-		<div class="window3_M" id="90933_estilo"
-					style="top: 521.5px; left: 1194.61px; background-color: #80ff80;"">
-			<br>Electivo Libre
-		</div>
 		
 		<%----%>
 		<script>
 			jsPlumb.bind("ready", function() {
 				jsPlumb.setRenderMode(jsPlumb.SVG);
 
-			//-------------------------------by chino{^^}----------------------------------------------------
+			//-------------------------------by chinoAdo{^^}----------------------------------------------------
 				jsPlumb.Defaults.DragOptions = {
 				//cursor : 'pointer',
 					cursor : 'move',
@@ -463,16 +438,26 @@ body {
 							//endpointStyle:{ fillStyle:"white", outlineColor:"white" },
 							//connectorStyle :  {  lineWidth : 3 ,  strokeStyle : 'blue',outlineColor:"white",outlineWidth:3  }, 
 							dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
-							isSource : false ,  endpoint : [  "Dot" ,  {  radius:4//radius : 0.1
+							isSource : false ,  endpoint : [  "Dot" ,  {  radius : 4//radius : 0.1
 								}  ]  }; 
 					var  targetEndpoint  =  { anchor : [  "LeftMiddle" ] ,maxConnections : 5,
 						
 							dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
 							isTarget : true,endpoint : [  "Rectangle" ,  {  width : 0.1 ,//width : 0.1 ,
 								height : 5  }  ]  }; //1
+					var  sourceEndpointE  =  {  anchor : [  "RightMiddle" ],maxConnections : 5, 
+										dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
+										isSource : false ,  endpoint : [  "Dot" ,  {  radius : 4//radius : 0.1
+											}  ]  }; 
+					var  targetEndpointE  =  { anchor : [  "LeftMiddle" ] ,maxConnections : 5,
+									
+										dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
+										isTarget : true,endpoint : [  "Rectangle" ,  {  width : 0.1 ,//width : 0.1 ,
+											height : 5  }  ]  }; //1								
+								
 					var  source1EndpointExc  =  {  anchor : [ 1, 0.8, -1,0.5 ],maxConnections : 5, 
 										dropOptions : {tolerance : "touch",hoverClass : "dropHover"},
-										isSource : false ,  endpoint : [  "Dot" ,  {  radius:4//radius : 0.1
+										isSource : false ,  endpoint : [  "Dot" ,  {  radius : 4//radius : 0.1
 											}  ]  }; 
 					var  target1EndpointExc  =  { anchor :  [  0, 0.8, -1,0.5 ],//anchor:[  "LeftMiddle" ] ,
 										maxConnections : 5,
@@ -532,6 +517,7 @@ body {
 					var t9exc91161=jsPlumb . addEndpoint (  "91161_estilo" ,  target9EndpointExc  );//tecnologiainfo3
 				
 					
+					/*  */
 					var t90002=jsPlumb . addEndpoint (  "90002_estilo" ,  targetEndpoint  ); //lenguaje
 					var s90002=jsPlumb . addEndpoint (  "90002_estilo" ,  sourceEndpoint  ); //lenguaje
 					var s90005=jsPlumb . addEndpoint (  "90005_estilo" ,  sourceEndpoint  );//actividades1
@@ -618,21 +604,59 @@ body {
 					//ciclo10
 					var t90070=jsPlumb . addEndpoint (  "90070_estilo" ,  targetEndpoint  );//PROYECTO 2
 					//var s90070=jsPlumb . addEndpoint (  "90070_estilo" ,  sourceEndpoint  );//PROYECTO 2
-					
-					/* var t90003=jsPlumb . addEndpoint (  "90003_estilo" ,  targetEndpoint  );
-					var s90003=jsPlumb . addEndpoint (  "90003_estilo" ,  sourceEndpoint  ); */
-					jsPlumb.connect({source : s90002,target : t90003,//lenguaje, filosofia
-											
-							paintStyle : {dashstyle : "0",strokeStyle : "purple",//line color con y flecha
-							lineWidth : 2
+					/*ELECTIVO IS */
+					var te90671 =jsPlumb . addEndpoint (  "90671_estilo" ,  targetEndpointE  );
+					var se90671 =jsPlumb . addEndpoint (  "90671_estilo" ,  sourceEndpointE  );//Programación I
+					var te90672 =jsPlumb . addEndpoint (  "90672_estilo" ,  targetEndpointE  );
+					var se90672 =jsPlumb . addEndpoint (  "90672_estilo" ,  sourceEndpointE  );//Programación II
+					var te90665 =jsPlumb . addEndpoint (  "90665_estilo" ,  targetEndpointE  );
+					var se90665 =jsPlumb . addEndpoint (  "90665_estilo" ,  sourceEndpointE  );//Fundamentos de Diseño Web
+					var te90861 =jsPlumb . addEndpoint (  "90861_estilo" ,  targetEndpointE  );
+					//var se90861 =jsPlumb . addEndpoint (  "90861_estilo" ,  sourceEndpointE  );//Administración de Base de Datos
+					var te91124 =jsPlumb . addEndpoint (  "91124_estilo" ,  targetEndpointE  );
+					var se91124 =jsPlumb . addEndpoint (  "91124_estilo" ,  sourceEndpointE  );//Pruebas de Software
+					var te90659 =jsPlumb . addEndpoint (  "90659_estilo" ,  targetEndpointE  );
+					var se90659 =jsPlumb . addEndpoint (  "90659_estilo" ,  sourceEndpointE  );//Desarrollo de Aplicaciones I
+					var te90658 =jsPlumb . addEndpoint (  "90658_estilo" ,  targetEndpointE  );
+					//var se90658 =jsPlumb . addEndpoint (  "90658_estilo" ,  sourceEndpointE  );//Calidad de Software
+					var te90085 =jsPlumb . addEndpoint (  "90085_estilo" ,  targetEndpointE  );
+					//var se90085 =jsPlumb . addEndpoint (  "90085_estilo" ,  sourceEndpointE  );//Investigación Operativa I
+					var te90660 =jsPlumb . addEndpoint (  "90660_estilo" ,  targetEndpointE  );
+					//var se90660 =jsPlumb . addEndpoint (  "90660_estilo" ,  sourceEndpointE  );//Desarrollo de Aplicaciones II
+					var te90666 =jsPlumb . addEndpoint (  "90666_estilo" ,  targetEndpointE  );
+					//var se90666 =jsPlumb . addEndpoint (  "90666_estilo" ,  sourceEndpointE  );//Inteligencia Artificial y Robótica
+ 
+					/* LA CONEXION CAUSA DESCONEXIONES O VARIABLE GENERAL NO ESTA DECLARADA  */
+					jsPlumb.connect({source : s90069,target : te90671,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//Algoritmos y Estructura de Datos II,Programación I
+					jsPlumb.connect({source : se90671,target : te90672,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//ProgramaciónI,Programación II
+					jsPlumb.connect({source : se90672,target : te90666,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//ProgramaciónII,Inteligencia Artificial y Robótica
+					jsPlumb.connect({source : s90137,target : te91124,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//Ingeniería de Software II,Pruebas de Software
+					jsPlumb.connect({source : se91124,target : te90658,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+						,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//Pruebas de Software,Calidad de Software
+						jsPlumb.connect({source : s90069,target : te90665,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+							,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//Algoritmos y Estructura de Datos II,Fundamentos de Diseño Web
+						jsPlumb.connect({source : se90665,target : te90659,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+							,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//Fundamentos de Diseño Web,Desarrollo de Aplicaciones I
+						jsPlumb.connect({source : se90659,target : te90660,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+							,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//Desarrollo de Aplicaciones I,Desarrollo de Aplicaciones II
+						jsPlumb.connect({source : s90089,target : te90861,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+							,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//TDBD,DBA
+						jsPlumb.connect({source : s90060,target : te90085,paintStyle : {dashstyle : "1",lineWidth : 2,strokeStyle : "#04B4AE"
+							,outlineColor:"white",outlineWidth:-1},overlays:[["Arrow" , { width:12, length:12, location:1}],],});//Estadistica y Probabilidades II ,Investigación Operativa I
+						//-------------*
+					/*  */
+					jsPlumb.connect({source : s90002,target : t90003,paintStyle : {dashstyle : "0",strokeStyle : "purple",//line color con y flecha
+					lineWidth : 2
 						},outlineColor:"white",outlineWidth:2,// endpoint : [  "Dot" ,"red"],
 						/*  endpointStyle:{ fillStyle:"lightgray", outlineColor:"gray" }, */
-						 overlays:[ 
-						            ["Arrow" , { width:12, length:12, location:1 }],//by chino
+						 overlays:[ ["Arrow" , { width:12, length:12, location:1 }],//by chino
 						            /*  [ "Label", { label:"-", location:0.5, id:"myLabel" } ] */
-						           ],// endpointStyle:{ fillStyle:"purple", outlineColor:"black", outlineWidth:1 }
-						        
-					});
+						           ],// endpointStyle:{ fillStyle:"purple", outlineColor:"black", outlineWidth:1 }   
+					});//lenguaje, filosofia	
 					jsPlumb.connect({source : s90005,target : t90020,paintStyle : {dashstyle : "0",lineWidth : 2,strokeStyle : "purple"
 						,outlineColor:"white",outlineWidth:2},overlays:[["Arrow" , { width:12, length:12, location:1 }],], });//actividades 1 ,2
 					jsPlumb.connect({source : s90971,target : t91155,paintStyle : {dashstyle : "0",lineWidth : 2,strokeStyle : "purple"
@@ -728,7 +752,6 @@ body {
 			
 			});
 		</script>
-		
 		
 		
 		
