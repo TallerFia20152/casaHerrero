@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -445,14 +444,13 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 		try {
 
-			System.out.println("SCRIPT NUEVO");
 			sql = new StringBuffer();
 			sql.append(" SELECT curso_id,c.nombre ");
 			sql.append(" FROM t_pre_matricula_alumno al, t_curso c ");
 			sql.append(" where alumno_id='"+ codigoAlumno+ "'");
 			sql.append(" AND c.id=al.curso_id ");
 			
-			System.out.println("QUERY SCRIPT PREFERIBLE => " + sql.toString());
+			//System.out.println("QUERY SCRIPT PREFERIBLE => " + sql.toString());
 
 			con = MySqlDAOFactory.obtenerConexion();
 
@@ -492,9 +490,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		StringBuffer query = null;
 
 		try {
-
-			System.out.println("SCRIPT NUEVO");
-
 			query = new StringBuffer();
 			query.append(
 					"SELECT cu.id as cod_curso ,cu.nombre as nom_curso, ca.estado as estado, pc.ciclo_id, cap.nombre as area, pc.creditos,cu.estado");
@@ -523,14 +518,14 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				cursoAlumno.setCurso(rs.getString("nom_curso"));
 				cursoAlumno.setCredito(rs.getString("creditos"));
 				cursoAlumno.setEstado(rs.getString("estado"));
-				listaCurso.add(cursoAlumno);
-				listaCurso = FiltrarCursoXCredito(listaCurso);
+				listaCurso.add(cursoAlumno);				
 			}
+			listaCurso = FiltrarCursoXCredito(listaCurso);
 
 			return listaCurso;
 
 		} catch (Exception e) {
-			System.out.println("ERROR SIMULACION INICIAL");
+			System.out.println("ERROR SIMULACION PROBABLE POR ALUMNO");
 			return null;
 		} finally {
 			LimpiarConexion(con, query, ps, rs);
@@ -952,6 +947,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 			if (generar)
 				con.commit();
+			
 			return generar;
 
 		} catch (Exception e) {
@@ -997,42 +993,21 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 	}
 
 	@Override
-	public List<Area> SimulacionProbable() throws Exception {
-
-		List<Alumno> listaAlumno = null;
+	public List<Area> SimulacionProbable() throws Exception 
+	{
 		List<Area> listaArea = null;
 
 		try {
-
-			List<Curso> listaCursoProbables = new ArrayList<>();
-			listaAlumno = ListarAlumnos();
-
-			listaArea = ObtenerAreaCursos();
-
-			// Area areaTemporal= new Area();
-			Curso cursoTemporal = null;
-
-			int cantidadAlumnos = 0;
-
-			for (Alumno alumno : listaAlumno) {
-				listaCursoProbables = CursosProbables(Integer.toString(alumno.getCodUSMP()));
-
-				for (Area area : listaArea) {
-					for (int i = 0; i < area.getCursoList().size(); i++) {
-						for (int j = 0; j < listaCursoProbables.size(); j++) {
-							if (area.getCursoList().get(i).getCodigo() == listaCursoProbables.get(j).getCodigo()) {
-								System.out.println("CANTIDAD");
-								cantidadAlumnos = area.getCursoList().get(i).getCantidadAlumnos() + 1;
-								cursoTemporal = new Curso();
-								cursoTemporal = area.getCursoList().get(i);
-								cursoTemporal.setCantidadAlumnos(cantidadAlumnos);
-								Collections.replaceAll(area.getCursoList(), area.getCursoList().get(i), cursoTemporal);
-							}
-						}
-					}
-				}
+			/*
+			for(int i=0;i<100;i++)
+			{
+			System.out.println("INGRESA A SIMULAR");
 			}
-
+			*/
+			System.out.println("INGRESA A SIMULAR");
+			listaArea=ObtenerProbablesCursosCantidad();
+			System.out.println("TERMINA SIMULACION");
+			
 			return listaArea;
 
 		} catch (Exception e) {
@@ -1040,6 +1015,87 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			return null;
 		}
 	}
+	
+	private List<Area> ObtenerProbablesCursosCantidad() throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StringBuffer query = null;
+
+		List<Area> listaArea = null;
+		List<Area> listaAreaEnvio = null;
+		List<Curso> listaCurso = null;
+		List<Alumno> listaAlumno = null;
+		Curso curso = null;
+		try {
+			listaArea = ObtenerArea();
+			listaAreaEnvio = new ArrayList<Area>();
+			
+			listaAlumno = ListarAlumnos();
+			System.out.println("LISTADO DE ALUMNOS " + listaAlumno);
+			
+			System.out.println("CANTIDAD DE ALUMNOS " + listaAlumno.size());
+			
+			for (Area area : listaArea) {
+				query = new StringBuffer();
+				query.append("SELECT ca.nombre,d.curso_id,t.nombre ");
+				query.append(" FROM t_plan_curricular_detalle d , t_curso_area ca, t_curso t ,t_curso_apto a");
+				query.append(" WHERE d.curso_area_id=ca.id");
+				query.append(" AND ca.id= " + area.getId());
+				query.append(" AND d.curso_id=t.id");
+				query.append(" AND a.curso_id=d.curso_id");
+				query.append(" AND a.curso_id=t.id");
+				query.append(" Group by 2");
+
+				// if (con==null)
+				con = MySqlDAOFactory.obtenerConexion();
+
+				System.out.println("SCRIPT " + query);
+
+				ps = con.prepareStatement(query.toString());
+				rs = ps.executeQuery();
+
+				listaCurso = new ArrayList<Curso>();
+				while (rs.next()) {
+					curso = new Curso();
+					curso.setCodigo(rs.getString("d.curso_id"));
+					curso.setCurso(rs.getString("t.nombre"));
+					
+					for(Alumno alumno:listaAlumno)
+					{
+						System.err.println("ALUMNOOOO");
+						System.out.println("ALUMNO " + alumno.getCodUSMP());
+						List<Curso> listaCursoProbables = CursosProbables(Integer.toString(alumno.getCodUSMP()));
+
+						//System.out.println("CURSO PROBABLES " + listaCursoProbables);
+						System.out.println("CURSO " + curso.getCodigo());
+						for(Curso cursoProbableAlumno:listaCursoProbables)
+						{
+							System.out.println("CURSO PROBABLE ALUMNO " + cursoProbableAlumno.getCodigo());
+							
+							if(curso.getCodigo().trim().equals(cursoProbableAlumno.getCodigo().trim()))
+							{
+								curso.setCantidadAlumnos(curso.getCantidadAlumnos()+1);
+								System.out.println("CANTIDAD " + curso.getCantidadAlumnos());
+							}
+						}
+					}					
+					listaCurso.add(curso);
+				}
+				area.setCursoList(listaCurso);
+				listaAreaEnvio.add(area);
+			}
+			return listaAreaEnvio;
+
+		} catch (Exception e) {
+			System.out.println("ERROR AL OBTENER AREAS CURSOS=> " + e.getMessage());
+			return null;
+		} finally {
+			LimpiarConexion(con, query, ps, rs);
+		}
+
+	}
+	
+	
 
 	private Integer CantidadAlumnoPreferencial(String codigoCurso) throws Exception {
 		PreparedStatement ps = null;

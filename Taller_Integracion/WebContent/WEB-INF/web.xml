@@ -16,7 +16,8 @@
   <!-- SMTP settings -->
 	<context-param>
 		<param-name>host</param-name>
-		<param-value>smtp.gmail.com</param-value>
+		<!-- <param-value>smtp.gmail.com</param-value> -->
+		<param-value>outlook.office365.com</param-value>
 	</context-param>
 
 	<context-param>
@@ -26,7 +27,7 @@
 
 	<context-param>
 		<param-name>user</param-name>
-		<param-value>rogger.123.2</param-value>
+		<param-value>rogger_torres@usmp.pe</param-value>
 	</context-param>
 
 	<context-param>
