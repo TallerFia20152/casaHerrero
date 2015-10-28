@@ -7,8 +7,15 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="css/selectize.default.css" rel="stylesheet" type="text/css" />
+	<link href="css/toastr.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/convalidacion.css" rel="stylesheet" type="text/css" />
 	<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
-	<script src="js/convalidarCursos.js" type="text/javascript"></script>
+	<script src="js/jquery.blockUI.js" type="text/javascript"></script>
+	<script src="js/toastr.min.js" type="text/javascript"></script>
+	<script src="js/selectize.min.js" type="text/javascript"></script>
+	<script src="js/selectizes/alumnoSelectize.js" type="text/javascript"></script>
+	<script src="js/convalidacion.js" type="text/javascript"></script>
 	<title>Taller Proyectos</title>
 	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 </head>
@@ -25,20 +32,74 @@
 		<div class="main-content">
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 			
+			 <div class="row">
 			 
 			 
-			 
-			 <h1 style="text-align: center">HISTORICO DE CONVALIDACIONES</h1>
+<!-- 			 <h1 style="text-align: center">HISTORICO DE CONVALIDACIONES</h1> -->
         <!--Cursos del Plan-->
-        <div class="col-md-6">
+        <section id="SeleccionarAlumno">
+						<div>
+							<div id="label">
+								<span>ALUMNO</span>
+							</div>
+							<div>
+								<input type="text" id="comboAlumno"
+									placeholder="Ingrese primer apellido o código de alumno para comenzar" />
+							</div>
+						</div>
+					</section>
+					
+
+					<div id="imprcab">
+						<fieldset>
+							<legend>Datos Generales</legend>
+							<table style="width: 100%">
+								<tr id="datosalumno" style="height: 40px;width: 70%">
+									<td class="subsubtit" style="width: 50px;">Código:</td>
+									<td style="width: 100px;">
+										<div id="codigo"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Apellidos:</td>
+									<td style="width: 120px;">
+										<div id="apellidos"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Nombres:</td>
+									<td style="width: 120px;">
+										<div id="nombres"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Facultad:</td>
+									<td style="width: 150px;">
+										<div id="facultad"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Escuela:</td>
+									<td style="width: 150px;">
+										<div id="escuela"></div>
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+					</div>
+        
+        
+        
+        <hr>
+        <hr style="visibility: hidden;">
+        <hr style="visibility: hidden;">
+        <h1 style="text-align: center"> PROCESO DE CONVALIDACI&Oacute;N</h1>
+        <hr style="visibility: hidden;">
+        <hr style="visibility: hidden;">
+        
+        
+        <div class="col-md-8">
             <div>
-                <h2 style='text-align:center;'>Plan de Estudios del alumno</h2>
+                <h2 style='text-align:center;' id="nomplan"></h2>
                 <table style="width: 100%" class="table table-hover table-bordered ">
                     <thead>
                         <tr style='text-align:center;font-size:14px;'>
                             <th style="text-align: center">C&oacute;digo</th>
                             <th style="text-align: center">Curso</th>
                             <th style="text-align: center">Cr&eacute;dito</th>
+                            <th style="visibility: hidden;">Curso Origen</th>
                         </tr>
                     </thead>
                     <tbody id="cursosplan">
@@ -47,43 +108,25 @@
 
             </div>
         </div>
-        <!--Cursos de Alumno -->
-        <div class="col-md-6">
-            <div>
-                <h2 style='text-align:center;'>Cursos Aprobados</h2>
-                <table style="width: 100%" class="table table-hover table-bordered">
+			<div class="col-md-4">
+					<div>
+                <h2 style='text-align:center;'>Cursos Sin Hist&oacute;rico</h2>
+                <table style="width: 100%" class="table table-hover table-bordered ">
                     <thead>
                         <tr style='text-align:center;font-size:14px;'>
                             <th style="text-align: center">C&oacute;digo</th>
                             <th style="text-align: center">Curso</th>
-                            <th style="text-align: center">Cr&eacute;dito</th>
-                            <th style="text-align: center">Convalidacion</th>
                         </tr>
                     </thead>
                     <tbody id="cursosorigen">
                     </tbody>
-
                 </table>
+
             </div>
-        </div>
-        <!--        <div class="col-md-offset-2 col-md-8">
-                    <div>
-                        <h2 style='text-align:center;'>Convalidaciones</h2>
-                        <table style="width: 100%" class="table table-hover table-striped">
-                            <thead>
-                                <tr style='text-align:center;font-size:14px;'>
-                                    <th style="text-align: center">Asignatura(Universidad Origen)</th>
-                                    <th style="text-align: center"></th>
-                                    <th style="text-align: center">Asignatura(USMP)</th>
-                                    <th style="text-align: center">Credito</th>
-                                </tr>
-                            </thead>
-                            <tbody id="convalidaciones">
+								
+			</div>        
         
-                            </tbody>
-                        </table>
-                    </div>
-                </div>-->
+   
         <div class="col-md-offset-2 col-md-8">
             <div style="text-align: center;">
                 <input  id="terminar" type="button" class="btn btn-primary" value="Terminar Evaluación"/>
@@ -91,7 +134,7 @@
             </div>
         </div>
 			
-			
+		</div>	
 
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>

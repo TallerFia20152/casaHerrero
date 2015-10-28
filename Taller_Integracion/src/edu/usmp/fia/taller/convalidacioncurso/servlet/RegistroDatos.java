@@ -126,4 +126,45 @@ public class RegistroDatos extends ActionServlet {
         }
 
     }
+    
+    
+    
+
+    @HttpMethod(HttpMethodType.POST)
+    @RequireLogin(false)
+    public void registrarConvalidacion() throws IOException, Exception {
+    	List<Convalidacion> convalidaciones;
+        String listjson = request.getParameter("listadata");
+        
+        JsonElement json = new JsonParser().parse(listjson);
+        JsonArray array = json.getAsJsonArray();
+        Iterator iterator = array.iterator();
+        convalidaciones = new ArrayList<>();
+        System.out.println(convalidaciones);	
+        while(iterator.hasNext()){
+        	JsonElement json1 = (JsonElement) iterator.next();
+        	Gson gson = new Gson();
+        	Convalidacion conva = gson.fromJson(json1, Convalidacion.class);
+        	convalidaciones.add(conva);
+        	
+        }
+        
+        DAOFactory oDAOFactory;
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        Gson gson = new Gson();
+        try {
+            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+            oDAOFactory.getConvalidacion().getHistoriaConvalidacion().registrarConvalidaciones(convalidaciones);;
+            mensaje="OK";
+        } catch (Exception e) {
+            
+            mensaje=e.getMessage();
+            throw e;
+        } finally {
+            out.print(gson.toJson(mensaje));
+            out.close();
+        }
+
+    }    
 }

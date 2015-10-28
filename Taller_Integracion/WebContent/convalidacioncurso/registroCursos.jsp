@@ -10,13 +10,13 @@
 <title>Taller Proyectos</title>
 <jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 <link href="css/selectize.default.css" rel="stylesheet" type="text/css" />
-<link href="css/inicio.css" rel="stylesheet" type="text/css" />
+<link href="css/registroCursos.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
 <script src="js/selectize.min.js" type="text/javascript"></script>
 <script src="js/selectizes/alumnoSelectize.js" type="text/javascript"></script>
 <script src="js/selectizes/universidadSelectize.js"
 	type="text/javascript"></script>
-<script src="js/inicio.js" type="text/javascript"></script>
+<script src="js/registroCursos.js" type="text/javascript"></script>
 </head>
 
 

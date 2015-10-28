@@ -155,26 +155,45 @@ public class Gestionar_Docente extends ActionServlet {
 		}
 	}
 	
+	@HttpMethod(HttpMethodType.POST)
+	@RequireLogin(true)
+	public void guardarDisponibilidadDocente() throws Exception {
+
+		String id_profesor=request.getParameter("codigo");
+		String json_cursosAptos=request.getParameter("json_curso");
+		
+		DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+		DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
+			
+			if(!json_cursosAptos.equals("[]"))
+					regdoce.regDocente().guardarCursosAptos(json_cursosAptos, id_profesor);
+
+			JSONObject  mensaje=new JSONObject();
+				mensaje.put("exito", true);
+				mensaje.put("mensaje", "Se registro la disponibilidad satisfactoriamente");
+				
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			PrintWriter out = response.getWriter();
+			out.print(mensaje);
+	}
+	
 	@HttpMethod(HttpMethodType.GET)
 	@RequireLogin(true)
 	public void cargarListas() throws Exception {
 		
 		try {
-			
-			
 			DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			
 			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
 			Vector<Dia> dias = regdoce.regDocente().listarDias();
 			Vector<Hora> horas=regdoce.regDocente().listarHoras();
 			Vector<Personaa> docentes=regdoce.regDocente().listarDocentes();
 			Vector<Curso> cursos=regdoce.regDocente().listarCursos();
+			
 			request.setAttribute("dias", dias);
 			request.setAttribute("horas", horas);
 			request.setAttribute("docentes", docentes);
 			request.setAttribute("cursos", cursos);
-			
-			
 			
 			request.getRequestDispatcher("/RegistroDocente/registroDisponibilidadDocente.jsp").forward(request, response);
 			
@@ -183,5 +202,64 @@ public class Gestionar_Docente extends ActionServlet {
 			System.out.print(e.getMessage());
 		}
 	}
+	
+	
+	@HttpMethod(HttpMethodType.GET)
+	@RequireLogin(true)
+	public void SeleccionarDocente() throws Exception {
 
+		String codigo=request.getParameter("dato");
+		System.out.println("en tre al servlet SeleccionarDocente y el godigo es "+codigo);
+		try {
+			
+			
+			DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
+			
+			Personaa docente = regdoce.regDocente().buscarDocente(codigo);
+			Vector<CursoAptoProfesor> cursos=regdoce.regDocente().buscarCursoAptos(codigo);
+			request.setAttribute("cursosAptos", cursos);	
+			request.setAttribute("docente", docente);
+			
+			request.getRequestDispatcher("Gestionar_Docente?f=cargarListas").forward(request, response);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.print(e.getMessage());
+		}
+	}
+	
+	
+	@HttpMethod(HttpMethodType.POST)
+	@RequireLogin(true)
+	public void SeleccionarCurso() throws Exception {
+		String codigo=request.getParameter("dato");
+		System.out.println("en tre al servlet SeleccionarDocente y el godigo es "+codigo);
+		Vector<Curso> cursos1 = null;
+		try {
+			
+			cursos1=new Vector<Curso>();
+			DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
+			Curso curso=regdoce.regDocente().buscarCurso(codigo);
+			
+			String json = new Gson().toJson(curso);
+
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			PrintWriter out = response.getWriter(); 
+			
+			out.print(json.toString());
+			/*
+			cursos1.addElement(curso);
+			
+			request.setAttribute("cursos1", cursos1);
+			
+			request.getRequestDispatcher("Gestionar_Docente?f=cargarListas").forward(request, response);
+			*/
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.print(e.getMessage());
+		}
+	}
 }
