@@ -12,7 +12,7 @@ $( document ).ready(function() {
     }
 	
 	// init table use data
-    $table = $('#table_telefono,#table_email,#table_documento,#table_gradoAcademico').bootstrapTable({
+    $table = $('#table_telefono,#table_email,#table_documento,#table_gradoAcademico,#table_curso,#table_curso_modal,#table_rangoHoras').bootstrapTable({
         data: initData()
     });
     
@@ -46,6 +46,31 @@ $( document ).ready(function() {
 	            id_local: numero
 	        });
 			$('#documento').val('');
+			return rows;
+		}
+		else
+			alert("Complete todos los campos de documento");
+		return null;
+	}
+	function append_rangoHoras(){
+		var dia=$('#cdias option:selected').text();
+		var rangoinicio=$('#rangoinicio option:selected').text();
+		var rangofin=$('#rangofin option:selected').text();
+		var diaL=$('#cdias option:selected').val();
+		var rangoinicioL=$('#rangoinicio option:selected').val();
+		var rangofinL=$('#rangofin option:selected').val();
+		if(dia!=''&&rangoinicio!=''){
+			var rows = [];
+			rows.push({
+	            id: -1,
+	            dia: dia,
+	            horaInicio:rangoinicio,
+	            horaFin:rangofin,
+	            diaL: diaL,
+	            horaInicioL:rangoinicioL,
+	            horaFinL:rangofinL,
+	            id_local: generarIdLocal("rangoHoras")
+	        });
 			return rows;
 		}
 		else
@@ -145,8 +170,48 @@ $( document ).ready(function() {
 		}
 		
 	});
+	
+	
+
 
 });
 
 
+function addCursoApto(tabla){
+	var table=$("#table_"+tabla);
+	var tableModal=$("#table_"+tabla+"_modal");
+	var data = tableModal.bootstrapTable('getSelections');
+	var row = [];
+
+	var codigos=$.map(data, function (r) {
+		 row=r;
+		 return r.codigo;
+     });
+	
+	if(row!=null)
+	table.bootstrapTable("append",row);
+
+	tableModal.bootstrapTable('remove', {
+        field: 'codigo',
+        values: codigos
+    });
+}
+
+function removeCursoApto(tabla){
+	var table=$("#table_"+tabla);
+	var tableModal=$("#table_"+tabla+"_modal");
+	var data = table.bootstrapTable('getSelections');
+
+	var codigos=$.map(data, function (r) {
+		 return r.codigo;
+     });
+	//comprobar que e valor no exista en la tabla
+	if(data!=null)
+	tableModal.bootstrapTable("append",data);
+
+	table.bootstrapTable('remove', {
+        field: 'codigo',
+        values: codigos
+    });
+}
 	

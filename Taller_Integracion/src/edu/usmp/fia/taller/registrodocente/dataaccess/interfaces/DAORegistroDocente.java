@@ -2,6 +2,7 @@ package edu.usmp.fia.taller.registrodocente.dataaccess.interfaces;
 
 import java.util.List;
 import java.util.Vector;
+
 import edu.usmp.fia.taller.common.bean.RegistroDocente.*;
 
 public interface DAORegistroDocente {
@@ -14,6 +15,11 @@ public interface DAORegistroDocente {
 	public Vector<Hora> listarHoras()throws Exception;
 	public Vector<Personaa> listarDocentes()throws Exception;
 	public Vector<Curso> listarCursos()throws Exception;
+	public Personaa buscarDocente(String codigo)throws Exception;
+	public Curso buscarCurso(String codigo)throws Exception;
+	public Vector<CursoAptoProfesor> buscarCursoAptos(String profesor_id)throws Exception;
+	public boolean guardarCursosAptos(String json_cusosAptos, String id_profesor)throws Exception;
+	public boolean guardarRangoHoras(String json_rangoHoras, String id_profesor)throws Exception;
 	//INICIO metodos de email
 	public boolean guardarEmail(Email emal) throws Exception;
 	public boolean guardarEmails(String json_email,String id_profesor) throws Exception;

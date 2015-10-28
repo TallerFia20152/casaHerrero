@@ -13,9 +13,8 @@ import org.json.simple.parser.ParseException;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.usmp.fia.taller.common.bean.RegistroDocente.*;
-
-
 import edu.usmp.fia.taller.common.dao.MySqlDAOFactory;
 import edu.usmp.fia.taller.registrodocente.dataaccess.interfaces.DAORegistroDocente;;
 
@@ -116,6 +115,56 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		
 		
 		return false;
+	}
+	
+	@Override
+	public boolean guardarCursosAptos(String json_cusosAptos, String id_profesor) throws Exception {
+
+		Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+		Statement stmt = conexion.createStatement();
+		String sqlDelete[]=insertarCamposDinamicosCursosAptos("t_cursos_aptos_x_profesor",json_cusosAptos,id_profesor);
+		System.out.print(sqlDelete[0]+"\n"+sqlDelete[1]);
+		try {
+			if(!sqlDelete[0].equals(""))
+				stmt.executeUpdate(sqlDelete[0]);
+			if(!sqlDelete[1].equals(""))
+				stmt.executeUpdate(sqlDelete[1]);
+			
+			close(stmt);
+			close(conexion);
+
+			return true;
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		return false;
+	
+	}
+	
+	@Override
+	public boolean guardarRangoHoras(String json_rangoHoras, String id_profesor) throws Exception {
+
+		Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+		Statement stmt = conexion.createStatement();
+		String sqlDelete[]=insertarCamposDinamicosHoras("t_disponibilidad_profesor",json_rangoHoras,id_profesor);
+		
+		try {
+			if(!sqlDelete[0].equals(""))
+				stmt.executeUpdate(sqlDelete[0]);
+			if(!sqlDelete[1].equals(""))
+				stmt.executeUpdate(sqlDelete[1]);
+			
+			close(stmt);
+			close(conexion);
+
+			return true;
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		return false;
+	
 	}
 	
 	
@@ -266,8 +315,10 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		String sqlDelete[]=insertarCamposDinamicosEmail("t_email_profesor",json_emails,"email",id_profesor);
 		
 		try {
-			stmt.executeUpdate(sqlDelete[0]);
-			stmt.executeUpdate(sqlDelete[1]);
+			if(!sqlDelete[0].equals(""))
+				stmt.executeUpdate(sqlDelete[0]);
+			if(!sqlDelete[1].equals(""))
+				stmt.executeUpdate(sqlDelete[1]);
 			
 			close(stmt);
 			close(conexion);
@@ -540,6 +591,113 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 	}
 //----------------------------FIN metodo de Documento
 
+	private String[] insertarCamposDinamicosCursosAptos(String tabla,String data,String id_profesor){
+		String sqls[];
+		String delete="";
+		String insert="";
+		try{
+			 JSONArray json2 =(JSONArray) new JSONParser().parse(data.toString());
+			 //DELETE FROM t_telefono_profesor WHERE `id_telefono` not in (1,3) and `id_profesor`=1
+			 String deleteClausule="";
+			 String insertsNuevos="";
+			 for(int i =0; i<json2.size();i++){
+				 JSONObject jsonObjet= (JSONObject) json2.get(i);
+				 String id=jsonObjet.get("id").toString();
+				 String cursoId=jsonObjet.get("curso_id").toString();
+				 if(!id.equals("-1")){
+					 if(i==0){
+						deleteClausule+="'"+cursoId+"'";
+					 }
+					 else{
+						deleteClausule+=","+"'"+cursoId+"'";
+					 }
+				 }else{
+					
+					 if(i==0){
+						deleteClausule+="'"+cursoId+"'";
+						insertsNuevos+="('"+cursoId+"','"+id_profesor+"','2015-10-12','1'";
+					 }
+					 else{
+						deleteClausule+=","+"'"+cursoId+"'";
+						insertsNuevos+="),('"+cursoId+"','"+id_profesor+"','2015-10-12','1'";
+					 }
+				}
+			 }
+			 
+			 if(!deleteClausule.equals("")){
+				 delete = "DELETE FROM "+tabla+" WHERE curso_id not in ("+deleteClausule+") and profesor_id="+id_profesor;
+			 }
+			 
+			 if(!insertsNuevos.equals("")){
+				 insertsNuevos+=")";
+
+				 insert="INSERT INTO "+tabla+" (curso_id ,profesor_id ,fecha_actualizacion ,estado) VALUES "+insertsNuevos;
+			 }
+			  
+		}
+		catch(ParseException pe){
+			    System.out.println(pe);
+		}
+		sqls = new String[]{delete,insert};
+		return sqls;
+	}
+	//----------------------------FIN metodo de curosAptos
+	//INSERT INTO t_cursos_aptos_x_profesor (curso_id ,profesor_id ,fecha_actualizacion ,estado) VALUES ('090002',  '4545',  '2015-10-12',  '1')
+
+	private String[] insertarCamposDinamicosHoras(String tabla,String data,String id_profesor){
+		String sqls[];
+		String delete="";
+		String insert="";
+		try{
+			 JSONArray json2 =(JSONArray) new JSONParser().parse(data.toString());
+			 //DELETE FROM t_telefono_profesor WHERE `id_telefono` not in (1,3) and `id_profesor`=1
+			 String deleteClausule="";
+			 String insertsNuevos="";
+			 for(int i =0; i<json2.size();i++){
+				 JSONObject jsonObjet= (JSONObject) json2.get(i);
+				 String id=jsonObjet.get("id").toString();
+				 String dia=jsonObjet.get("dia").toString();
+				 String horaInicio=jsonObjet.get("horaInicio").toString();
+				 String horaFin=jsonObjet.get("horaFin").toString();
+				 if(!id.equals("-1")){
+					 if(i==0){
+						deleteClausule+="'"+id+"'";
+					 }
+					 else{
+						deleteClausule+=","+"'"+id+"'";
+					 }
+				 }else{
+					
+					 if(i==0){
+						insertsNuevos+="('"+id_profesor+"','"+dia+"','"+horaInicio+"','Disponible'),";
+						insertsNuevos+="('"+id_profesor+"','"+dia+"','"+horaFin+"','Disponible'";
+					 }
+					 else{
+						insertsNuevos+="),('"+id_profesor+"','"+dia+"','"+horaInicio+"','Disponible'),";
+						insertsNuevos+="('"+id_profesor+"','"+dia+"','"+horaFin+"','Disponible'";
+					 }
+				}
+			 }
+			 
+			 if(!deleteClausule.equals("")){
+				 delete = "DELETE FROM "+tabla+" WHERE id not in ("+deleteClausule+") and profesor_id="+id_profesor;
+			 }
+			 
+			 if(!insertsNuevos.equals("")){
+				 insertsNuevos+=")";
+
+				 insert="INSERT INTO "+tabla+" (profesor_id, dia_id, hora_id, estado) VALUES "+insertsNuevos;
+			 }
+			  
+		}
+		catch(ParseException pe){
+			    System.out.println(pe);
+		}
+		sqls = new String[]{delete,insert};
+		return sqls;
+	}
+	//----------------------------FIN metodo de Horas
+	
 	private String[] insertarCamposDinamicosGrado(String tabla,String data,String id_profesor){
 		String sqls[];
 		String delete="";
@@ -567,11 +725,11 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 				 }else{
 					
 					 if(i==0){
-						deleteClausule+="'"+numDocId+"'";
+						//deleteClausule+="'"+numDocId+"'";
 						insertsNuevos+="('"+id_profesor+"','"+especialidad+"','"+gradoAcademico+"','"+profesion+"','"+institucion+"','"+fechaIngreso+"'";
 					 }
 					 else{
-						deleteClausule+=","+"'"+numDocId+"'";
+						//deleteClausule+=","+"'"+numDocId+"'";
 						insertsNuevos+="),('"+id_profesor+"','"+especialidad+"','"+gradoAcademico+"','"+profesion+"','"+institucion+"','"+fechaIngreso+"'";
 					 }
 				}
@@ -609,8 +767,10 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		String sqlDelete[]=insertarCamposDinamicosDocumento("t_documento_profesor",json_documentos,id_profesor);
 
 		try {
-			stmt.executeUpdate(sqlDelete[0]);
-			stmt.executeUpdate(sqlDelete[1]);
+			if(!sqlDelete[0].equals(""))
+				stmt.executeUpdate(sqlDelete[0]);
+			if(!sqlDelete[1].equals(""))
+				stmt.executeUpdate(sqlDelete[1]);
 			
 			close(stmt);
 			close(conexion);
@@ -637,8 +797,10 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		String sqlDelete[]=insertarCamposDinamicosGrado("t_grado_academico_profesor",json_gradoAcademico,id_profesor);
 
 		try {
-			stmt.executeUpdate(sqlDelete[0]);
-			stmt.executeUpdate(sqlDelete[1]);
+			if(!sqlDelete[0].equals(""))
+				stmt.executeUpdate(sqlDelete[0]);
+			if(!sqlDelete[1].equals(""))
+				stmt.executeUpdate(sqlDelete[1]);
 			
 			close(stmt);
 			close(conexion);
@@ -659,7 +821,7 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
 			Statement stmt1 = conexion.createStatement();
 			
-
+				
 			ResultSet rs1=stmt1.executeQuery("SELECT tProf.id, tPer.nombre, tPer.apellido_paterno, tPer.apellido_materno FROM t_profesor tProf inner join t_persona tPer on tProf.id=tPer.id;");
 			
 			
@@ -733,4 +895,99 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		}
 		return cursos;
 	}
+
+	@Override
+	public Personaa buscarDocente(String codigo) throws Exception {
+		Personaa docente=null;
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt1 = conexion.createStatement();
+			
+			//SELECT tProf.id, tPer.nombre, tPer.apellido_paterno, tPer.apellido_materno FROM t_profesor tProf	INNER JOIN t_persona tPer ON tProf.id = tPer.id	WHERE tPer.id =  "2000000002"
+			ResultSet rs1=stmt1.executeQuery("SELECT tProf.id, tPer.nombre, tPer.apellido_paterno, tPer.apellido_materno FROM t_profesor tProf inner join t_persona tPer on tProf.id= tPer.id WHERE tPer.id ="+codigo);
+
+			while(rs1.next()){
+				docente=new Personaa();
+				
+				
+				docente.setIdPersona(Integer.parseInt(rs1.getString("id")));
+				docente.setNombre1(rs1.getString("nombre"));
+				docente.setApePaterno(rs1.getString("apellido_paterno"));
+				docente.setApeMaterno(rs1.getString("apellido_materno"));
+				
+				
+				
+			}
+				
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		return docente;
+	}
+
+	@Override
+	public Curso buscarCurso(String codigo) throws Exception {
+		Curso curso=null;
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt1 = conexion.createStatement();
+			
+			
+			ResultSet rs1=stmt1.executeQuery("SELECT * from t_curso where id="+codigo);
+			
+			
+			
+			
+			while(rs1.next()){
+				curso=new Curso();
+						
+				curso.setId(rs1.getString("id"));
+				curso.setNombre(rs1.getString("nombre"));
+						System.out.println("metodo id "+curso.getId()+" nombre "+curso.getNombre());	
+			}
+				
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		return curso;
+	}
+	
+	
+	@Override
+	public Vector<CursoAptoProfesor> buscarCursoAptos(String profesor_id) throws Exception {
+		CursoAptoProfesor curso=null;
+		Vector<CursoAptoProfesor> cursos=null;
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt1 = conexion.createStatement();
+
+			ResultSet rs1=stmt1.executeQuery("SELECT ca.profesor_id,ca.curso_id,ca.fecha_actualizacion,c.nombre from t_cursos_aptos_x_profesor ca, t_curso c where c.id=ca.curso_id and ca.profesor_id='"+profesor_id+"' and ca.estado='1'");
+			cursos=new Vector<CursoAptoProfesor>();
+			while(rs1.next()){
+				curso=new CursoAptoProfesor();
+				System.out.print(rs1.getString("curso_id")+"\n");
+				curso.setCursoId(rs1.getString("curso_id"));
+				curso.setProfesorId(profesor_id);
+				curso.setNombre(rs1.getString("nombre"));
+				curso.setFechaActualizacion(rs1.getString("fecha_actualizacion"));
+				
+				cursos.addElement(curso);
+			}
+				
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		return cursos;
+	}
+	
+	
 }
