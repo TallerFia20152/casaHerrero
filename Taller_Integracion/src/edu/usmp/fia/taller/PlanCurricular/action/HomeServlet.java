@@ -16,7 +16,7 @@ import edu.usmp.fia.taller.PlanCurricular.business.impl.CurriculumBusinessImpl;
 import edu.usmp.fia.taller.PlanCurricular.util.Constants;
 import edu.usmp.fia.taller.common.bean.PlanCurricular.Curso;
 
-@WebServlet("/G1_PlanCurricular")
+@WebServlet("/PlanCurricular")
 public class HomeServlet extends HttpServlet implements Constants {
 
 	/**
