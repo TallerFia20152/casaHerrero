@@ -11,6 +11,7 @@
   <head>
   <%
 	Vector<CursoBean> VECTOR_LIST = (Vector)request.getAttribute("LIST_CURSO");
+  Vector<CursoBean> VECTOR_LIST_S = (Vector)request.getAttribute("LIST_SILABO");
 	%>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +21,7 @@
     <meta name="author" content="">
     <link rel="icon" href="img/logo.ico">
 
-    <title>Elaboración de Sílabos 2</title>
+    <title>Elaboración de Sílabos</title>
 		<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 		
 		
@@ -183,6 +184,10 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 
+function mostrar(){
+	document.getElementById('invisible').style.display='block';	
+}
+	
 function validarCursos(){
 	if(frm.lista.value == ""){
 			document.getElementById('curso1').style.display='none';
@@ -253,13 +258,37 @@ return /\d/.test(String.fromCharCode(keynum));
         <div id="section-app">
         <form method="post" action="<%=request.getContextPath() %>/Silabo">
         <input type="text" id="txt_Idcurso" class="form-control"  placeholder="Código del Curso" onKeyPress="return soloNumeros(event);" maxlength="6"><br>
-        <input type="submit" id="btn_funcion" name="btn_funcion" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalx" style="margin:10px 0px; float:left;" value="Buscar Sílabo"><br><br><br>
+        <input type="submit" id="btn_funcion" name="btn_funcion" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalx" style="margin:10px 0px; float:left;" onClick="mostrar();" value="Buscar Sílabo"><br><br><br>
         <input type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="margin:10px 0px; float:left;" value="Crear Nuevo Sílabo"><br><br><br>
         <input type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2" style="margin:10px 0px; float:left;" value="Editar Sílabo">
         </form>
         </div>
       </div>
       <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      <div id="invisible" style="display:none;">
+    		<label for="inputCurso">Curso</label>
+            <input type="text" id="txt_curso" class="form-control"  placeholder="Nombre del curso" value="12" ><br>
+            <label for="inputAreaC">Área Curricular</label>
+            <input type="text" class="form-control"  placeholder="Área curricular a la que pertenece" disabled><br>
+            <label for="inputCodigo">Código del curso</label>
+            <input type="text" class="form-control"  placeholder="Código del curso" disabled><br>
+            <label for="inputCredito">Créditos</label>
+            <input type="text" class="form-control"  placeholder="Cantidad de créditos" disabled><br>
+            <label for="inputReq">Requisito</label>
+            <input type="text" class="form-control"  placeholder="Curso(s) de requisito" disabled><br>
+            <label for="inputCondi">Condición del curso</label>
+            <input type="text" class="form-control"  placeholder="Condición obligatorio o electivo" disabled><br>
+            <label for="inputSumilla">Sumilla</label>
+            <textarea class="form-control" rows="4"  placeholder="Escriba la sumilla del curso" disabled></textarea><br>
+            <label for="inputBiblio1">Bibliografía</label>
+            <input type="text" class="form-control"  placeholder="Reseña bibliográfica" disabled><br>
+            <label for="inputHTeo">Horas Teoría</label>
+            <input type="text" class="form-control"  placeholder="Cantidad de horas teóricas" disabled><br>
+            <label for="inputHLab">Horas Laboratorio</label>
+            <input type="text" class="form-control"  placeholder="Cantidad de horas prácticas" disabled>
+            <br>
+      		</div>
+      
 <!--------------------------------- Modal ---------------------------------------------------->
 <div id="myModal0" class="modal fade" role="dialog">
   <div class="modal-dialog">
