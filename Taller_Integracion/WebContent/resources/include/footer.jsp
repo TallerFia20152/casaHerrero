@@ -1,4 +1,4 @@
 <!-- Footer -->
 <footer class="main">
-	&copy; 2015 <strong>SOID Solution</strong>	
+	&copy; 2015 <strong>FIA - Taller de Proyectos</strong>	
 </footer>
