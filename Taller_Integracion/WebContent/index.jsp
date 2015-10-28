@@ -61,7 +61,7 @@
 				<input type="submit" value="Ingresar"
 					onclick="return login.submit();"
 					class="btn btn-lg btn-danger btn-block" />
-					v0.15
+					v0.14.2
 			</div>
 		</form>
 	</div>

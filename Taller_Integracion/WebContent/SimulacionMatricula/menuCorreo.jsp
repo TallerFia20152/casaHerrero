@@ -9,21 +9,17 @@
 		
 	</div>
 
-<!-- 	
+
 	<ul class="mail-menu">
 		<li class="active"><a href="#"> <span
-				class="badge badge-danger pull-right">0</span> Mensaje de Entrada
+				class="badge badge-danger pull-right">0</span> Reporte de Cruces
 		</a></li>
 
 		<li><a href="#"> <span class="badge badge-gray pull-right">1</span>
-				Mensaje Enviados
+				Solicitudes y/o Observaciones
 		</a></li>
-		
-		
-
 	</ul>
 
 	<div class="mail-distancer"></div>
 
- -->
 </div>

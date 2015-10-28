@@ -10,5 +10,5 @@
 
 <script src="<%=request.getServletContext().getContextPath() %>/resources/assets/js/jquery-1.11.0.min.js"></script>
 <script>
-	$.noConflict();
+	//$.noConflict();
 </script>
