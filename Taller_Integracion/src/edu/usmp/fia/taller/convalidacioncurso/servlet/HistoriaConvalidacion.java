@@ -15,6 +15,7 @@ import edu.usmp.fia.taller.common.action.HttpMethod;
 import edu.usmp.fia.taller.common.action.HttpMethodType;
 import edu.usmp.fia.taller.common.action.RequireLogin;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.ConvalidacionAlumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Curso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Departamento;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Distrito;
@@ -22,6 +23,7 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.Especialidad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Facultad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Persona;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricular;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricularDetalle;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.UniversidadOrigen;
 import edu.usmp.fia.taller.common.dao.DAOFactory;
@@ -29,7 +31,8 @@ import edu.usmp.fia.taller.common.dao.DAOFactory;
 
 @WebServlet("/convalidacion")
 public class HistoriaConvalidacion extends ActionServlet {
-	 @HttpMethod(HttpMethodType.POST)
+		
+		@HttpMethod(HttpMethodType.POST)
 	    @RequireLogin(false)
 	    public void convalidacion() throws IOException, Exception {
 	        List<PlanCurricularDetalle> detalles = null;
@@ -191,4 +194,66 @@ public class HistoriaConvalidacion extends ActionServlet {
 	            out.close();
 	        }
 	    }
+	    
+	    
+
+	    @HttpMethod(HttpMethodType.POST)
+	    @RequireLogin(false)
+	    public void obtenerCursosOrigen() throws IOException, Exception {
+	    	List<ConvalidacionAlumno> curconvs = null;
+	    	Alumno alu = new Alumno();
+	    	alu.setPersona(new Persona());
+	    	alu.getPersona().setId(request.getParameter("codcli"));
+	    		    	
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            curconvs = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listarCursosConv(alu);
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(curconvs));
+	            out.close();
+	        }	
+	    	
+	    	
+	    }
+	   	
+	    
+	    @HttpMethod(HttpMethodType.POST)
+	    @RequireLogin(false)
+	    public void buscarEnConvalidacion() throws IOException, Exception {
+	    	List<ConvalidacionAlumno> curconvs = null;
+	    	PlanCurricularDetalle det = new PlanCurricularDetalle();
+	    	det.setCurso(new Curso());
+	    	det.getCurso().setId(request.getParameter("codcur"));
+	    	det.setPlancurricular(new PlanCurricular());
+	    	det.getPlancurricular().setId(Integer.parseInt(request.getParameter("codplan")));
+	    		    		    	
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            //un curso de usmp puede valer x 2 de otra univ.
+	            curconvs = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().BuscarEnConvalidacion(det);
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(curconvs));
+	            out.close();
+	        }	
+	    	
+	    	
+	    }
+	    
+	    
 }
