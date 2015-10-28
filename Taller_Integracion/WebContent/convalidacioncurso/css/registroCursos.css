@@ -53,3 +53,6 @@ fieldset legend {
 	top: 0px;
 	z-index: 10 !important
 }
+.ocultar{
+	visibility:hidden;
+}

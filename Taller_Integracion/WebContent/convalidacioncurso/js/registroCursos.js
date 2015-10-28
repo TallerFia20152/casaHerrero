@@ -3,18 +3,20 @@ $(document).ready(function () {
 	var comboAlumno = $("#comboAlumno").alumnoSelectize("dynamicOptionsAlumno");
     comboAlumno.enable();
     var comboUniversidad = $("#comboUniversidad").universidadSelectize();
-    
+    //$('#comboUniversidad').parent().parent().parent().addClass("ocultar");
     $(document).on("change", '#comboAlumno', function (event) {
         var codcli = $(this).val();
         if (codcli.length) {
-        	
+        	var codigoalumno;
             $.ajax({
                 url: "../convalidacion",
+                async:false,
                 data: {'f': 'obtenerDatosAlumno','codalu':codcli},
                 dataType: 'json',
                 method: 'POST',
                 success: function (datos) {
                     console.log(JSON.stringify(datos));
+                    
                     $('#codigo').empty().append(datos.persona.id);
                     $('#apellidos').empty().append(datos.persona.apellidopaterno + ' '+datos.persona.apellidomaterno);
                     $('#nombres').empty().append(datos.persona.nombre);
@@ -22,12 +24,45 @@ $(document).ready(function () {
                     $('#escuela').empty().append(datos.especialidad.nombre);
                 }
             });
-            comboUniversidad.enable(comboUniversidad.cargarUniversidades());
+            listarRegistrados();
+            
             
         }else{
                     console.log(JSON.stringify("datos"));
         }
     });
+    
+    function listarRegistrados(){
+   	 $.ajax({
+     	url:"../convalidacion",
+     	data:{'f':'obtenerCursosOrigen','codcli':comboAlumno.getValue()},
+     	datatype:'json',
+     	method:'POST',
+     	success:function(convcurs){
+     		//console.log(convcurs);
+     		
+     		if(convcurs!=null){
+     			var nuevafila="";
+     		$.each(convcurs, function (index, curcon) {
+     			nuevafila = nuevafila + "<tr>";
+     			nuevafila = nuevafila + "<td>"+curcon.cursoorigencodigo+"</td>";
+     			nuevafila = nuevafila + "<td>"+curcon.cursoorigennombre+"</td>";
+     			nuevafila = nuevafila + "<td>"+curcon.nota+"</td>";
+     			nuevafila = nuevafila + "<tr>";
+     			 
+     		 });
+     		$("#cursosregistrados").empty().append(nuevafila);
+     		
+     		}else{
+     			//$('#comboUniversidad').parent().parent().parent().removeClass("ocultar");
+     			 
+     			 toastr["error"]("El alumno no tiene cursos registrados");
+     		}
+     		comboUniversidad.enable(comboUniversidad.cargarUniversidades());
+     	}
+     	
+     });
+    }
 
     $(document).on('click', '#agregarcurso', function() {
         var nuevoForm= "";
@@ -85,6 +120,8 @@ $(document).ready(function () {
 				}
 			}
 		});
+    	
+    	listarRegistrados();
     	
     });
     

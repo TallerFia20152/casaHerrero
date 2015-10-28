@@ -48,35 +48,35 @@
                                <div class="form-group">
                                     <label>C&oacute;digo <span class="required">*</span>
                                     </label>
-                                    <input id="id"  class="form-control" data-validate-length-range="10" data-validate-words="2" required="required" type="text">
+                                    <input id="id" style="text-transform:uppercase;" class="form-control" data-validate-length-range="10" data-validate-words="2" required="required" type="text">
                                    
                                 </div>
                                 <div class="form-group">
                                     <label >Nombres <span class="required">*</span>
                                     </label>
                                     
-                                        <input id="nom" class="form-control" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
+                                        <input id="nom" style="text-transform:uppercase;" class="form-control" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
                                     
                                 </div>
                                 <div class="form-group">
                                     <label>Apellido Paterno<span class="required">*</span>
                                     </label>
                                     
-                                        <input id="apepat" class="form-control" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
+                                        <input id="apepat" style="text-transform:uppercase;" class="form-control" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
                                     
                                 </div>
                                 <div class="form-group">
                                     <label>Apellido Materno <span class="required">*</span>
                                     </label>
                                     
-                                        <input id="apemat" class="form-control" data-validate-length-range="6" data-validate-words="2" name="apellidos" required="required" type="text">
+                                        <input id="apemat"  style="text-transform:uppercase;" class="form-control" data-validate-length-range="6" data-validate-words="2" name="apellidos" required="required" type="text">
                                     
                                 </div>
                                 <div class="form-group">
                                     <label>DNI <span class="required">*</span>
                                     </label>
                                     
-                                        <input id="dni" class="form-control" maxlength="8" required="required" type="text" >
+                                        <input id="dni" style="text-transform:uppercase;" class="form-control" maxlength="8" required="required" type="text" >
                                     
                                 </div>
                                 <div class="form-group">
@@ -89,7 +89,7 @@
                                     <label>Direccion <span class="required">*</span>
                                     </label>
                                     
-                                        <input type="text" id="dir" required="required" class="form-control">
+                                        <input style="text-transform:uppercase;" type="text" id="dir" required="required" class="form-control">
                                     
                                 </div>
                                 <div class="form-group">
@@ -103,7 +103,7 @@
                                     <label>Fecha Nacimiento<span class="required">*</span>
                                     </label>
                                     
-                                        <input type="text" id="fecnac" required="required" class="form-control">
+                                        <input type="date" id="fecnac" required="required" class="form-control">
                                     
                                 </div>
                                 

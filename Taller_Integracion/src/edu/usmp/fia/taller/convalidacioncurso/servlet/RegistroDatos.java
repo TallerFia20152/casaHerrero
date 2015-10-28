@@ -29,6 +29,7 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.Convalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ConvalidacionAlumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Distrito;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Especialidad;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.InsertConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Persona;
 import edu.usmp.fia.taller.common.dao.DAOFactory;
@@ -133,18 +134,18 @@ public class RegistroDatos extends ActionServlet {
     @HttpMethod(HttpMethodType.POST)
     @RequireLogin(false)
     public void registrarConvalidacion() throws IOException, Exception {
-    	List<Convalidacion> convalidaciones;
+    	List<InsertConvalidacion> convalidaciones;
         String listjson = request.getParameter("listadata");
         
         JsonElement json = new JsonParser().parse(listjson);
         JsonArray array = json.getAsJsonArray();
         Iterator iterator = array.iterator();
         convalidaciones = new ArrayList<>();
-        System.out.println(convalidaciones);	
+        //System.out.println(convalidaciones);	
         while(iterator.hasNext()){
         	JsonElement json1 = (JsonElement) iterator.next();
         	Gson gson = new Gson();
-        	Convalidacion conva = gson.fromJson(json1, Convalidacion.class);
+        	InsertConvalidacion conva = gson.fromJson(json1, InsertConvalidacion.class);
         	convalidaciones.add(conva);
         	
         }

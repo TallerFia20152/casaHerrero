@@ -44,6 +44,7 @@ $(document).ready(function() {
 				if (datos == "OK") {
 					console.log(datos);
 					 toastr["success"]("Registro Exitoso");
+					 $("#login").reset();
 				} else {
 					console.log(datos);
 					toastr["warning"]("Error al Registrar");

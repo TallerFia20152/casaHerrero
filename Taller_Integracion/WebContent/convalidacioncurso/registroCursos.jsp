@@ -30,7 +30,7 @@
 
 			<div>
 				<div class="row">
-					<h1>Proceso de Convalidacion > Convalidar Cursos</h1>
+					<h1>Proceso de Convalidacion > Registrar Cursos</h1>
 					<section id="SeleccionarAlumno">
 						<div>
 							<div id="label">
@@ -73,8 +73,23 @@
 							</table>
 						</fieldset>
 					</div>
+					<hr style="visibility:hidden;">
 					<hr>
+					<hr style="visibility:hidden;">
 					<div class="row">
+					<div class="col-md-offset-2 col-md-8">
+						<table class="table table-hover table-bordered ">
+						<thead>
+						<th>C&oacute;digo</th>
+						<th>Curso</th>
+						<th>Nota</th>
+						</thead>
+						<tbody id="cursosregistrados">
+						</tbody>
+						</table>
+						</div>
+					</div>
+					<div class="row" >
 						<div class="col-md-offset-2 col-md-8">
 							<div class="form-group">
 								<label>Universidad Origen<span class="required">*</span>
@@ -89,7 +104,7 @@
 							universidad de Origen</label>
 						<div class="col-md-6 col-xs-6 col-sm-6">
 							<button id="agregarcurso"
-								class="btn btn-primary btn-lg mitooltip" data-placement="right"
+								class="btn btn-success btn-lg mitooltip" data-placement="right"
 								title="AGREGAR UN CURSO">+</button>
 						</div>
 						<hr style="visibility: hidden">

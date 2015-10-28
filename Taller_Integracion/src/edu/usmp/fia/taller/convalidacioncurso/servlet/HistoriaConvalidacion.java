@@ -255,5 +255,31 @@ public class HistoriaConvalidacion extends ActionServlet {
 	    	
 	    }
 	    
+	    @HttpMethod(HttpMethodType.POST)
+	    @RequireLogin(false)
+	    public void verificarSiConvalido() throws IOException, Exception {
+	    	
+	    	Alumno alu = new Alumno();
+	    	alu.setPersona(new Persona());
+	    	alu.getPersona().setId(request.getParameter("codcli"));
+	    		    	
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            alu = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().VerificarSiconvalido(alu);
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(alu));
+	            out.close();
+	        }	
+	    	
+	    	
+	    }
 	    
 }
