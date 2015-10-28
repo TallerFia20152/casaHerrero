@@ -14,6 +14,20 @@
 	<title>Taller Proyectos</title>
 
 	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
+    
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.colResize.js"></script>
+
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.bootstrap.min.css">
 </head>
 
 <%
@@ -41,9 +55,11 @@
 			else
 			{
 		%>
-		<form action="<%=request.getContextPath()%>/GenerarPreMatricula" method="post">
+		<form id="formulario" action="<%=request.getContextPath()%>/GenerarPreMatricula" method="post">
 		
 		<p><input type="hidden" name="codigoAlumno" value="<%=codigoAlumno%>"></p>
+		<p><input type="text" id="creditosMinimos" name="creditosMinimos" value="13"></p>
+		<p><input type="text" id="creditosMaximos" name="creditosMaximos" value="13"></p>
 		
 			<table class="table table-bordered table-striped datatable" id="table-2">
 				<thead>
@@ -63,13 +79,17 @@
 					%>
 					<tr>
 						<td>
+							<!--
 							<div class="checkbox checkbox-replace">
-								<input type="checkbox" id="chk-1" name="codigos" value="<%=curso.getCodigo()%>">
+								<input type="checkbox" class="tipo" id="chk-1" name="codigos" value="<%=curso.getCodigo()%>">
 								<%=curso.getCodigo()%>							
 							</div>
+							-->
+							<input type="checkbox" class="tipo" id="chk-1" name="codigos" value="<%=curso.getCodigo()%>">
+								<%=curso.getCodigo()%>							
 						</td>
-						<td><%=curso.getCurso()%></td>
-						<td><%=curso.getCredito()%></td>
+						<td><%=curso.getCurso()%></td>						
+						<td><%=curso.getCredito()%></td>						 
 						<td><%=curso.getCiclo()%></td>
 						<td><%=curso.getTipoCurso()%></td>
 					</tr>
@@ -79,62 +99,69 @@
 			</table>
 			<div class="row">
 				<div class="col-md-12 opcion">					
-					<p><input type="submit" value="Registrar" class="btn btn-lg btn-black btn-icon icon-left hidden-print"></p>
+					<p><input type="submit" id="boton" value="Registrar" class="btn btn-lg btn-black btn-icon icon-left hidden-print"></p>
 				</div>
 				<p>
 			</div>
 			<%	}
 			%>
-			</form>
+		</form>
+	
+		<script>
+			var table;
+	        $(document).ready(function () {
+	            table = $('#table-2').DataTable({
+	                "scrollY": "200px",
+	                "scrollCollapse": true,
+	                "paging": false,
+	                "dom": 'Zlfrtip',
+	                "ordering":false,
+	            });
+	        });
+	    </script>
+	    
+		<script>
+			var creditos=0;			
+			var creditosMinimos=$('#creditosMinimos').value;
+			var creditosMaximos=$('#creditosMaximos').value;
+			console.log('creditosMinimos ' + creditosMinimos);
 			
-			<script type="text/javascript">
-			jQuery(window).load(function()
-			{
-				var $ = jQuery;
-				
-				$("#table-2").dataTable({
-					"sPaginationType": "bootstrap",
-					"sDom": "t<'row'<'col-xs-6 col-left'i><'col-xs-6 col-right'p>>",
-					"bStateSave": true,
-					"language" : {
-						"url" : "//cdn.datatables.net/plug-ins/1.10.9/i18n/Spanish.json"
-					},
-					"iDisplayLength": 12,
-					"aoColumns": [
-						{ "bSortable": true },
-						null,
-						null,
-						null,
-						null
-					]
-				});
-				
-				$(".dataTables_wrapper select").select2({
-					minimumResultsForSearch: -1
-				});
-				
-				// Highlighted rows
-				$("#table-2 tbody input[type=checkbox]").each(function(i, el)
-				{
-					var $this = $(el),
-						$p = $this.closest('tr');
-					
-					$(el).on('change', function()
+			$( document ).ready(function() {
+				$('.tipo').change(function() {
+						var abuelo = $( this ).parent().parent()[0];
+						 var datos = table.row( abuelo ).data();					 
+						 var credito = datos[2];
+						 console.log("Credito "+ credito);
+					if($(this).is(":checked")) {
+						creditos = creditos + parseInt(credito);
+						if(creditos>creditosMaximos){
+							$(this).prop( "checked", false );
+							creditos = creditos - parseInt(credito);
+							alert("no puedes");
+						}
+					}
+					else
 					{
-						var is_checked = $this.is(':checked');
-						
-						$p[is_checked ? 'addClass' : 'removeClass']('highlight');
-					});
+						creditos = creditos - parseInt(credito);						
+					}
+					
+					console.log(creditos);
 				});
 				
-				// Replace Checboxes
-				$(".pagination a").click(function(ev)
+				$('#formulario').submit(function(event) 
 				{
-					replaceCheckboxes();
+					var creditosMinimos=$('#creditosMinimos').value;
+					console.log('creditosMinimos ' + creditosMinimos);
+					
+					if(creditos<creditosMinimos)
+					{
+						alert('Debe de escoger un minimo de ' +creditosMinimos + 'y un maximo de ' + creditosMaximos);
+						return false;
+					}
 				});
 			});
-				
-			</script>		
+		</script>
+			
 		<!-- Footer -->
 		<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 	</div>
