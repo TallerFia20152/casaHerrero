@@ -16,9 +16,11 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.Especialidad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Facultad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Persona;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricular;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricularDetalle;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.UniversidadOrigen;
 import edu.usmp.fia.taller.convalidacioncurso.dataaccess.interfaces.DAOHistoriaConvalidacion;
+
 
 public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConvalidacion{
 
@@ -27,11 +29,12 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 		List<PlanCurricularDetalle> detalles;
         ResultSet rs = null;
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT cur.id,cur.nombre,detplan.creditos,cic.nombre ciclo ").
+        sql.append("SELECT detplan.id plan_id,cur.id,cur.nombre,detplan.creditos,cic.nombre ciclo ").
                 append("FROM t_curso cur join t_plan_curricular_detalle detplan on detplan.curso_id=cur.id ").
                 append("join t_ciclo cic on cic.id = detplan.ciclo_id ").
                 append("WHERE cur.estado=1 and cic.estado=1 ").
-                append("order by 4;");
+                //amarre con codigos de facultad y escuela del alumno con el plan
+                append("order by 5;");
 
         try {
             this.Conectar(false);
@@ -39,6 +42,8 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
             detalles = new ArrayList<>();
             while (rs.next()) {
                 PlanCurricularDetalle det = new PlanCurricularDetalle();
+                det.setPlancurricular(new PlanCurricular());
+                det.getPlancurricular().setId(Integer.parseInt(rs.getString("plan_id")));
                 det.setCiclo(new Ciclo());
                 det.getCiclo().setNombre(rs.getString("ciclo"));
                 det.setCurso(new Curso());
@@ -82,6 +87,7 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 	                    append(wAlumno.getPersona().getNomcom()).append("%') ");
 
 	        }
+	        sql.append(" and modalidad_ingreso_id<>'E'");
 	        sql.append(" order by apellido_paterno,apellido_materno,nombre;");
 
 	        try {
@@ -364,7 +370,8 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 
 	@Override
 	public List<ConvalidacionAlumno> listarCursosxconvalidar(Alumno wAlumno) throws Exception {
-		// TODO Auto-generated method stub
+		
+		
 		return null;
 	}
 
@@ -377,8 +384,102 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 	@Override
 	public List<ConvalidacionAlumno> BuscarEnConvalidacion(PlanCurricularDetalle wPlanCurricularDetalle)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		 
+			
+
+		List<ConvalidacionAlumno> cursos;
+        ResultSet rs = null;
+        StringBuilder sql = new StringBuilder();
+        sql.append("select distinct det.id,det.curso_id,con.curso_origen_codigo,conalu.curso_origen_nombre ").
+			append("from t_plan_curricular_detalle det join t_convalidacion con on con.plan_curricular_detalle_id=det.id and con.curso_id=det.curso_id ").
+			append("	 join t_convalidacion_alumno conalu on conalu.curso_origen_codigo=con.curso_origen_codigo and conalu.alumno_id=con.alumno_id ").
+		    append("where det.curso_id='").append(wPlanCurricularDetalle.getCurso().getId()).append("' ").
+		    append("and det.id=").append(wPlanCurricularDetalle.getPlancurricular().getId()).append(";");
+
+        try {
+            this.Conectar(false);
+            rs = this.EjecutarOrdenDatos(sql.toString());
+            cursos = new ArrayList<>();
+            while (rs.next()) {
+                ConvalidacionAlumno cur = new ConvalidacionAlumno();
+                cur.setCursoorigencodigo(rs.getString("curso_origen_codigo"));
+                cur.setCursoorigennombre(rs.getString("curso_origen_nombre"));
+                cursos.add(cur);
+            }
+            rs.close();
+            this.Cerrar(true);
+        } catch (Exception e) {
+            this.Cerrar(false);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs = null;
+            }
+        }
+        return cursos;
+
+	}
+
+	@Override
+	public List<ConvalidacionAlumno> listarCursosConv(Alumno wAlumno) throws Exception {
+		
+		
+		List<ConvalidacionAlumno> cursos;
+        ResultSet rs = null;
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from t_convalidacion_alumno where alumno_id='").
+        	append(wAlumno.getPersona().getId()).append("';");
+
+        try {
+            this.Conectar(false);
+            rs = this.EjecutarOrdenDatos(sql.toString());
+            cursos = new ArrayList<>();
+            while (rs.next()) {
+                ConvalidacionAlumno cur = new ConvalidacionAlumno();
+                cur.setCursoorigencodigo(rs.getString("curso_origen_codigo"));
+                cur.setCursoorigennombre(rs.getString("curso_origen_nombre"));
+                cur.setNota(Integer.parseInt(rs.getString("nota")));
+                cursos.add(cur);
+            }
+            rs.close();
+            this.Cerrar(true);
+        } catch (Exception e) {
+            this.Cerrar(false);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs = null;
+            }
+        }
+        return cursos;
+	}
+
+	@Override
+	public void registrarConvalidaciones(List<Convalidacion> wConvalidaciones) throws Exception {
+		List<StringBuilder> listSql= new ArrayList<>();
+        StringBuilder sql;
+        
+        for(Convalidacion conva: wConvalidaciones){
+        	sql = new StringBuilder();
+        	sql.append("INSERT INTO t_convalidacion(plan_curricular_detalle_id,curso_id,alumno_id,curso_origen_codigo)"). 
+        		append(" VALUES ('").append(conva.getPlancurricular().getId()).append("', '").append(conva.getCurso().getId()).
+        		append("', '").append(conva.getAlumno().getPersona().getId()).append("', '").append(conva.getCursoorigencodigo()).append("');");
+        	listSql.add(sql);
+        }
+        
+        try {
+            this.Conectar(true);//transaccion
+            for(StringBuilder strbd : listSql){
+            	this.EjecutarOrden(strbd.toString());	
+            }
+            this.Cerrar(true);
+        } catch (Exception e) {
+            this.Cerrar(false);
+            throw e;
+        } finally {
+            
+        }
+		
 	}
 
 

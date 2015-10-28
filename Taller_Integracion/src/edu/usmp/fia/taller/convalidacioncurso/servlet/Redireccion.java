@@ -15,7 +15,7 @@ public class Redireccion extends ActionServlet {
 	@Default
     @RequireLogin(false)
     public void regcur() throws ServletException, IOException {
-        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/inicio.jsp");
+        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/registroCursos.jsp");
     }
     @Default
     @RequireLogin(false)
@@ -25,7 +25,7 @@ public class Redireccion extends ActionServlet {
     @Default
     @RequireLogin(false)
     public void reporte() throws ServletException, IOException {
-        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/convalidarCursos.jsp");
+        response.sendRedirect(request.getServletContext().getContextPath() + "/convalidacioncurso/reporteConvalidacion.jsp");
     }
     @Default
     @RequireLogin(false)

@@ -8,7 +8,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
-	<script src="js/convalidarCursos.js" type="text/javascript"></script>
+	<script src="js/reporteConvalidacion.js" type="text/javascript"></script>
 	<title>Taller Proyectos</title>
 	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 </head>
