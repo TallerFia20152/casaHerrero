@@ -131,5 +131,14 @@ body {
   }
 }
 
-/*tablas dinamicas*/
+/*modals rojos*/
 
+.modal-content {
+    border: 1px solid #981b1b !important;
+}
+.modal-header {
+    background-color: #981b1b !important;
+}
+.modal .modal-header h4 {
+    color: #FFFFFF !important;
+}
