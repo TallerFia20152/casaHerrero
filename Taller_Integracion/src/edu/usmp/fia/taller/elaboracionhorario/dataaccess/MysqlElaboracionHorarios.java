@@ -56,7 +56,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 	}
 
 	@Override
-	public int insertHorarios(HorariosBean objHor) throws Exception {
+	public int insertHorarios(List<HorariosBean> listHorarios) throws Exception {
 		// TODO Auto-generated method stub
 		Connection oCn = null;
 		PreparedStatement oPs = null;
@@ -66,6 +66,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 		try {
 			oCn =(Connection) MySqlDAOFactory.obtenerConexion();
 			Statement stmt = oCn.createStatement();
+			for(HorariosBean objHor:listHorarios){
 			String query="INSERT INTO t_horario_tmp "
 						+"(codFac,c01,cicest,tur,codCur,codCurteo,profesor,curso,desRes,codSec,aula,escual,numCre,lunes,martes,miercoles,jueves,viernes,sabado,domingo)"
 						+ " VALUES "
@@ -92,6 +93,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 						+ " '"+objHor.getDomingo()+"') ";
 			System.out.println(query);
 			filas2=stmt.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
+			}
 			close(oRs);
 
 		} finally {

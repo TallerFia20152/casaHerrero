@@ -41,6 +41,9 @@ public class Disponibilidad_Docente extends ActionServlet {
 
 		String id_profesor=request.getParameter("profesor_id");
 		String json_cursosAptos=request.getParameter("json_curso");
+		System.out.println("idProfesor: "+id_profesor+", cursoAptos: "+json_cursosAptos);
+		String data[]= json_cursosAptos.split(":");
+		System.out.println(data[0]+" "+data[1]);
 		String json_rangoHoras=request.getParameter("json_rangoHoras");
 		DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 		DAOFactoryRegDocente regdoce = dao.getRegistroDocente();

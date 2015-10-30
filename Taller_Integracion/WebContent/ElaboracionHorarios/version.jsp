@@ -13,15 +13,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
-	<title>Elaboración de Horarios</title>
-
-    <link href="ElaboracionHorarios/css/bootstrap.css" rel="stylesheet">
-    <link href="ElaboracionHorarios/css/signin.css" rel="stylesheet">
-
+	<title>Elaboración de Horarios</title>  
     <script src="ElaboracionHorarios/js/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="ElaboracionHorarios/js/bootstrap.min.js"></script>
-    <link href="css/dashboard.css" rel="stylesheet" />
+
 <style>
 .hora{
   background-color:#inherit;
@@ -65,12 +60,12 @@
       for(int i = 0; i < versiones.size(); ++i){
     %>
     <input type="hidden" name="version" value="<%=versiones.get(i) %>"/>
-    <a href="?f=leerHorario&version=<%=versiones.get(i) %>" class="list-group-item"><%=versiones.get(i) %></a>  
+    <a href="ElaboracionHorariosServlet?f=leerHorario&version=<%=versiones.get(i) %>" class="list-group-item"><%=versiones.get(i) %></a>  
     <% } %>
 
     <a href="#" class="list-group-item">
       <div class="input-group">
-            <input type="text" class="form-control" name="version" placeholder="Nombre de la Versión">
+            <input type="text" class="form-control" name="Newversion" placeholder="Nombre de la Versión">
             <span class="input-group-btn">
               <button class="btn btn-default crear-version" type="button">Crear Versión</button>
             </span>
@@ -81,10 +76,10 @@
       </div>
       <script type="text/javascript">
 $(".crear-version").click(function(){
-  version = $("[name=\"version\"]").val();
+  version = $("[name=\"Newversion\"]").val();
   if(version.length > 0)
   {
-    window.location.href="?version="+version;
+    window.location.href="ElaboracionHorariosServlet?f=leerHorario&version="+version;
   }
 });
 </script>

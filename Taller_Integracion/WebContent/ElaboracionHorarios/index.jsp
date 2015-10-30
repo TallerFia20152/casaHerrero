@@ -37,6 +37,10 @@
   background-color: #5C9FB8;
   color: white;
 }
+.btn-success{
+background-color: #5C9FB8;
+border-color: #4CA5AE;
+}
 </style>
 
 </head>
@@ -66,7 +70,6 @@
 		  <div>
 	  <h1>Usted está trabajando en la versión: <%=version %></h1>
 
-
     <div >
       <div class="row" style="text-align:center;">
         <ul class="nav nav-tabs">
@@ -95,7 +98,7 @@
       <div class="row">
         <div class="col-md-3 cursos" style=" overflow: auto; position: relative;"></div>
         <div class="col-md-9">
-           <table class="table table-striped table-bordered">
+           <table class="table table-bordered" id="myTable">
               <tr>
                   <th width="120px">Horas</th>
                   <th width="100px">Lunes</th>
@@ -324,16 +327,19 @@
         </div>
       </div>
       <div class="row" style="text-align:right">
-      	<form action="" method="post">
+      	<form action="ElaboracionHorariosServlet" method="post">
+			<input type="hidden" name="f" value="cargarHorario">
       		<div class="inputs-horarios" style="display:none;">
       			<input type="text" name="horas-horario" class="horas-horario"/>
       		</div>
+      		<input type="hidden" name="cicloTot" id="cicloTot" value="<%= cycle %>" class="cicloTot">
       		
 			<!--  <button class="btn btn-success" onclick="$('.horas-horario').val(JSON.stringify(horasHorarios));return confirm('¿Estas seguro que deseas guardar?');">Guardar Versión</button>-->
-			<button class="btn btn-success" id="btnGuardarVersion">Guardar Versión</button>
+			<button class="btn btn-success" onclick="$('.horas-horario').val(JSON.stringify(horasHorarios));$('.cicloTot').val($('.cicloo').val());return confirm('¿Estas seguro que deseas guardar?');">Guardar Versión</button>
 			<a href="ElaboracionHorariosServlet?f=leerHorario&borrarVersion=ok" class="btn btn-danger" onclick="return confirm('¿Deseas salir del elaborador de horarios?');">Crear Nueva Versión</a>
-		</form>
+	</form>
       </div>
+      	
     </div> <!-- /container -->
 		  </div>
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
@@ -370,7 +376,7 @@ $.each(obj.cursos, function(i, curso){
 	
 	seccionAgregada[aumentandoSeccion++] = curso.se;
 	
-  html = '<div class="btn btn-success curso" curso-id="'+i+'" curso-seccion="'+curso.se+'" data-toggle="modal" data-target=".bs-example-modal-sm" style="white-space:normal; margin-bottom:2px;font-size:12px; width:170px;background-color: #5C9FB8;border-color: #4CA5AE;">'+curso.seccion+'</div>';
+  html = '<div class="btn btn-success curso" curso-id="'+i+'" curso-seccion="'+curso.se+'" data-toggle="modal" data-target=".bs-example-modal-sm" style="white-space:normal; margin-bottom:2px;font-size:12px; width:170px;">'+curso.seccion+'</div>';
   $(".cursos").append(html);
 });
 
@@ -458,7 +464,9 @@ $(".hora").on("click", function(e){
       $(this).attr("profesor-asignado", profesoor);
       $(this).attr("curso-asignado", nombre);
       $(this).attr("curso-id-here", id);
-
+      $(this).attr("id", "horaData");
+  		
+      
       horasHorarios[horasHorarios.length] = nombre+'=='+profesoor+'=='+$(this).attr("hora-data");
       
       el = $(this);
@@ -476,8 +484,22 @@ $(".hora").on("click", function(e){
     
     if(horita == 0)
     {
-    	//aqui el boton se pone color rojo cuando se aiga terminado de llenar todas las horas
+    	//aqui el boton se pone color rojo cuando se aiga terminado de llenar todas las horas	
+    	 if($(this).attr("class") == 'hora hora-activa con-curso'){
 
+    		 var children = $("tr td")[6].innerHTML;
+    		 var children2 = $("tr td")[1].innerHTML;
+    		 console.log(children+" "+children2);
+    		 $('#myTable tr').each(function() {
+    
+    			 var myVar = $("#horaData").find('.hora hora-activa con-curso').val();
+    			 console.log(myVar);
+    			   //console.log($(this).html());
+    			   //console.log($(this).hasClass("hora hora-activa con-curso"));
+    			 });
+    	 }
+
+    	 
     	$("[curso-id=\""+id+"\"]").attr("class", 'btn btn-danger');
     	$("[curso-id=\""+id+"\"]").attr("data-toggle", false);
     	datosTotales=[id,profesoor,nombre,horas,objCurso.horasTeoria,objCurso.horasLaboratorio,objCurso.horasPractica,objProfe.nombre];
@@ -507,6 +529,7 @@ $(".hora").on("click", function(e){
      $(this).removeAttr("profesor-asignado");
      $(this).removeAttr("curso-asignado");
      $(this).removeAttr("curso-id-here");
+     $(this).removeAttr("id");
      
     $("[curso-id=\""+id+"\"]").attr("class", 'btn btn-success');
  	$("[curso-id=\""+id+"\"]").attr("data-toggle", 'modal');
@@ -538,20 +561,6 @@ $(".hora").on("click", function(e){
   	}
   
   //$(".hora-falta-curso").html(horas+" horas");
-});
-
-$("#btnGuardarVersion").on("click", function(e){
-	if($(this).attr("class")=='btn btn-success')
-	  {
-		  if(confirm("¿Desea guardar esta version :3?"))
-			{
-			horaActiva = $('hora hora-activa con-curso').val();
-			alert(horaActiva)
-			datosProfesor= [objCurso.seccion,objCurso.horasTeoria,objCurso.horasLaboratorio,objCurso.horasPractica,objProfe.nombre];
-			alert(datosProfesor[4]+" "+datosProfesor[0]);
-			return false;
-		  }
-	  }
 });
 
 function filtroSeccion(se)
@@ -610,12 +619,7 @@ $.each(objHorario.horas, function(key, value){
 	$("[hora-data=\""+value.dia+"-"+value.hora+"\"]").attr("curso-id-here", idBuscado);
 });
 </script>
-<script type="text/javascript">
-function guardarDatosTmp(){
-	
-}
 
-</script>
   
   
 

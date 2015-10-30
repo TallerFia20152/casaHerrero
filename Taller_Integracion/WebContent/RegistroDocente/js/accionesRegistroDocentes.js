@@ -197,6 +197,41 @@ function addCursoApto(tabla){
     });
 }
 
+function refescaDataCurso(){
+	var table=$("#table_curso");
+	var data = table.bootstrapTable('getSelections');
+	var i = 1;
+
+	$.map(data, function (r) {
+		console.log(r);
+		 $table.bootstrapTable('updateRow', {
+			 index: i,
+             row: {
+                 id: r.codigo
+             }
+         });
+		 i++;
+   });
+	
+}
+function refescaDataHora(){
+	var table=$("#table_rangoHoras");
+	var data = table.bootstrapTable('getSelections');
+	var i = 1;
+
+	$.map(data, function (r) {
+		
+		 $table.bootstrapTable('updateRow', {
+			 index: i,
+             row: {
+                 id: i
+             }
+         });
+		 i++;
+   });
+	
+}
+
 function removeCursoApto(tabla){
 	var table=$("#table_"+tabla);
 	var tableModal=$("#table_"+tabla+"_modal");
@@ -213,5 +248,10 @@ function removeCursoApto(tabla){
         field: 'codigo',
         values: codigos
     });
+	tableModal.bootstrapTable('uncheckAll', {
+        field: 'codigo',
+        values: codigos
+    });
+	
 }
 	

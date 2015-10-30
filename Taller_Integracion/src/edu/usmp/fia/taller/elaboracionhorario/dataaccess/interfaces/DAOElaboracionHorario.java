@@ -15,7 +15,7 @@ public interface DAOElaboracionHorario {
 	
 	public List<Curso> getCursoAll () throws Exception; // codCurso, nombreCursoIndivual, nombreCursoGeneeral
 	public List<Docente> getProfesoresAll() throws Exception; //nombreProfesor
-	public int insertHorarios(HorariosBean objHor)throws Exception;
+	public int insertHorarios(List<HorariosBean> listHorarios)throws Exception;
 	public void deleteHorarioTmp() throws Exception;
 	public List <String > getHorarioDetalle () throws Exception;
 	public JSONObject getHoraTotales (String cycle, String versionHorario)throws Exception;
