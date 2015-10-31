@@ -35,12 +35,17 @@ public interface DAOHistoriaConvalidacion {
     public List<Distrito> listardistritos(Departamento wDepartamento)throws Exception;
     public List<ModalidadIngreso> listarmodalidades()throws Exception;
     public void registrarAlumno(Alumno wAlumno)throws Exception;
-    public void registrarConvalidacionAlumno(List<AlumnoConvalidacion> wConvalidacionAlumnos)throws Exception;
+    public void registrarConvalidacionAlumno(List<AlumnoConvalidacion> wConvalidacionAlumnos,List<InsertConvalidacion> wConvalidaciones)throws Exception;
     public List<ConvalidacionAlumno> listarCursosConv(Alumno wAlumno)throws Exception;
     public Alumno VerificarSiconvalido(Alumno wAlumno)throws Exception;
+    public List<Convalidacion> listarCursosUni(UniversidadOrigen wUniversidadOrigen)throws Exception;
     
     public void registrarConvalidaciones(List<InsertConvalidacion> wConvalidaciones)throws Exception;
+    
+    
     public List<ConvalidacionAlumno> listarCursosxconvalidar(Alumno wAlumno)throws Exception;
+    
+    
     public PlanCurricularDetalle BuscarHistorico(ConvalidacionAlumno wConvalidacionAlumno)throws Exception;
     public List<ConvalidacionAlumno> BuscarEnConvalidacion(PlanCurricularDetalle wPlanCurricularDetalle)throws Exception;
     

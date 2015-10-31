@@ -15,6 +15,7 @@ import edu.usmp.fia.taller.common.action.HttpMethod;
 import edu.usmp.fia.taller.common.action.HttpMethodType;
 import edu.usmp.fia.taller.common.action.RequireLogin;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Convalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ConvalidacionAlumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Curso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Departamento;
@@ -83,7 +84,31 @@ public class HistoriaConvalidacion extends ActionServlet {
 	            alumno = null;
 	        }
 	    }
-
+	    
+	    @HttpMethod(HttpMethodType.POST)
+	    @RequireLogin(false)
+	    public void obtenerCursosUni() throws IOException, Exception {
+	        List<Convalidacion> convalidaciones = null;
+	        UniversidadOrigen uni = new UniversidadOrigen();
+	        uni.setId(Integer.parseInt(request.getParameter("coduni")));
+	        
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            convalidaciones = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listarCursosUni(uni);
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(convalidaciones));
+	            out.close();
+	            uni = null;
+	        }
+	    }
+	    
 	    
 	    @HttpMethod(HttpMethodType.POST)
 	    @RequireLogin(false)
@@ -224,6 +249,32 @@ public class HistoriaConvalidacion extends ActionServlet {
 	    	
 	    }
 	   	
+	    @HttpMethod(HttpMethodType.POST)
+	    @RequireLogin(false)
+	    public void listarCursosxConvalidar() throws IOException, Exception {
+	    	List<ConvalidacionAlumno> curconvs = null;
+	    	Alumno alu = new Alumno();
+	    	alu.setPersona(new Persona());
+	    	alu.getPersona().setId(request.getParameter("codcli"));
+	    		    	
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            curconvs = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listarCursosxconvalidar(alu);
+	        } catch (Exception e) {
+	            e.getMessage();
+	            throw e;
+	        } finally {
+	            out.print(gson.toJson(curconvs));
+	            out.close();
+	        }	
+	    	
+	    	
+	    }
 	    
 	    @HttpMethod(HttpMethodType.POST)
 	    @RequireLogin(false)

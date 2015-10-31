@@ -48,35 +48,35 @@
                                <div class="form-group">
                                     <label>C&oacute;digo <span class="required">*</span>
                                     </label>
-                                    <input id="id" style="text-transform:uppercase;" class="form-control" data-validate-length-range="10" data-validate-words="2" required="required" type="text">
+                                    <input id="id" class="numeros form-control" maxlength="10" required="required" type="text">
                                    
                                 </div>
                                 <div class="form-group">
                                     <label >Nombres <span class="required">*</span>
                                     </label>
                                     
-                                        <input id="nom" style="text-transform:uppercase;" class="form-control" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
+                                        <input id="nom" style="text-transform:uppercase;" maxlength="100" class="form-control letras"  required="required" type="text">
                                     
                                 </div>
                                 <div class="form-group">
                                     <label>Apellido Paterno<span class="required">*</span>
                                     </label>
                                     
-                                        <input id="apepat" style="text-transform:uppercase;" class="form-control" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
+                                        <input id="apepat" style="text-transform:uppercase;" maxlength="100" class="form-control letras"  required="required" type="text">
                                     
                                 </div>
                                 <div class="form-group">
                                     <label>Apellido Materno <span class="required">*</span>
                                     </label>
                                     
-                                        <input id="apemat"  style="text-transform:uppercase;" class="form-control" data-validate-length-range="6" data-validate-words="2" name="apellidos" required="required" type="text">
+                                        <input id="apemat"  style="text-transform:uppercase;" maxlength="100" class="letras form-control" name="apellidos" required="required" type="text">
                                     
                                 </div>
                                 <div class="form-group">
                                     <label>DNI <span class="required">*</span>
                                     </label>
                                     
-                                        <input id="dni" style="text-transform:uppercase;" class="form-control" maxlength="8" required="required" type="text" >
+                                        <input id="dni" style="text-transform:uppercase;" class="form-control numeros" maxlength="8" required="required" type="text" >
                                     
                                 </div>
                                 <div class="form-group">
@@ -89,7 +89,7 @@
                                     <label>Direccion <span class="required">*</span>
                                     </label>
                                     
-                                        <input style="text-transform:uppercase;" type="text" id="dir" required="required" class="form-control">
+                                        <input style="text-transform:uppercase;" type="text"  maxlength="100" id="dir" required="required" class="form-control">
                                     
                                 </div>
                                 <div class="form-group">
@@ -111,14 +111,14 @@
                                     <label >Telefono <span class="required">*</span>
                                     </label>
                                     
-                                        <input type="text"  id="numcas" required="required" class="form-control">
+                                        <input type="text"  id="numcas" required="required"  maxlength="10" class="form-control numeros">
                                     
                                 </div>
                                 <div class="form-group">
                                     <label >Celular <span class="required">*</span>
                                     </label>
                                     
-                                        <input type="text" class ="form-control "id="numcel"  required="required">
+                                        <input type="text" class ="form-control numeros" id="numcel" maxlength="9" required="required">
                                     
                                 </div>
                                 <div class="form-group">
@@ -138,7 +138,7 @@
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-3">
                                         <button id="send" type="submit" class="btn btn-success">Submit</button>
-                                        <button type="reset" class="btn btn-primary">Limpiar</button>
+                                        <button type="reset" id="reset" class="btn btn-primary">Limpiar</button>
                                     </div>
                                 </div>
                             </form>

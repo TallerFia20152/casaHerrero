@@ -1,7 +1,9 @@
-$(document).ready(function () {
+jQuery(function ($) {
 	
 	var comboAlumno = $("#comboAlumno").alumnoSelectize("dynamicOptionsAlumno");
     comboAlumno.enable();
+    
+    var comboAlumno =$("#comboCursoOrigen").cursoOrigenSelectize();
     var ArrayCursosOrigen=[];
     //$(document).ajaxStop($.unblockUI);
     //var ArrayCursosConvalidados=[];
@@ -14,42 +16,41 @@ $(document).ready(function () {
          
         //setTimeout($.unblockUI, 4000); 
     	
-    	$.ajax({
-    		url:"../convalidacion",
-           	data:{'f':'verificarSiConvalido','codcli':codcli},
-           	async:false,
-           	datatype:'json',
-           	method:'POST',
-           	success:function(alumno){
-           		console.log(alumno.persona.id+"<>"+comboAlumno.getValue());
-           		if(alumno.persona.id!=comboAlumno.getValue()){
+ 
            			
-           		 $.ajax({
-                    	url:"../convalidacion",
-                    	async:false,
-                    	data:{'f':'obtenerCursosOrigen','codcli':codcli},
-                    	datatype:'json',
-                    	method:'POST',
-                    	success:function(convcurs){
-                    		//console.log(convcurs);
-                    		
-                    		if(convcurs!=null){
-                    		$.each(convcurs, function (index, curcon) {
-                    			ArrayCursosOrigen.push({
-                    				'cursoorigencodigo':curcon.cursoorigencodigo,
-                    				'cursoorigennombre':curcon.cursoorigennombre});
-                    			 
-                    		 });
-                    		}else{
-                    			 toastr["error"]("El alumno no tiene cursos registrados");
-                    		}
-                    	}
-                    	
-                    });
+           
                	//console.log(ArrayCursosOrigen);	
                  
                  if (codcli.length) {
                  	
+                	 $.ajax({
+                     	url:"../convalidacion",
+                     	async:false,
+                     	data:{'f':'obtenerCursosOrigen','codcli':codcli},
+                     	datatype:'json',
+                     	method:'POST',
+                     	success:function(convcurs){
+                     		//console.log(convcurs);
+                     		
+                     		if(convcurs!=null){
+                     			var nuevafila="";
+                     		$.each(convcurs, function (index, curcon) {
+                     		nuevafila = nuevafila + "<tr data-object='"+JSON.stringify(curcon)+"'>";
+                			nuevafila = nuevafila + "<td>"+curcon.cursoorigencodigo +"</td>";
+                			nuevafila = nuevafila + "<td class='nombrecursoorigen' style='cursor:pointer;'>"+curcon.cursoorigennombre +"</td>";
+                			nuevafila = nuevafila + "</tr>";
+                     		
+                     		});
+                     		$("#cursosorigen").empty().append(nuevafila);
+                     		
+                     	}
+                     	
+                     }
+                	 });
+ 					
+                	 
+                	 
+                	 
                      $.ajax({
                          url: "../convalidacion",
                          data: {'f': 'obtenerDatosAlumno','codalu':codcli},
@@ -87,11 +88,7 @@ $(document).ready(function () {
            			
            			
            			
-           		}else{
-           		 toastr["error"]("El alumno ya realiz&oacute; el proceso de convalidaci&oacute;n");
-           		}
-           	}
-    	});
+     
        
 
     });
@@ -121,9 +118,7 @@ $(document).ready(function () {
 	                nuevafila = nuevafila + "<tr class='condata' data-object='" + JSON.stringify(detalle) + "' style='font-size:14px;'>";
 	                nuevafila = nuevafila + "<td style='text-align:center;'>" + detalle.curso.id + "</td><td style='cursor:pointer'>" + detalle.curso.nombre + "</td>";
 	                nuevafila = nuevafila + "<td style='text-align:center;'>" + detalle.creditos + "</td>";
-	                // traer convalidaciones del plan existentes
-	                //nuevafila = nuevafila + traerConvalidacion(detalle);
-	                // fin-traer convalidaciones del plan existentes
+	              
 	                nuevafila = nuevafila + "</tr>";
 	            });
 	            $('#cursosplan').empty().append(nuevafila);

@@ -2,7 +2,7 @@
 	padding: 10px;
 	margin: 20px; //
 	background-color: rgba(177, 6, 58, 0.87);
-	background-color: #008fd8;
+	background-color: #a22424;
 	box-shadow: 2px 2px 2px transparent inset, -5px 5px 5px
 		rgba(3, 3, 3, 0.03), 2px 1px 1px transparent, -5px 10px 10px
 		rgba(0, 0, 0, 0.4);
@@ -19,7 +19,9 @@
 	padding-left: 10px;
 	font-variant: small-caps;
 }
-
+th{
+	text-align:center;
+}
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -31,6 +33,15 @@ fieldset {
 	margin-bottom: 7.5px;
 	border-radius: 5px;
 	border: thin solid grey;
+}
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  padding: 10px;
 }
 
 fieldset.enlinea {
