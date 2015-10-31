@@ -13,6 +13,7 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.Departamento;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Distrito;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Especialidad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Facultad;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.InsertConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricularDetalle;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.UniversidadOrigen;
@@ -36,8 +37,9 @@ public interface DAOHistoriaConvalidacion {
     public void registrarAlumno(Alumno wAlumno)throws Exception;
     public void registrarConvalidacionAlumno(List<AlumnoConvalidacion> wConvalidacionAlumnos)throws Exception;
     public List<ConvalidacionAlumno> listarCursosConv(Alumno wAlumno)throws Exception;
+    public Alumno VerificarSiconvalido(Alumno wAlumno)throws Exception;
     
-    public void registrarConvalidaciones(List<Convalidacion> wConvalidaciones)throws Exception;
+    public void registrarConvalidaciones(List<InsertConvalidacion> wConvalidaciones)throws Exception;
     public List<ConvalidacionAlumno> listarCursosxconvalidar(Alumno wAlumno)throws Exception;
     public PlanCurricularDetalle BuscarHistorico(ConvalidacionAlumno wConvalidacionAlumno)throws Exception;
     public List<ConvalidacionAlumno> BuscarEnConvalidacion(PlanCurricularDetalle wPlanCurricularDetalle)throws Exception;

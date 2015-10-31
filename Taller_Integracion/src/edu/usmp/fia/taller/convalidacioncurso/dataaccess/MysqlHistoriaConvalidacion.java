@@ -14,6 +14,7 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.Departamento;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Distrito;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Especialidad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Facultad;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.InsertConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Persona;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricular;
@@ -284,7 +285,7 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 		List<Distrito> distritos;
         ResultSet rs = null;
         StringBuilder sql = new StringBuilder();
-        sql.append("select * from t_distrito where departamento_id=").append(wDepartamento.getId()).append(" ;");
+        sql.append("select id,upper(nombre) nombre from t_distrito where departamento_id=").append(wDepartamento.getId()).append(" ;");
 
         try {
             this.Conectar(false);
@@ -455,15 +456,15 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 	}
 
 	@Override
-	public void registrarConvalidaciones(List<Convalidacion> wConvalidaciones) throws Exception {
+	public void registrarConvalidaciones(List<InsertConvalidacion> wConvalidaciones) throws Exception {
 		List<StringBuilder> listSql= new ArrayList<>();
         StringBuilder sql;
         
-        for(Convalidacion conva: wConvalidaciones){
+        for(InsertConvalidacion conva: wConvalidaciones){
         	sql = new StringBuilder();
         	sql.append("INSERT INTO t_convalidacion(plan_curricular_detalle_id,curso_id,alumno_id,curso_origen_codigo)"). 
-        		append(" VALUES ('").append(conva.getPlancurricular().getId()).append("', '").append(conva.getCurso().getId()).
-        		append("', '").append(conva.getAlumno().getPersona().getId()).append("', '").append(conva.getCursoorigencodigo()).append("');");
+        		append(" VALUES (").append(conva.getPlancurricular()).append(", '").append(conva.getCurso()).
+        		append("', '").append(conva.getAlumno()).append("', '").append(conva.getCodigocursoorigen()).append("');");
         	listSql.add(sql);
         }
         
@@ -480,6 +481,35 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
             
         }
 		
+	}
+
+	@Override
+	public Alumno VerificarSiconvalido(Alumno wAlumno) throws Exception {
+		
+        ResultSet rs = null;
+        StringBuilder sql = new StringBuilder();
+        sql.append("select distinct alumno_id from t_convalidacion where alumno_id='").append(wAlumno.getPersona().getId()).append("' ;");
+
+        try {
+            this.Conectar(false);
+            rs = this.EjecutarOrdenDatos(sql.toString());
+            
+            if (rs.next()) {
+                wAlumno.getPersona().setId(rs.getString("alumno_id"));
+            }else{
+            	 wAlumno.getPersona().setId("");
+            }
+            rs.close();
+            this.Cerrar(true);
+        } catch (Exception e) {
+            this.Cerrar(false);
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs = null;
+            }
+        }
+        return wAlumno;
 	}
 
 

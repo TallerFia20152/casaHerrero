@@ -25,7 +25,7 @@
 		<div class="main-content">
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 			
-			 <h1 style="text-align: center">HISTORICO DE CONVALIDACIONES</h1>
+			 <h1 style="text-align: center">REPORTE DE CONVALIDACIONES</h1>
         <!--Cursos del Plan-->
         <div class="col-md-6">
             <div>

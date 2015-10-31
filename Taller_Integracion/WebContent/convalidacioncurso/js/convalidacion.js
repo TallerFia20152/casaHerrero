@@ -8,69 +8,91 @@ $(document).ready(function () {
     //var ArrayCursosNoConvalidados=[];
     
     $(document).on("change", '#comboAlumno', function (event) {
-    	$.blockUI({ message: "Espere mientras se cargan los datos" });
+    	//$.blockUI({ message: "Espere mientras se cargan los datos" });
     	var codcli = $(this).val();
         //listamos los cursos registrados por el alumno
          
-        setTimeout($.unblockUI, 4000); 
-        $.ajax({
-           	url:"../convalidacion",
+        //setTimeout($.unblockUI, 4000); 
+    	
+    	$.ajax({
+    		url:"../convalidacion",
+           	data:{'f':'verificarSiConvalido','codcli':codcli},
            	async:false,
-           	data:{'f':'obtenerCursosOrigen','codcli':codcli},
            	datatype:'json',
            	method:'POST',
-           	success:function(convcurs){
-           		//console.log(convcurs);
-           		
-           		if(convcurs!=null){
-           		$.each(convcurs, function (index, curcon) {
-           			ArrayCursosOrigen.push({
-           				'cursoorigencodigo':curcon.cursoorigencodigo,
-           				'cursoorigennombre':curcon.cursoorigennombre});
-           			 
-           		 });
+           	success:function(alumno){
+           		console.log(alumno.persona.id+"<>"+comboAlumno.getValue());
+           		if(alumno.persona.id!=comboAlumno.getValue()){
+           			
+           		 $.ajax({
+                    	url:"../convalidacion",
+                    	async:false,
+                    	data:{'f':'obtenerCursosOrigen','codcli':codcli},
+                    	datatype:'json',
+                    	method:'POST',
+                    	success:function(convcurs){
+                    		//console.log(convcurs);
+                    		
+                    		if(convcurs!=null){
+                    		$.each(convcurs, function (index, curcon) {
+                    			ArrayCursosOrigen.push({
+                    				'cursoorigencodigo':curcon.cursoorigencodigo,
+                    				'cursoorigennombre':curcon.cursoorigennombre});
+                    			 
+                    		 });
+                    		}else{
+                    			 toastr["error"]("El alumno no tiene cursos registrados");
+                    		}
+                    	}
+                    	
+                    });
+               	//console.log(ArrayCursosOrigen);	
+                 
+                 if (codcli.length) {
+                 	
+                     $.ajax({
+                         url: "../convalidacion",
+                         data: {'f': 'obtenerDatosAlumno','codalu':codcli},
+                         dataType: 'json',
+                         method: 'POST',
+                         success: function (datos) {
+                             //console.log(JSON.stringify(datos));
+                             $('#codigo').empty().append(datos.persona.id);
+                             $('#apellidos').empty().append(datos.persona.apellidopaterno + ' '+datos.persona.apellidomaterno);
+                             $('#nombres').empty().append(datos.persona.nombre);
+                             $('#facultad').empty().append(datos.facultad.nombre);
+                             $('#escuela').empty().append(datos.especialidad.nombre);
+                             $('#nomplan').empty().append('PLAN DE ESTUDIOS DE '+datos.especialidad.nombre);
+                             
+                             var nav = $('#datosalumno');
+                             var pos = nav.offset();
+                             var h = $('#datosalumno').height();
+                             $('#datosalumno').css("height", h);
+                             $(window).on('scroll', function() {
+                             	//console.log($(this).scrollTop());
+                             	//console.log(pos.top);
+                                 if ($(this).scrollTop() >= (pos.top)) {
+                                     nav.addClass('fijo');
+                                 } else {
+                                     nav.removeClass('fijo');
+                                 }
+                             });
+                         }
+                     });
+                     // empieza carga de plan
+                     	CargarPlanEstudios(codcli);
+                     	
+                     
+                 }
+           			
+           			
+           			
+           		}else{
+           		 toastr["error"]("El alumno ya realiz&oacute; el proceso de convalidaci&oacute;n");
            		}
            	}
-           	
-           });
-      	//console.log(ArrayCursosOrigen);	
-        
-        if (codcli.length) {
-        	
-            $.ajax({
-                url: "../convalidacion",
-                data: {'f': 'obtenerDatosAlumno','codalu':codcli},
-                dataType: 'json',
-                method: 'POST',
-                success: function (datos) {
-                    //console.log(JSON.stringify(datos));
-                    $('#codigo').empty().append(datos.persona.id);
-                    $('#apellidos').empty().append(datos.persona.apellidopaterno + ' '+datos.persona.apellidomaterno);
-                    $('#nombres').empty().append(datos.persona.nombre);
-                    $('#facultad').empty().append(datos.facultad.nombre);
-                    $('#escuela').empty().append(datos.especialidad.nombre);
-                    $('#nomplan').empty().append('PLAN DE ESTUDIOS DE '+datos.especialidad.nombre);
-                    
-                    var nav = $('#datosalumno');
-                    var pos = nav.offset();
-                    var h = $('#datosalumno').height();
-                    $('#datosalumno').css("height", h);
-                    $(window).on('scroll', function() {
-                    	//console.log($(this).scrollTop());
-                    	//console.log(pos.top);
-                        if ($(this).scrollTop() >= (pos.top)) {
-                            nav.addClass('fijo');
-                        } else {
-                            nav.removeClass('fijo');
-                        }
-                    });
-                }
-            });
-            // empieza carga de plan
-            	CargarPlanEstudios(codcli);
-            	
-            
-        }
+    	});
+       
 
     });
     
@@ -225,31 +247,26 @@ $(document).ready(function () {
         		
         	
     		ajaxdata.push({
-        			'plancurricular':{
-        				'id':detalle.plancurricular.id
-        			},
-        			'curso':{
-        				'id':detalle.curso.id
-        			},
-        			'cursoorigencodigo':curori.cursoorigencodigo,
-        			'alumno':{
-        				'persona':{
-        					'id':comboAlumno.getValue()
-        				}
-        			}
-        			
+        			'plancurricular':detalle.plancurricular.id
+        			,
+        			'curso':detalle.curso.id
+        			,
+        			'codigocursoorigen':curori.cursoorigencodigo,
+        			'alumno':comboAlumno.getValue()
         	});
         	}
     	});
     	
     	$.ajax({
     		url:"../registrodatos",
-        	data:{'f':'registrarConvalidacion','listadata':ajaxdata},
+        	data:{'f':'registrarConvalidacion','listadata':JSON.stringify(ajaxdata)},
         	datatype:'json',
         	method:'POST',
         	success:function(datos){
         		if(datos=="OK"){
         			toastr["success"]("Registro Exitoso");
+        			comboAlumno.clear();
+        	    	$('#cursosplan').empty();
         		}else{
         			toastr["warning"]("Error al registrar");
         		}
@@ -257,7 +274,7 @@ $(document).ready(function () {
     		
     	});
     	
-    	comboAlumno.clear();
+    	
     });
     
     
