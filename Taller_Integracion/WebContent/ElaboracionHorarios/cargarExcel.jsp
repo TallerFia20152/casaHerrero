@@ -32,7 +32,7 @@
 		<form action="cargarExcels" method="post" enctype="multipart/form-data">
 	
 			
-			Seleccionar Archivo : <input type="file" name="filetoupload">
+			Seleccionar Archivo : <input type="file" accept=".xls" name="filetoupload" required>
 			<br/>
 			<input type="submit" class="btn btn-info" value="Subir Archivo">
 		</form>

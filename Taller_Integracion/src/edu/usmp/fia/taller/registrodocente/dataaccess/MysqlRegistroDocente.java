@@ -124,12 +124,43 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		Statement stmt = conexion.createStatement();
 		String sqlDelete[]=insertarCamposDinamicosCursosAptos("t_cursos_aptos_x_profesor",json_cusosAptos,id_profesor);
 		System.out.print(sqlDelete[0]+"\n"+sqlDelete[1]);
+		
 		try {
 			if(!sqlDelete[0].equals(""))
 				stmt.executeUpdate(sqlDelete[0]);
 			if(!sqlDelete[1].equals(""))
 				stmt.executeUpdate(sqlDelete[1]);
 			
+			 JSONArray json2 =(JSONArray) new JSONParser().parse(json_cusosAptos.toString());
+			 //DELETE FROM t_telefono_profesor WHERE `id_telefono` not in (1,3) and `id_profesor`=1
+			 String deleteClausule="";
+			 String insertsNuevos="";
+			 String id="";
+			 for(int i =0; i<json2.size();i++){
+				 JSONObject jsonObjet= (JSONObject) json2.get(i);
+				 id=jsonObjet.get("id").toString();
+				 String cursoId=jsonObjet.get("curso_id").toString();
+				 if(!id.equals("-1")){
+					 if(deleteClausule.equals("")){
+						deleteClausule+="'"+cursoId+"'";
+					 }
+					 else{
+						deleteClausule+=","+"'"+cursoId+"'";
+					 }
+				 }else{
+					
+					 if(insertsNuevos.equals("")){
+						insertsNuevos+="('"+cursoId+"','"+id_profesor+"','2015-10-12','1'";
+					 }
+					 else{
+						insertsNuevos+="),('"+cursoId+"','"+id_profesor+"','2015-10-12','1'";
+					 }
+				}
+			 }
+			
+			 String query = "INSERT INTO t_curso_profesor (curso_id, profesor_id, estado) VALUES ('"+id+"', '"+id_profesor+"','1')";
+			 System.out.println(query);
+			 stmt.executeUpdate(query);
 			close(stmt);
 			close(conexion);
 
@@ -605,7 +636,7 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 				 String id=jsonObjet.get("id").toString();
 				 String cursoId=jsonObjet.get("curso_id").toString();
 				 if(!id.equals("-1")){
-					 if(i==0){
+					 if(deleteClausule.equals("")){
 						deleteClausule+="'"+cursoId+"'";
 					 }
 					 else{
@@ -613,12 +644,10 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 					 }
 				 }else{
 					
-					 if(i==0){
-						deleteClausule+="'"+cursoId+"'";
+					 if(insertsNuevos.equals("")){
 						insertsNuevos+="('"+cursoId+"','"+id_profesor+"','2015-10-12','1'";
 					 }
 					 else{
-						deleteClausule+=","+"'"+cursoId+"'";
 						insertsNuevos+="),('"+cursoId+"','"+id_profesor+"','2015-10-12','1'";
 					 }
 				}
@@ -660,7 +689,7 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 				 String horaInicio=jsonObjet.get("horaInicio").toString();
 				 String horaFin=jsonObjet.get("horaFin").toString();
 				 if(!id.equals("-1")){
-					 if(i==0){
+					 if(deleteClausule.equals("")){
 						deleteClausule+="'"+id+"'";
 					 }
 					 else{
@@ -668,7 +697,7 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 					 }
 				 }else{
 					
-					 if(i==0){
+					 if(insertsNuevos.equals("")){
 						insertsNuevos+="('"+id_profesor+"','"+dia+"','"+horaInicio+"','Disponible'),";
 						insertsNuevos+="('"+id_profesor+"','"+dia+"','"+horaFin+"','Disponible'";
 					 }

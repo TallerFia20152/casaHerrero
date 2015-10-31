@@ -8,6 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Taller Proyectos</title>
+<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 <link href="<%=request.getServletContext().getContextPath() %>/RegistroDocente/css/boostrap/bootstrap.min.css" rel="stylesheet" />
 <link href="<%=request.getServletContext().getContextPath() %>/RegistroDocente/css/boostrap/bootstrap-table.min.css" rel="stylesheet" />
  <link href="<%=request.getServletContext().getContextPath() %>/RegistroDocente/css/dashboard.css" rel="stylesheet" />
@@ -17,7 +18,7 @@
  <script src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/validator.min.js"></script>
  <script src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/combos.js"></script>
  <script src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/accionesRegistroDocentes.js"></script>
-<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+
 </head>
 
 <%

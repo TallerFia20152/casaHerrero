@@ -14,6 +14,9 @@
 
 <html lang="en">
 <head>
+
+<title>Registro Docente</title>
+<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 <link
 	href="<%=request.getServletContext().getContextPath() %>/RegistroDocente/css/boostrap/bootstrap.min.css"
 	rel="stylesheet" />
@@ -36,8 +39,6 @@
 <script
 	src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/accionesRegistroDocentes.js"></script>
 
-<title>Registro Docente</title>
-<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 </head>
 <%
 	Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
@@ -197,7 +198,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 										<button data-toggle="modal" href="#agregarCurso" type="button"
 											class="btn btn-success btn-addItem">Agregar Curso</button>
 									</dir>
-									<dir class="col-xs-8">
+									<dir class="col-xs-7">
 									<a class="btn btn-success btn-addItem" href="javascript:removeCursoApto('curso')" >Eliminar
 											Curso</a>
 									</dir>
@@ -239,7 +240,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 										<button data-toggle="modal" href="#agregarCurso" type="button"
 											class="btn btn-success btn-addItem">Agregar Curso</button>
 									</dir>
-									<dir class="col-xs-8">
+									<dir class="col-xs-7">
 										<a class="btn btn-success btn-addItem" href="javascript:removeCursoApto('curso')" >Eliminar
 											Curso</a>
 									</dir>
@@ -319,7 +320,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 											data-method="append" data-table="rangoHoras">Agregar
 											Rango</button>
 									</dir>
-									<dir class="col-xs-8">
+									<dir class="col-xs-7">
 										<button type="button" class="btn btn-success btn-addItem"
 											data-method="remove" data-table="rangoHoras">Eliminar
 											Rango</button>
@@ -386,6 +387,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 					console.log(respuesta);
 					if(respuesta.exito){
 						//resetearFormulario(form);
+						refescaDataCurso();
 						$("#msj2").html(respuesta.mensaje);
 						$("#msj1").fadeToggle("fast", function() {
 							$("#msj1").delay(2000).fadeToggle(1000);

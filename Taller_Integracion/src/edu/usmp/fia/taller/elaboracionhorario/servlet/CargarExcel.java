@@ -151,7 +151,7 @@ public class CargarExcel extends ActionServlet  {
 	            	horarios.setViernes(row.getCell(17).getStringCellValue());
 	            	horarios.setSabado(row.getCell(18).getStringCellValue());
 	            	horarios.setDomingo(row.getCell(19).getStringCellValue());
-	            	int ilistaCurso= oDAOFactory.getElaboracionHorario().elabHorarios().insertHorarios(horarios);
+	            	
 	            	// inicio validar si los cursos estan como esta en el excel
 	            	for(int z=0;z<listaCurso.size();z++){
 	            		
@@ -174,6 +174,7 @@ public class CargarExcel extends ActionServlet  {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
+		int ilistaCurso= oDAOFactory.getElaboracionHorario().elabHorarios().insertHorarios(listaHorario);
 		return listaHorario;
 	}
 

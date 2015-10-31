@@ -39,11 +39,13 @@ public class ElaboracionHorariosServlet extends  ActionServlet  {
 		System.out.println("leerhorario");
 		PrintWriter out = response.getWriter();
 		try {
+			
+
 			String version = request.getParameter("version");
 			String newVersion = request.getParameter("newVersion");
 			String borrarVersion = request.getParameter("borrarVersion");
 			System.out.println("prueba; "+"version: "+version+"  "+" newVersion: "+newVersion+" "+" borrarversion: "+ borrarVersion);
-			System.out.println(version);
+			System.out.println("version: "+version);
 			HttpSession sesion = request.getSession();
 			if(borrarVersion != null)
 			{
@@ -113,7 +115,7 @@ public class ElaboracionHorariosServlet extends  ActionServlet  {
 		}
 	}
 
-	@HttpMethod(HttpMethodType.GET)
+	@HttpMethod(HttpMethodType.POST)
 	@RequireLogin(true)
 	public void cargarHorario() throws Exception {
 		// TODO Auto-generated method stub
@@ -121,6 +123,13 @@ public class ElaboracionHorariosServlet extends  ActionServlet  {
 				PrintWriter out = response.getWriter();
 				try
 				{
+					////
+					String cicloTot=request.getParameter("cicloTot");
+					System.out.println("cicloTot: "+cicloTot);
+					////
+					
+					
+					
 					String cycle = request.getParameter("cycle");
 					System.out.println("ciclo: "+cycle);
 					HttpSession sesion = request.getSession();
