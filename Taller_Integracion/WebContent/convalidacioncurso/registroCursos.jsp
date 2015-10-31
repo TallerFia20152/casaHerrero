@@ -10,17 +10,18 @@
 <title>Taller Proyectos</title>
 <jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 <link href="css/selectize.default.css" rel="stylesheet" type="text/css" />
+<link href="css/fileinput.min.css" rel="stylesheet" type="text/css" />
 <link href="css/registroCursos.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
 <script src="js/selectize.min.js" type="text/javascript"></script>
+<script src="js/fileinput.min.js" type="text/javascript"></script>
+<script src="js/fileinput_locale_es.js" type="text/javascript"></script>
 <script src="js/selectizes/alumnoSelectize.js" type="text/javascript"></script>
 <script src="js/selectizes/universidadSelectize.js"
 	type="text/javascript"></script>
 <script src="js/registroCursos.js" type="text/javascript"></script>
+
 </head>
-
-
-
 
 <body class="page-body skin-red">
 	<div class="page-container">
@@ -42,7 +43,7 @@
 							</div>
 						</div>
 					</section>
-					
+
 
 					<div id="imprcab">
 						<fieldset>
@@ -73,23 +74,11 @@
 							</table>
 						</fieldset>
 					</div>
-					<hr style="visibility:hidden;">
+					<hr style="visibility: hidden;">
 					<hr>
-					<hr style="visibility:hidden;">
+					<hr style="visibility: hidden;">
+
 					<div class="row">
-					<div class="col-md-offset-2 col-md-8">
-						<table class="table table-hover table-bordered ">
-						<thead>
-						<th>C&oacute;digo</th>
-						<th>Curso</th>
-						<th>Nota</th>
-						</thead>
-						<tbody id="cursosregistrados">
-						</tbody>
-						</table>
-						</div>
-					</div>
-					<div class="row" >
 						<div class="col-md-offset-2 col-md-8">
 							<div class="form-group">
 								<label>Universidad Origen<span class="required">*</span>
@@ -99,28 +88,56 @@
 
 						</div>
 					</div>
-					<div class="col-md-offset-2 col-md-8">
-						<label class="col-md-12 col-xs-12 col-sm-12">Cursos de la
-							universidad de Origen</label>
+
+					
+
+					<div class="col-md-offset-1 col-md-10">
+						
+
+						<form id="form">
+						<div class="row">
+						<div class="col-md-12">
+							<table class="table table-hover table-bordered " style="font-size:13px;">
+								<thead>
+								<tr>
+									<td style="text-align:center;" class="subsubtit" colspan="4"><b>USMP</b></td>
+									<td style="text-align:center;"  class="subsubtit" colspan="2"><b>UNIV. ORIGEN</b></td>
+								</tr>
+									<th>N° Conv.</th>
+									<th>C&oacute;digo</th>
+									<th>Curso</th>
+									<th>Ciclo</th>
+									<th>C&oacute;digo</th>
+									<th>Curso</th>
+									<th>Añadir</th>
+									<th>Nota</th>
+								</thead>
+								<tbody id="cursosregistrados">
+								</tbody>
+							</table>
+						</div>
+					
+						<label class="col-md-12 col-xs-12 col-sm-12">Cursos no encontrados</label>
 						<div class="col-md-6 col-xs-6 col-sm-6">
-							<button id="agregarcurso"
+							<input id="agregarcurso" style="width:50px;"
 								class="btn btn-success btn-lg mitooltip" data-placement="right"
-								title="AGREGAR UN CURSO">+</button>
+								title="AGREGAR UN CURSO" value="+"/>
 						</div>
 						<hr style="visibility: hidden">
 						<hr style="visibility: hidden">
 						<hr style="visibility: hidden">
-
-						<form id="form">
-							<div id="cursosaprobados"></div>
+						
+							<div class="col-md-12" id="cursosaprobados"></div>
 							<hr style="visibility: hidden">
 							<hr style="visibility: hidden">
-							<div style="text-align:center;">
+							<div style="text-align: center;">
 								<input type="submit" class="btn btn-success"
 									value="Registrar Cursos" />
 							</div>
+						</div>	
 						</form>
 						<hr style="visibility: hidden">
+						</div>
 					</div>
 				</div>
 			</div>

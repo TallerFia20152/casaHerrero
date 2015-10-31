@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(function($) {
 
 	
 	var comboDistrito = $("#comboDistrito").distritoSelectize();
@@ -30,8 +30,6 @@ $(document).ready(function() {
 			'mod' : comboModalidad.getValue(),
 			'dis' : comboDistrito.getValue(),
 			'especialidad' : comboEspecial.getValue()
-		// ,'universidad':comboUniversidad.getValue()
-
 		};
 
 		console.log(JSON.stringify(ajaxdata));
@@ -44,33 +42,37 @@ $(document).ready(function() {
 				if (datos == "OK") {
 					console.log(datos);
 					 toastr["success"]("Registro Exitoso");
-					 $("#login").reset();
+					 limpiar();
 				} else {
 					console.log(datos);
 					toastr["warning"]("Error al Registrar");
 				}
 			}
 		});
-
 	});
-	function soloNumeros(tecla) {
-		if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-	}
-
-	$('#numcel').on('keypress',function(event){
-		soloNumeros(event);
+	function limpiar(){
+		$('#id').val(''),
+		$('#nom').val(''),
+		$('#apepat').val(''),
+		$('#apemat').val(''),
+		$('#sexo').val(''),
+		$('#dni').val(''),
+		$('#fecnac').val(''),
+		$('#dir').val(''),
+		$('#numcel').val(''),
+		$('#numcas').val(''),
+		comboSexo.clear(),
+		comboModalidad.clear(),
+		comboDistrito.clear(),
+		comboEspecial.clear()
+	};
+	 $(document).on("keyup",'.numeros',function(){
+	    	this.value = (this.value + '').replace(/[^0-9]/g, '');
 	});
-	$('#id').on('keypress',function(event){
-		soloNumeros(event);
+	 $(document).on("keyup",'.letras',function(){
+	    	this.value = (this.value + '').replace(/[^a-z ñÑ]{0,100}$/, '');
 	});
-	$('#numcas').on('keypress',function(event){
-		soloNumeros(event);
-	});
-	$('#dni').on('keypress',function(event){
-		soloNumeros(event);
-	});
-	
-    toastr.options = {
+	 toastr.options = {
             "timeOut": 3000,
             newestOnTop: false,
             hideDuration: 500,
