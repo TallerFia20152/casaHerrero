@@ -2,23 +2,16 @@ jQuery(function ($) {
 	
 	var comboAlumno = $("#comboAlumno").alumnoSelectize("dynamicOptionsAlumno");
     comboAlumno.enable();
-    
-    
+
     var ArrayCursosOrigen=[];
-    //$(document).ajaxStop($.unblockUI);
+    $(document).ajaxStop($.unblockUI);
     //var ArrayCursosConvalidados=[];
     //var ArrayCursosNoConvalidados=[];
     
     $(document).on("change", '#comboAlumno', function (event) {
-    	//$.blockUI({ message: "Espere mientras se cargan los datos" });
+
     	var codcli = $(this).val();
-        //listamos los cursos registrados por el alumno
-         
-        //setTimeout($.unblockUI, 4000);
-        //console.log(ArrayCursosOrigen);	
-                 
                  if (codcli.length) {
-                 	
                 	 $.ajax({
                      	url:"../convalidacion",
                      	async:false,
@@ -27,14 +20,14 @@ jQuery(function ($) {
                      	method:'POST',
                      	success:function(convcurs){
                      		//console.log(convcurs);
-                     		
                      		if(convcurs!=null){
-                     			var nuevafila="";
+                     		var nuevafila="";
                      		$.each(convcurs, function (index, curcon) {
                      		nuevafila = nuevafila + "<tr data-object='"+JSON.stringify(curcon)+"'>";
-                			nuevafila = nuevafila + "<td>"+curcon.cursoorigencodigo +"</td>";
+                			nuevafila = nuevafila + "<td><div style='width:100px;border:solid 1px;cursor:pointer;text-align:center;' id='curori"+index+"' class='ui-widget-content movible'>"+curcon.cursoorigencodigo +"</div></td>";
                 			nuevafila = nuevafila + "<td class='nombrecursoorigen' style='cursor:pointer;'>"+curcon.cursoorigennombre +"</td>";
                 			nuevafila = nuevafila + "</tr>";
+                			
                 			ArrayCursosOrigen.push({
                 				'codigo':curcon.cursoorigencodigo,
                 				'nombre':curcon.cursoorigennombre
@@ -42,13 +35,22 @@ jQuery(function ($) {
                 			
                      		});
                      		$("#cursosorigen").empty().append(nuevafila);
-                     		
+                     		$(".movible").draggable({ 
+                     			cursor: "move", 
+                     			cursorAt: { top: 8, left: 50 },
+                     			revert:true
+                     			//helper:'clone'
+                     				
+                     		});
                      	}
                      	
                      }
                 	 });
  					
-                	 
+              	   $.blockUI({
+                       message: "<p>Cargando datos del alumno</p>"
+                   });
+
                 	 
                 	 
                      $.ajax({
@@ -86,29 +88,14 @@ jQuery(function ($) {
                      	
                      
                  }
-           			
-           			
-           			
-     
-       
 
     });
-    
-    
-    
-    function llenarComboCursos(id){
-        $.when($("#"+id).cursoOrigenSelectize())
-        .then(function() {
-            $("#"+id).cursoOrigenSelectize().enable($("#"+id).cursoOrigenSelectize().cargarCursosOrigen(comboAlumno.getValue()));
-        });
-    } 
-    
   
    function CargarPlanEstudios(_codcli){
 	   // blockUI
-//	   $.blockUI({
-//           message: "<p>Espere mientras hacemos la verificaci&oacute;n</p>"
-//       });
+	   $.blockUI({
+           message: "<p>Espere mientras cargamos los datos</p>"
+       });
 	   $.ajax({
 	        url: "../convalidacion",
 	        data: {'f': 'convalidacion','codalu':_codcli},
@@ -126,19 +113,23 @@ jQuery(function ($) {
 	                nuevafila = nuevafila + "<tr class='condata' data-object='" + JSON.stringify(detalle) + "' style='font-size:14px;'>";
 	                nuevafila = nuevafila + "<td style='text-align:center;'>" + detalle.curso.id + "</td><td style='cursor:pointer'>" + detalle.curso.nombre + "</td>";
 	                nuevafila = nuevafila + "<td style='text-align:center;'>" + detalle.creditos + "</td>";
-	                nuevafila = nuevafila + "<td style='text-align:center;width:400px;'>" + "<select class='ccOrigen' id='cursosorigen"+index+"'> </select>" + "</td>";
+	                nuevafila = nuevafila + "<td style='text-align:center;'><div class='contenedor' id='curusmp"+index+"' style='border:dashed 1px;width:100px;height:18px;margin:2px;' ></div></td>";
+	                //nuevafila = nuevafila + "<td style='text-align:center;width:400px;'>" + "<select class='ccOrigen' id='cursosorigen"+index+"'> </select>" + "</td>";
 	                nuevafila = nuevafila + "</tr>";
-	                //llenarComboCursos("cursosorigen"+index);
+
 	            });
 	            $('#cursosplan').empty().append(nuevafila);
-	            console.log(JSON.stringify(ArrayCursosOrigen));
-	            $.each(cursosjson, function (index, detalle) {
-//	            	llenarComboCursos("cursosorigen"+index);
-	            	$("#cursosorigen"+index).cursoOrigenSelectize();
-	            	$("#cursosorigen"+index).cursoOrigenSelectize().enable($("#cursosorigen"+index).cursoOrigenSelectize().cargarCursos(ArrayCursosOrigen));
-	            	
+	            $(".contenedor").droppable({
+	            	tolerance:'intersect',
+	            	accept:'.movible',
+	            	drop:function(event,ui){
+	            		var id = $(ui.dragable).attr('id');
+	            		var ele = $(ui.draggable).html();
+	            		var container = $(this).attr('id');
+	            		$("#"+id).appendChild("#"+container);
+	            	}
 	            });
-	          //  pintarsinhistorico();
+
 	        },
 	        error: function (res) {
 	            // toastr["error"]("Ocurrió un error al obtener Estado");
@@ -151,87 +142,7 @@ jQuery(function ($) {
 	   
 	   //agregarCursosOrigen();
    };
-   function agregarCursosOrigen(){
-	   $('#cursosplan .condata').each(function () {
-		   var tdadd ="";
-		   var contadortd=0;
-		   //console.log({'codcur':$(this).data("object").curso.id,
-	        //		  'codplan':$(this).data("object").plancurricular.id});
-//		   $.blockUI({
-//	           message: "<p>Espere mientras hacemos la verificaci&oacuete;n</p>"
-//	       });
-		   $.ajax({
-	        	url:"../convalidacion",
-	        	async:false,
-	        	data:{'f':'buscarEnConvalidacion',
-	        		  'codcur':$(this).data("object").curso.id,
-	        		  'codplan':$(this).data("object").plancurricular.id},
-	        	datatype:'json',
-	        	method:'POST',
-	        	success:function(datos){
-	        		// traera los cursos equivalentes a este detalle
-	        		if(datos.length!==0){
-	        			//console.log(datos);
-	        			tdadd="<td style='text-align:center;' class='envioterminar' ";	
-	        		for(var j=0;j<datos.length;j++){
-	        		
-	        			// si está, pinta al lado y borra de lista
-	        			
-		        			for(var n=0;n<ArrayCursosOrigen.length;n++){
-		        		//		console.log(ArrayCursosOrigen[n]+" "+datos[j]);
-		        				if(datos[j].cursoorigencodigo==ArrayCursosOrigen[n].cursoorigencodigo){
-		        					//pinta curso al lado
-		        					tdadd = tdadd + "data-object='"+JSON.stringify(ArrayCursosOrigen[n])+"'>";
-		        					tdadd = tdadd + ArrayCursosOrigen[n].cursoorigencodigo + " "+ArrayCursosOrigen[n].cursoorigennombre;
-		        					//borra de la lista
-		        					for(var i=0;i<ArrayCursosOrigen.length;i++){
-		        						//console.log(datos[j].cursoorigencodigo+ " " +ArrayCursosOrigen[i].cursoorigencodigo);
-		        			    		if(datos[j].cursoorigencodigo==ArrayCursosOrigen[i].cursoorigencodigo){
-		        			    			delete ArrayCursosOrigen[i];
-		        			    			ArrayCursosOrigen.splice(i,1);
-		        			    			contadortd++;
-		        			    		}
-		        			    	}
-		        					
-		        					
-		        				}	
-		        			}
-	        		 }
-	        		
-	        		//console.log(contadortd);
-	        		//console.log(datos.length);
-	        		//si es mas de un curso y el alumno no los tiene
-	        		if(contadortd != datos.length && contadortd!=0 && datos.length!=0){
-
-	        			tdadd = tdadd +"Falta(n) Curso(s) para convalidar<br/>";
-	        		}
-	        		tdadd = tdadd +"</td>";
-	        			
-	        		}
-	        	}
-	        });
-		   //console.log(tdadd);
-		   $(this).append(tdadd);
-
-		   pintarsinhistorico();
-		   //console.log(JSON.stringify(ArrayCursosOrigen));
-		   
-     });
-
-	   toastr["success"]("Carga de datos Exitosa");
-   };
-   function pintarsinhistorico(){
-	   var nuevafila="";
-	   //console.log("marco");
-	   //console.log(ArrayCursosOrigen);
-		for(var n=0;n<ArrayCursosOrigen.length;n++){
-			nuevafila = nuevafila + "<tr data-object='"+JSON.stringify(ArrayCursosOrigen[n])+"'>";
-			nuevafila = nuevafila + "<td>"+ArrayCursosOrigen[n].cursoorigencodigo +"</td>";
-			nuevafila = nuevafila + "<td class='nombrecursoorigen' style='cursor:pointer;'>"+ArrayCursosOrigen[n].cursoorigennombre +"</td>";
-			nuevafila = nuevafila + "</tr>";
-		}
-		$("#cursosorigen").empty().append(nuevafila);
-   };
+      
     
    $(document).on("click", '.nombrecursoorigen', function (event) {
     

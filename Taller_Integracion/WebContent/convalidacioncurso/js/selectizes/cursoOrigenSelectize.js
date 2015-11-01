@@ -11,8 +11,7 @@
 			maxItems : 1
 		};
 
-		var comboCursosOrigen = $root.selectize($.extend(defaultOptions,
-				options))[0].selectize;
+		var comboCursosOrigen = $root.selectize($.extend(defaultOptions,options))[0].selectize;
 
 		var methods = {
 			"cargarCursosOrigen" : function(codcli) {
@@ -21,25 +20,24 @@
 				comboCursosOrigen.unlock();
 				comboCursosOrigen.clearOptions();
 				comboCursosOrigen.load(function(callback) {
-					
+					//console.log({'f':'obtenerCursosOrigen','codcli':codcli});
 					xhr=$.ajax({
                     	url:"../convalidacion",
-                    	async:false,
                     	data:{'f':'obtenerCursosOrigen','codcli':codcli},
                     	datatype:'json',
                     	method:'POST',
                     	success:function(convcurs){
-                    		//console.log(convcurs);
+                    	//	console.log(convcurs);
                     		
                     		if(convcurs!=null){
-                    			var ArrayCursosOrigen=[];
+                    			var Array=[];
                     		$.each(convcurs, function (index, curcon) {
-                    			ArrayCursosOrigen.push({
+                    			Array.push({
                     				'codigo':curcon.cursoorigencodigo,
                     				'nombre':curcon.cursoorigennombre});
                     			 
                     		 });
-                    		callback(ArrayCursosOrigen);
+                    		callback(Array);
                     		}
                     	}
                     	
@@ -49,7 +47,20 @@
 					});
 				
 				return xhr;
+			},
+			"cargarCursos" : function(listacursos) {
+
+				var xhr;
+				comboCursosOrigen.unlock();
+				comboCursosOrigen.clearOptions();
+				comboCursosOrigen.load(function(callback) {
+					xhr = callback(listacursos);
+					});
+				
+				return xhr;
 			}
+			
+			
 		};
 		return $.extend(comboCursosOrigen, methods);
 	};

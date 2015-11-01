@@ -460,7 +460,7 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 		List<ConvalidacionAlumno> cursos;
 		ResultSet rs = null;
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * ").append("from t_convalidacion_alumno").append("where alumno_id='")
+		sql.append("select * from t_convalidacion_alumno where alumno_id='")
 				.append(wAlumno.getPersona().getId()).append("' ")
 				.append("and curso_origen_codigo not in(select distinct curso_origen_codigo from t_convalidacion where alumno_id='")
 				.append(wAlumno.getPersona().getId()).append("');");

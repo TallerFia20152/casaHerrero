@@ -26,67 +26,7 @@
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 			
 			 <h1 style="text-align: center">REPORTE DE CONVALIDACIONES</h1>
-        <!--Cursos del Plan-->
-        <div class="col-md-6">
-            <div>
-                <h2 style='text-align:center;' id="plan"></h2>
-                <table style="width: 100%" class="table table-hover table-bordered ">
-                    <thead>
-                        <tr style='text-align:center;font-size:14px;'>
-                            <th style="text-align: center">C&oacute;digo</th>
-                            <th style="text-align: center">Curso</th>
-                            <th style="text-align: center">Cr&eacute;dito</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cursosplan">
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-        <!--Cursos de Alumno -->
-        <div class="col-md-6">
-            <div>
-                <h2 style='text-align:center;'>Cursos Aprobados</h2>
-                <table style="width: 100%" class="table table-hover table-bordered">
-                    <thead>
-                        <tr style='text-align:center;font-size:14px;'>
-                            <th style="text-align: center">C&oacute;digo</th>
-                            <th style="text-align: center">Curso</th>
-                            <th style="text-align: center">Cr&eacute;dito</th>
-                            <th style="text-align: center">Convalidacion</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cursosorigen">
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
-        <!--        <div class="col-md-offset-2 col-md-8">
-                    <div>
-                        <h2 style='text-align:center;'>Convalidaciones</h2>
-                        <table style="width: 100%" class="table table-hover table-striped">
-                            <thead>
-                                <tr style='text-align:center;font-size:14px;'>
-                                    <th style="text-align: center">Asignatura(Universidad Origen)</th>
-                                    <th style="text-align: center"></th>
-                                    <th style="text-align: center">Asignatura(USMP)</th>
-                                    <th style="text-align: center">Credito</th>
-                                </tr>
-                            </thead>
-                            <tbody id="convalidaciones">
-        
-                            </tbody>
-                        </table>
-                    </div>
-                </div>-->
-        <div class="col-md-offset-2 col-md-8">
-            <div style="text-align: center;">
-                <input  id="terminar" type="button" class="btn btn-primary" value="Terminar Evaluación"/>
-
-            </div>
-        </div>
+       
 			
 			
 
