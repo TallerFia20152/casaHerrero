@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <%@page import="edu.usmp.fia.taller.common.action.SessionParameters"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Usuario"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Persona"%>
@@ -7,18 +7,20 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 	<link href="css/selectize.default.css" rel="stylesheet" type="text/css" />
 	<link href="css/toastr.min.css" rel="stylesheet" type="text/css" />
 	<link href="css/convalidacion.css" rel="stylesheet" type="text/css" />
-	<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
+<!-- 	<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script> -->
+	
 	<script src="js/jquery.blockUI.js" type="text/javascript"></script>
 	<script src="js/toastr.min.js" type="text/javascript"></script>
 	<script src="js/selectize.min.js" type="text/javascript"></script>
 	<script src="js/selectizes/alumnoSelectize.js" type="text/javascript"></script>
 	<script src="js/selectizes/cursoOrigenSelectize.js" type="text/javascript"></script>
-	<script src="js/convalidacion.js" type="text/javascript"></script>
+	<script src="js/convalidacion_nuevo.js" type="text/javascript"></script>
 	<title>Taller Proyectos</title>
-	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+	
 </head>
 
 <%
@@ -91,7 +93,7 @@
         <hr style="visibility: hidden;">
         
         
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div>
                 <h2 style='text-align:center;' id="nomplan"></h2>
                 <table style="width: 100%" class="table table-hover table-bordered ">
@@ -109,10 +111,10 @@
 
             </div>
         </div>
-			<div class="col-md-4">
-					<div>
+			<div class="col-md-4" >
+					<div style="position:fixed;">
                 <h2 style='text-align:center;'>Cursos Sin Hist&oacute;rico</h2>
-                <table style="width: 100%" class="table table-hover table-bordered ">
+                <table style="width: 100%;" class="table table-hover table-bordered ">
                     <thead>
                         <tr style='text-align:center;font-size:14px;'>
                             <th style="text-align: center">C&oacute;digo</th>

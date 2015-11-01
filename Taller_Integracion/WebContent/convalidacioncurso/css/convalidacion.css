@@ -2,12 +2,11 @@
 	padding: 10px;
 	margin: 20px; //
 	background-color: rgba(177, 6, 58, 0.87);
-	background-color: #008fd8;
+	background-color: #a22424;
 	box-shadow: 2px 2px 2px transparent inset, -5px 5px 5px
 		rgba(3, 3, 3, 0.03), 2px 1px 1px transparent, -5px 10px 10px
 		rgba(0, 0, 0, 0.4);
 }
-
 #label span {
 	color: #FFF;
 	text-shadow: 0.5px 0.5px 0.5px rgba(11, 3, 3, 0.43);

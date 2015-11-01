@@ -38,7 +38,7 @@ jQuery(function ($) {
 			            comboUniversidad.enable(comboUniversidad.cargarUniversidades());
             
                		}else{
-                  		 toastr["error"]("El alumno ya realiz&oacute; el proceso de convalidaci&oacute;n");
+                  		 toastr["error"]("El alumno ya registr&oacute; cursos");
                   		}
                   	}
            	});
