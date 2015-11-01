@@ -60,6 +60,7 @@ public class RegistroDatos extends ActionServlet {
         alu.setFechanacimiento(request.getParameter("fecnac"));
         alu.setDireccion(request.getParameter("dir"));
         alu.setNumerocelular(Integer.parseInt(request.getParameter("numcel")));
+        alu.setNumerocasa(Integer.parseInt(request.getParameter("numcas")));
         
         alu.setModalidadingreso(new ModalidadIngreso());
         alu.getModalidadingreso().setId(request.getParameter("mod"));
@@ -94,18 +95,36 @@ public class RegistroDatos extends ActionServlet {
     @RequireLogin(false)
     public void registrarCursos() throws IOException, Exception {
     	List<AlumnoConvalidacion> conalus;
-        String listjson = request.getParameter("convalidaciones");
+    	List<InsertConvalidacion> cons;
+        String convalidacionesalumno = request.getParameter("convalidacionesalumno");
+        String convalidaciones = request.getParameter("convalidaciones");
         
-        JsonElement json = new JsonParser().parse(listjson);
-        JsonArray array = json.getAsJsonArray();
+        JsonElement jsonConAlumno = new JsonParser().parse(convalidacionesalumno);
+        JsonElement jsonConvalidaciones = new JsonParser().parse(convalidaciones);
+        
+        JsonArray array = jsonConAlumno.getAsJsonArray();
+        JsonArray array1 = jsonConvalidaciones.getAsJsonArray();
+        
         Iterator iterator = array.iterator();
+        Iterator iterator1 = array1.iterator();
+        
         conalus = new ArrayList<>();
         
+        
         while(iterator.hasNext()){
-        	JsonElement json1 = (JsonElement) iterator.next();
+        	JsonElement jsonconalu = (JsonElement) iterator.next();
         	Gson gson = new Gson();
-        	AlumnoConvalidacion conalu = gson.fromJson(json1, AlumnoConvalidacion.class);
+        	AlumnoConvalidacion conalu = gson.fromJson(jsonconalu, AlumnoConvalidacion.class);
         	conalus.add(conalu);
+        	
+        }
+        
+        cons = new ArrayList<>();
+        while(iterator1.hasNext()){
+        	JsonElement jsoncon = (JsonElement) iterator1.next();
+        	Gson gson = new Gson();
+        	InsertConvalidacion con = gson.fromJson(jsoncon, InsertConvalidacion.class);
+        	cons.add(con);
         	
         }
         
@@ -115,7 +134,7 @@ public class RegistroDatos extends ActionServlet {
         Gson gson = new Gson();
         try {
             oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-            oDAOFactory.getConvalidacion().getHistoriaConvalidacion().registrarConvalidacionAlumno(conalus);;
+            oDAOFactory.getConvalidacion().getHistoriaConvalidacion().registrarConvalidacionAlumno(conalus,cons);
             mensaje="OK";
         } catch (Exception e) {
             

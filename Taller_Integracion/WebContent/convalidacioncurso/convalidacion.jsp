@@ -15,6 +15,7 @@
 	<script src="js/toastr.min.js" type="text/javascript"></script>
 	<script src="js/selectize.min.js" type="text/javascript"></script>
 	<script src="js/selectizes/alumnoSelectize.js" type="text/javascript"></script>
+	<script src="js/selectizes/cursoOrigenSelectize.js" type="text/javascript"></script>
 	<script src="js/convalidacion.js" type="text/javascript"></script>
 	<title>Taller Proyectos</title>
 	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>

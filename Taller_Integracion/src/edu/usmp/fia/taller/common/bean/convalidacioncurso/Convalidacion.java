@@ -14,6 +14,12 @@ public class Convalidacion {
 	private PlanCurricular plancurricular;
 	private Curso curso;
 	private String cursoorigencodigo;
+	// CO
+	private String cursoorigennombre;
+	private Ciclo ciclo;
+	private int cantconvalidacion;
+	// fin-CO
+
 	private Alumno alumno;
 	private String fecha;
 	private String comentarios;
@@ -40,6 +46,30 @@ public class Convalidacion {
 
 	public void setCursoorigencodigo(String cursoorigencodigo) {
 		this.cursoorigencodigo = cursoorigencodigo;
+	}
+
+	public String getCursoorigennombre() {
+		return cursoorigennombre;
+	}
+
+	public void setCursoorigennombre(String cursoorigennombre) {
+		this.cursoorigennombre = cursoorigennombre;
+	}
+
+	public Ciclo getCiclo() {
+		return ciclo;
+	}
+
+	public void setCiclo(Ciclo ciclo) {
+		this.ciclo = ciclo;
+	}
+
+	public int getCantconvalidacion() {
+		return cantconvalidacion;
+	}
+
+	public void setCantconvalidacion(int cantconvalidacion) {
+		this.cantconvalidacion = cantconvalidacion;
 	}
 
 	public Alumno getAlumno() {
