@@ -1,7 +1,9 @@
 	<link rel="stylesheet" type="text/css" href="//cdn.datables.net/1.10.7/css/jquery.datatables.min.css">
 	<link rel="stylesheet" type="text/css" href="//cdn.datables.net/tabletools/2.2.4/css/datatables.tableTools.css">
 	
+	
 	<!-- Imported styles on this page -->
+	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath() %>/resources/assets/js/selectboxit/jquery.selectBoxIt.css">
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath() %>/resources/assets/js/datatables/responsive/css/datatables.responsive.css">
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath() %>/resources/assets/js/select2/select2-bootstrap.css">
 	<link rel="stylesheet" href="<%=request.getServletContext().getContextPath() %>/resources/assets/js/select2/select2.css">

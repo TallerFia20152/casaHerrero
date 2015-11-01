@@ -13,9 +13,8 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<title>Taller Proyectos</title>
-	
-	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+	<title>Taller Proyectos</title>	
+	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>		
 </head>
 
 <%
@@ -65,12 +64,12 @@
 
 				<div class="col-md-12">
 
-					<div class="panel panel-dark" data-collapsed="1">
+					<div class="panel panel-dark" data-collapsed="10000">
 
 						<!-- panel head -->
 						<div class="panel-heading active">
 							<div class="panel-title">
-								<strong>SIMULACION CURSOS PREFERIDOS</strong>
+								<strong>SIMULACION CURSOS PREFERIBLES</strong>
 							</div>
 
 							<div class="panel-options">

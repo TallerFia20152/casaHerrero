@@ -72,7 +72,7 @@
 
 				<div class="col-md-12">
 
-					<div class="panel panel-dark" data-collapsed="1">
+					<div class="panel panel-dark" data-collapsed="10000">
 
 						<!-- panel head -->
 						<div class="panel-heading">

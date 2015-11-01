@@ -17,19 +17,24 @@
 %>
 
 <body class="page-body skin-red">
-	<div class="page-container">
-		<jsp:include page="/resources/include/sidebar-menu.jsp"></jsp:include>
-		<div class="main-content">
+	<div class="page-container">	
+		<jsp:include page="/resources/include/sidebar-menu.jsp"></jsp:include>				
+		<div class="main-content">		
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
+			
+			<hr />		
 			<%
 				String mensaje= (String)request.getAttribute("mensaje");
 			%>
-			<div class="mail-env">
-				<div class="row">
-					<div class="alert alert-default"><strong><%=mensaje%></strong></div>
-				</div>			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="mail-env">
+						<div class="row">							
+							<div class="alert alert-default"><strong><%=mensaje%></strong></div>							
+						</div>			
+					</div>
+				</div>
 			</div>
-			
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>
 		<jsp:include page="/resources/include/chat.jsp"></jsp:include>

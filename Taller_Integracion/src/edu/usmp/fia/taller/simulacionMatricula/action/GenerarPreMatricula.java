@@ -1,6 +1,7 @@
 package edu.usmp.fia.taller.simulacionMatricula.action;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpSession;
 
 import edu.usmp.fia.taller.common.dao.DAOFactory;
 import edu.usmp.fia.taller.common.action.ActionServlet;
@@ -8,6 +9,8 @@ import edu.usmp.fia.taller.common.action.Default;
 import edu.usmp.fia.taller.common.action.HttpMethod;
 import edu.usmp.fia.taller.common.action.HttpMethodType;
 import edu.usmp.fia.taller.common.action.RequireLogin;
+import edu.usmp.fia.taller.common.action.SessionParameters;
+import edu.usmp.fia.taller.common.bean.Usuario;
 
 @WebServlet("/GenerarPreMatricula")
 public class GenerarPreMatricula extends ActionServlet {
@@ -24,35 +27,46 @@ public class GenerarPreMatricula extends ActionServlet {
 		try 
 		{
 			System.out.println("INGRESO");
+			//boolean eliminar=false;
 			boolean registro=false;
+			boolean existe=false;
 			String mensaje="";
-			String[] codCurso = request.getParameterValues("codigos");
 			
-			String codigoAlumno=request.getParameter("codigoAlumno");
+			String[] codCurso = request.getParameterValues("codigos");			
 			
-			System.out.println("COD ALUMNO => " + codigoAlumno);
-			
-			for(int i=0;i<codCurso.length;i++)
-			{
-				System.out.println("CURSO "+ codCurso[i]);
-			}
+			HttpSession sesion= request.getSession();
+			Usuario oUsuario= (Usuario) sesion.getAttribute(SessionParameters.USUARIO.text());
 			
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			registro= factory.getSimulacionMatricula().GenerarPreMatricula(codigoAlumno,codCurso);
-			
-			System.out.println("INGRESARÁ");
-			if(registro)
+			existe= factory.getSimulacionMatricula().BuscarPreMatricula(oUsuario.getPersona().getIdPersona().toString());
+
+			if (!existe)
 			{
-				System.out.println("CORRECTO");
-				mensaje="Se generó correctamente la Pre Matricula";
-			}
-			else
+				for(int i=0;i<codCurso.length;i++)
+				{
+					System.out.println("CURSO "+ codCurso[i]);
+				}
+				//eliminar= factory.getSimulacionMatricula().EliminarHorariosAlumno(oUsuario.getPersona().getIdPersona().toString());
+				//eliminar= factory.getSimulacionMatricula().EliminarPreMatricula(oUsuario.getPersona().getIdPersona().toString());
+				
+				registro= factory.getSimulacionMatricula().GenerarPreMatricula(oUsuario.getPersona().getIdPersona().toString(),codCurso);
+				
+				System.out.println("INGRESARÁ");
+				if(registro)
+				{
+					System.out.println("CORRECTO");
+					mensaje="Se generó correctamente la Pre Matricula";
+				}
+				else
+				{
+					System.out.println("INCORRECTO");
+					mensaje="No se pudo generar la Pre Matricula, favor de reintentar.Si el error persistiese comuniquese con el Area de Informatica";
+				}		
+				
+			}else
 			{
-				System.out.println("INCORRECTO");
-				mensaje="No se pudo generar la Pre Matricula";
+				mensaje="Usted ya registro sus Cursos Preferibles.";
 			}
-			
-			System.out.println("DATO DE LA VARIABLE MENSAJE");
 			
 			request.setAttribute("mensaje", mensaje);
 			request.getRequestDispatcher("SimulacionMatricula/mensaje.jsp").forward(request, response);

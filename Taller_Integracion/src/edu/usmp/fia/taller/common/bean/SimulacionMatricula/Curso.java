@@ -13,15 +13,14 @@ public class Curso {
 	private String mCiclo;	
 	private String mTipoCurso;
 	private int mCantidadAlumnos;	
-	private String mArea;
-	private String mSeccion;	
+	private String mArea;	
 	private String mTurno;
 	private String mCondicion;
 	private String mHorasTeoria;
 	private String mHorasLaboratorio;
 	private String mHorasPractica;
-	private int mCuenta;
-	private ArrayList<Profesor> mProfesor;
+	private List<Profesor> mProfesor;
+	private List<Seccion> mSeccion;
 	
 	public Curso()
 	{
@@ -33,13 +32,12 @@ public class Curso {
 		mTipoCurso="";
 		mCantidadAlumnos=0;
 		mArea="";
-		mSeccion="";
 		mTurno="";
 		mCondicion="";
 		mHorasTeoria="";
 		mHorasLaboratorio="";
 		mHorasPractica="";
-		mCuenta=0;
+		mSeccion=new ArrayList<Seccion>();
 	}	
 	
 	public String getCodigo() {
@@ -90,12 +88,6 @@ public class Curso {
 	public void setArea(String mArea) {
 		this.mArea = mArea;
 	}
-	public String getSeccion() {
-		return mSeccion;
-	}
-	public void setSeccion(String mSeccion) {
-		this.mSeccion = mSeccion;
-	}
 	public String getTurno() {
 		return mTurno;
 	}
@@ -132,12 +124,15 @@ public class Curso {
 	public void setHorasPractica(String mHorasPractica) {
 		this.mHorasPractica = mHorasPractica;
 	}
-	public int getCuenta() {
-		return mCuenta;
+
+	public List<Seccion> getSeccion() {
+		return mSeccion;
 	}
-	public void setCuenta(int mCuenta) {
-		this.mCuenta = mCuenta;
-	}	
+
+	public void setSeccion(List<Seccion> mSeccion) {
+		this.mSeccion = mSeccion;
+	}
+
 	
 	
 	
