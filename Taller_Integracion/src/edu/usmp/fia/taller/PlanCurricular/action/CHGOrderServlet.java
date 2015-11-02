@@ -11,21 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import edu.usmp.fia.taller.common.bean.PlanCurricular.ChangeBean;
+import edu.usmp.fia.taller.common.bean.PlanCurricular.Curso;
+import edu.usmp.fia.taller.common.bean.PlanCurricular.ResponseBean;
 import edu.usmp.fia.taller.PlanCurricular.business.ChangeBusiness;
 import edu.usmp.fia.taller.PlanCurricular.business.impl.ChangeBusinessImpl;
 import edu.usmp.fia.taller.PlanCurricular.util.Constants;
 import edu.usmp.fia.taller.PlanCurricular.util.Utils;
-import edu.usmp.fia.taller.common.bean.PlanCurricular.ChangeBean;
-import edu.usmp.fia.taller.common.bean.PlanCurricular.Curso;
-import edu.usmp.fia.taller.common.bean.PlanCurricular.ResponseBean;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Servlet implementation class CHGNameServlet
  */
-@WebServlet("/changeName")
-public class CHGNameServlet extends HttpServlet implements Constants {
+@WebServlet("/orderCourse")
+public class CHGOrderServlet extends HttpServlet implements Constants {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,8 +36,8 @@ public class CHGNameServlet extends HttpServlet implements Constants {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		RequestDispatcher reqDisp = getServletContext().getRequestDispatcher(
-				VIEW_SECTION_PATH + "formChangeName.jsp");
+		System.out.println("CHGOrderServlet.doGet()");
+		RequestDispatcher reqDisp = getServletContext().getRequestDispatcher("/" + VIEW_SECTION_PATH +"formOrderCourse.jsp");
 		reqDisp.forward(request, response);
 	}
 
@@ -47,17 +47,22 @@ public class CHGNameServlet extends HttpServlet implements Constants {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		
 		ResponseBean<ChangeBean> jresponse = new ResponseBean<ChangeBean>();
 		PrintWriter out 	= response.getWriter();
 		ObjectMapper mapper = new ObjectMapper();
 		response.setContentType("application/json");
-
+		
 		try {
 			/* Get Request Parameters */
-			String course 	= request.getParameter("course");
-			String newName 	= request.getParameter("newname");
-	
+			int type			= Utils.getIntegerParameter(request, "type");
+			int cycle			= Utils.getIntegerParameter(request, "cycle");
+			String name			= request.getParameter("name");
+			int tHs				= Utils.getIntegerParameter(request, "teo");;
+			int pHs				= Utils.getIntegerParameter(request, "prac");;
+			int lHs				= Utils.getIntegerParameter(request, "lab");;
+			String mentions[]	=request.getParameterValues("mention");
+			
 			/* Get Session Attributes */
 			List<Curso> courses 	= Utils.getSessionCourses(request);
 			List<Curso> newCourses = Utils.getSessionNewCourses(request);
@@ -65,7 +70,8 @@ public class CHGNameServlet extends HttpServlet implements Constants {
 			
 			/* Apply Business Rules */
 			ChangeBusiness chgBusiness 	= new ChangeBusinessImpl();
-			ChangeBean change 			= chgBusiness.changeName(course, newName, courses, newCourses, changes);
+			ChangeBean change = chgBusiness.changeAddCourse(type, name, cycle,
+												tHs, pHs, lHs, mentions, courses, newCourses, changes);
 			
 			/* Update changes and new courses in session */
 			request.getSession().setAttribute(SESSION_NEW_COURSES, newCourses);

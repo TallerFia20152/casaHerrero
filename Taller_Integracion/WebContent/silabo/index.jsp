@@ -221,8 +221,8 @@ return /\d/.test(String.fromCharCode(keynum));
   </head>
 
 	<%
-	Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
-	Persona oPersona = oUsuario.getPersona();
+	//Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
+	//Persona oPersona = oUsuario.getPersona();
 %>
   <body role="document">
 <body class="page-body skin-red">
@@ -252,15 +252,15 @@ return /\d/.test(String.fromCharCode(keynum));
         <!-- Trigger the modal with a button -->
         <div id="section-app">
         <form method="post" action="<%=request.getContextPath() %>/Silabo">
-        <input type="text" id="txt_Idcurso" class="form-control"  placeholder="Código del Curso" onKeyPress="return soloNumeros(event);" maxlength="6"><br>
+        <input type="text" name="txt_Idcurso" id="txt_Idcurso" class="form-control"  placeholder="Código del Curso" onKeyPress="return soloNumeros(event);" maxlength="6"><br>
         <input type="submit" id="btn_funcion" name="btn_funcion" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalx" style="margin:10px 0px; float:left;" value="Buscar Sílabo"><br><br><br>
-        <input type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="margin:10px 0px; float:left;" value="Crear Nuevo Sílabo"><br><br><br>
-        <input type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2" style="margin:10px 0px; float:left;" value="Editar Sílabo">
         </form>
+        <input type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="margin:10px 0px; float:left;" value="Crear Nuevo Sílabo"><br><br><br>
         </div>
       </div>
       <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <!--------------------------------- Modal ---------------------------------------------------->
+<form method="post" action="<%=request.getContextPath() %>/Silabo">
 <div id="myModal0" class="modal fade" role="dialog">
   <div class="modal-dialog">
 	
@@ -284,7 +284,6 @@ return /\d/.test(String.fromCharCode(keynum));
             <input type="submit" class="btn btn-danger" data-toggle="modal" data-target="#myM" style="margin:10px 0px; float:right;" value="Crear"><br><br>
           </div>
       </div>
-      
     </div>
     
   </div>
@@ -325,12 +324,12 @@ return /\d/.test(String.fromCharCode(keynum));
             <br/><br/>
             <label for="inputBiblio1">Bibliografía</label>
             <div id="agregarB">
-            <input type="text" clas"form-control"  placeholder="Reseña bibliográfica" id="bibliografia_0"><br>
+            <input type="text" clas"form-control"  placeholder="Reseña bibliográfica"><br>
             </div>
             <input type="submit" id="btnNewB" name="btnNewB" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Bibliografía">
             <br><br><hr>
             <label for="inputPF">Promedio Final</label>
-            <input type="text" class="form-control" id="prom_final" placeholder="Fórmula del Promedio Final">
+            <input type="text" class="form-control" id="prom_final" name="prom_final" placeholder="Fórmula del Promedio Final">
            <br>
             <input type="" class="btn btn-danger" data-toggle="modal" data-target="#myModal6" style="margin:10px 0px; float:right;" value="Siguiente">
           </div>
@@ -402,156 +401,8 @@ return /\d/.test(String.fromCharCode(keynum));
     
   </div>
 </div>
-
-
-
-<div id="myModal2" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Crear Nuevo Sílabo</h4>
-        <br/><br/>
-        <form>
-          <div class="form-group">
-            <label for="inputCurso">Ingrese un Curso</label>
-            <input type="text" class="form-control"  placeholder="Código del curso">
-            <input type="submit" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;">Buscar</button>
-            <br/><br>
-            
-            <input type="" class="btn btn-success" data-toggle="modal" data-target="#myModal3" style=" margin: 0 auto; width: 300px;" value="Editar Bibliografía">
-            <br><br>
-            <input type="" class="btn btn-success" data-toggle="modal" data-target="#myModal4" style=" margin: 0 auto; width: 300px;" value="Editar Evaluaciones">
-            <br><br>
-            <input type="" class="btn btn-success" data-toggle="modal" data-target="#myModal5" style=" margin: 0 auto; width: 300px;" value="Editar descripción de las semanas">
-            <br><br>
-            
-          </div>
-          <br/><br/>
-        </form>
-      </div>
-      
-    </div>
-    
-  </div>
-</div>
-
-<div id="myModal3" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Editar Bibliografía</h4>
-        <br/><br/>
-        <form>
-          <div class="form-group">
-            <label for="inputEditBiblio1">Bibliografía</label>
-            <input type="text" class="form-control"  placeholder="Reseña bibliográfica">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Eliminar</button>
-            <br/><br><br>
-            <label for="inputEditBiblio2">Bibliografía 2</label>
-            <input type="text" class="form-control"  placeholder="Reseña bibliográfica">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Eliminar</button>
-            <br><br>
-            <button type="button" class="btn btn-danger" style="margin:10px 0px; float:right;">Guardar Cambios</button>
-          </div>
-          <br/><br/>
-        </form>
-      </div>
-      
-    </div>
-    
-  </div>
-</div>
-
-<div id="myModal4" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Editar Evaluaciones</h4>
-        <br/><br/>
-        <form>
-          <div class="form-group">
-          	<label for="inputPF">Promedio Final</label>
-            <input type="text" class="form-control"  placeholder="Fórmula del Promedio Final">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <br><br><br>
-            <label for="inputPE">Promedio de Evaluaciones</label>
-            <input type="text" class="form-control"  placeholder="Fórmula del Promedio de Evaluaciones">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Borrar</button>
-            <br><br><br>
-            <label for="inputPL">Promedio de Laboratorio</label>
-            <input type="text" class="form-control"  placeholder="Fórmula del Promedio de Laboratorio">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Borrar</button>
-           
-            <br><br>
-            <button type="button" class="btn btn-danger" style="margin:10px 0px; float:right;">Guardar Cambios</button>
-          </div>
-          <br/><br/>
-        </form>
-      </div>
-      
-    </div>
-    
-  </div>
-</div>
-
-<div id="myModal5" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Editar descripción de las semanas</h4>
-        <br/><br/>
-        <form>
-          <div class="form-group">
-            <label for="inputEditBiblio1">Semana 1 sesión 1</label><br>
-			<label for="inputEditBiblio1">Nombre</label>
-            <input type="text" class="form-control"  placeholder="Título">
-            <label for="inputEditBiblio1">Descripción</label>
-            <input type="t" class="form-control"  placeholder="Descripción del tema">
-            <br><br>
-            <label for="inputEditBiblio1">Semana 1 sesión 2</label><br>
-			<label for="inputEditBiblio1">Nombre</label>
-            <input type="text" class="form-control"  placeholder="Título">
-            <label for="inputEditBiblio1">Descripción</label>
-            <input type="t" class="form-control"  placeholder="Descripción del tema">
-            <br><br>
-            <label for="inputEditBiblio1">Semana 2 sesión 1</label><br>
-			<label for="inputEditBiblio1">Nombre</label>
-            <input type="text" class="form-control"  placeholder="Título">
-            <label for="inputEditBiblio1">Descripción</label>
-            <input type="t" class="form-control"  placeholder="Descripción del tema">
-            
-            <br><br>
-            <button type="button" class="btn btn-danger" style="margin:10px 0px; float:right;">Guardar Cambios</button>
-          </div>
-          <br/><br/>
-        </form>
-      </div>
-      
-    </div>
-    
-  </div>
-</div>
-
-			
+</form>
     </div> <!-- /container -->
-
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

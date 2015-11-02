@@ -7,7 +7,7 @@
 <% System.out.println("formMoveCourse"); %>
 	<p>Este cambio le permite mover un curso entre ciclos. Para esto solo seleccione el curso que desea cambiar y seleccione a donde lo desea mover.</p>
 	<form id="frm-change" action="">
-		<label class="label">Curso:</label>
+		<label class="label" style="color:#999;">Curso:</label>
 		<span id="course-name"></span>
 		<input id="course" name="course" type="hidden">
 		<hr/>
@@ -47,30 +47,30 @@
 			<br/>
 			Nuevo Tipo:
 			<fieldset>
-				<legend><input type="radio" class="grp-rdo" name="type" value="1">Obligatorio</legend>
+				<legend><input type="radio" class="grp-rdo" name="type" value="1" style="color:#999;">Obligatorio</legend>
 				<div class="grp-types type1" style="display: none;">
-					<label class="label">Ciclo:</label>
+					<label class="label" style="color:#999;">Ciclo:</label>
 					<select id="cycle" name="cycle" class="field">
-						<option value="0">Seleccione un ciclo</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
+						<option value="0" style="color:#999;">Seleccione un ciclo</option>
+						<option value="1" style="color:#999;">1</option>
+						<option value="2" style="color:#999;">2</option>
+						<option value="3" style="color:#999;">3</option>
+						<option value="4" style="color:#999;">4</option>
+						<option value="5" style="color:#999;">5</option>
+						<option value="6" style="color:#999;">6</option>
+						<option value="7" style="color:#999;">7</option>
+						<option value="8" style="color:#999;">8</option>
+						<option value="9" style="color:#999;">9</option>
+						<option value="10" style="color:#999;">10</option>
 					</select>
 				</div>
 			</fieldset>
 			<fieldset>
 				<legend><input type="radio" class="grp-rdo" name="type" value="2">Mencion<br/></legend>
 				<div class="grp-types type2" style="display: none;">
-					<input type="checkbox" name="mention" value="1">Sistemas de Informacion<br/>
-					<input type="checkbox" name="mention" value="2">Tecnologias de Informacion<br/>
-					<input type="checkbox" name="mention" value="3">Ingenieria de Software<br/>
+					<input type="checkbox" name="mention" value="1" style="color:#999;">Sistemas de Informacion<br/>
+					<input type="checkbox" name="mention" value="2" style="color:#999;">Tecnologias de Informacion<br/>
+					<input type="checkbox" name="mention" value="3" style="color:#999;">Ingenieria de Software<br/>
 				</div>
 			</fieldset>
 			<fieldset>

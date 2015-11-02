@@ -1,17 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@page import="edu.usmp.fia.taller.common.bean.silabo.CursoBean"%>
+    <%@page import="edu.usmp.fia.taller.common.bean.silabo.SilaboBean"%>
+    <%@page import="edu.usmp.fia.taller.common.bean.silabo.BibliografiaBean"%>
 	<%@page import="java.util.Vector"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="edu.usmp.fia.taller.common.action.SessionParameters"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Usuario"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Persona"%>
+
 <html lang="en">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   <head>
   <%
 	Vector<CursoBean> VECTOR_LIST = (Vector)request.getAttribute("LIST_CURSO");
-  Vector<CursoBean> VECTOR_LIST_S = (Vector)request.getAttribute("LIST_SILABO");
+	Vector<SilaboBean> VECTOR_LIST_S = (Vector)request.getAttribute("LIST_SILABO");
+	Vector<BibliografiaBean> VECTOR_LIST_B = (Vector)request.getAttribute("LIST_BIBLIOGRAFIA");
 	%>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,7 +57,7 @@ $(document).ready(function() {
         {
             FieldCount++;
             //agregar campo
-            $(agregarB).append('<div><input type="text" class="form-control" name="mitexto[]" id="bibliografia_'+ FieldCount +'" placeholder="Reseña bibliográfica"/><a href="#" class="eliminar">&times;</a></div>');
+            $(agregarB).append('<div><input type="text" class="form-control" name="bibliografia_'+ FieldCount +'" placeholder="Reseña bibliográfica"/><a href="#" class="eliminar">&times;</a></div>');
             x++; //text box increment
         }
         return false;
@@ -257,44 +261,47 @@ return /\d/.test(String.fromCharCode(keynum));
         <!-- Trigger the modal with a button -->
         <div id="section-app">
         <form method="post" action="<%=request.getContextPath() %>/Silabo">
-        <input type="text" id="txt_Idcurso" class="form-control"  placeholder="Código del Curso" onKeyPress="return soloNumeros(event);" maxlength="6"><br>
+        <input type="text" id="txt_Idcurso" name="txt_Idcurso" class="form-control"  placeholder="Código del Curso" onKeyPress="return soloNumeros(event);" maxlength="6" required="required"><br>
         <input type="submit" id="btn_funcion" name="btn_funcion" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalx" style="margin:10px 0px; float:left;" onClick="mostrar();" value="Buscar Sílabo"><br><br><br>
+        </form>
         <input type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="margin:10px 0px; float:left;" value="Crear Nuevo Sílabo"><br><br><br>
         <input type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2" style="margin:10px 0px; float:left;" value="Editar Sílabo">
-        </form>
         </div>
       </div>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-      <div id="invisible" style="display:none;">
+      <br><br><br><br><br><br><br>
+      <div >
     		<label for="inputCurso">Curso</label>
-            <input type="text" id="txt_curso" class="form-control"  placeholder="Nombre del curso" value="12" ><br>
+            <input type="text" id="txt_curso" class="form-control"  placeholder="Nombre del curso" value="<%= VECTOR_LIST_S.get(0).getNombreCurso()%>" ><br>
             <label for="inputAreaC">Área Curricular</label>
-            <input type="text" class="form-control"  placeholder="Área curricular a la que pertenece" disabled><br>
+            <input type="text" class="form-control"  placeholder="Área curricular a la que pertenece" disabled value="<%= VECTOR_LIST_S.get(0).getAreaCu()%>"><br>
             <label for="inputCodigo">Código del curso</label>
-            <input type="text" class="form-control"  placeholder="Código del curso" disabled><br>
+            <input type="text" class="form-control"  placeholder="Código del curso" disabled value="<%= VECTOR_LIST_S.get(0).getIdCurso()%>"><br>
             <label for="inputCredito">Créditos</label>
-            <input type="text" class="form-control"  placeholder="Cantidad de créditos" disabled><br>
+            <input type="text" class="form-control"  placeholder="Cantidad de créditos" disabled value="<%= VECTOR_LIST_S.get(0).getCreditos()%>"><br>
             <label for="inputReq">Requisito</label>
-            <input type="text" class="form-control"  placeholder="Curso(s) de requisito" disabled><br>
+            <input type="text" class="form-control"  placeholder="Curso(s) de requisito" disabled value="<%= VECTOR_LIST_S.get(0).getRequisito()%>"><br>
             <label for="inputCondi">Condición del curso</label>
-            <input type="text" class="form-control"  placeholder="Condición obligatorio o electivo" disabled><br>
+            <input type="text" class="form-control"  placeholder="Condición obligatorio o electivo" disabled value="<%= VECTOR_LIST_S.get(0).getCondCurso()%>"><br>
             <label for="inputSumilla">Sumilla</label>
             <textarea class="form-control" rows="4"  placeholder="Escriba la sumilla del curso" disabled></textarea><br>
             <label for="inputBiblio1">Bibliografía</label>
             <input type="text" class="form-control"  placeholder="Reseña bibliográfica" disabled><br>
             <label for="inputHTeo">Horas Teoría</label>
-            <input type="text" class="form-control"  placeholder="Cantidad de horas teóricas" disabled><br>
+            <input type="text" class="form-control"  placeholder="Cantidad de horas teóricas" disabled value="<%= VECTOR_LIST_S.get(0).getHorasT()%>"><br>
             <label for="inputHLab">Horas Laboratorio</label>
-            <input type="text" class="form-control"  placeholder="Cantidad de horas prácticas" disabled>
+            <input type="text" class="form-control"  placeholder="Cantidad de horas prácticas" disabled value="<%= VECTOR_LIST_S.get(0).getHorasP()%>">
             <br>
       		</div>
       
 <!--------------------------------- Modal ---------------------------------------------------->
+<form method="post" action="<%=request.getContextPath() %>/Silabo">
 <div id="myModal0" class="modal fade" role="dialog">
+  
   <div class="modal-dialog">
 	
 	
     <!-- Modal content-->
+    
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -329,10 +336,10 @@ return /\d/.test(String.fromCharCode(keynum));
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Crear Nuevo Sílabo</h4>
         <br/><br/>
-        <form>
+        
           <div class="form-group">
             <label for="inputCurso">Lista de Cursos</label>
-            <select id="lista" name="lista-cursos" class="form-control" onChange="validarCursos()" onClick="mostrarDatos()">
+            <select id="lista" name="lista" class="form-control" onChange="validarCursos()" onClick="mostrarDatos()">
             <option value="">---Seleccione---</option>
             <%for(int i=0;i<VECTOR_LIST.size();i++){%>
                 <option value="<%=VECTOR_LIST.get(i).getIdCurso()%>"><%= VECTOR_LIST.get(i).getNombreCurso()%></option>
@@ -348,23 +355,23 @@ return /\d/.test(String.fromCharCode(keynum));
             <label for="inputSumilla">Sumilla</label>
             <textarea class="form-control" rows="4"  placeholder="Escriba la sumilla del curso" disabled></textarea>
             <label for="inputHTeo">Horas Teoría</label>
-            <input type="text" class="form-control"  id="horas_teoria" placeholder="Cantidad de horas teóricas">
+            <input type="text" class="form-control"  id="horas_teoria" placeholder="Cantidad de horas teóricas" disabled>
             <label for="inputHLab">Horas Laboratorio</label>
-            <input type="text" class="form-control"  id="horas_practicas" placeholder="Cantidad de horas prácticas">
+            <input type="text" class="form-control"  id="horas_practicas" placeholder="Cantidad de horas prácticas"  disabled>
             <br/><br/>
             <label for="inputBiblio1">Bibliografía</label>
             <div id="agregarB">
-            <input type="text" clas"form-control"  placeholder="Reseña bibliográfica" id="bibliografia_0"><br>
+            <input type="text" clas"form-control"  placeholder="Reseña bibliográfica" id="bibliografia_0" name="bibliografia_0"><br>
             </div>
             <input type="submit" id="btnNewB" name="btnNewB" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Bibliografía">
             <br><br><hr>
             <label for="inputPF">Promedio Final</label>
-            <input type="text" class="form-control" id="prom_final" placeholder="Fórmula del Promedio Final">
+            <input type="text" class="form-control" id="prom_final" name="prom_final" placeholder="Fórmula del Promedio Final">
            <br>
             <input type="" class="btn btn-danger" data-toggle="modal" data-target="#myModal6" style="margin:10px 0px; float:right;" value="Siguiente">
           </div>
           <br/><br/>
-        </form>
+        
       </div>
       
     </div>
@@ -382,7 +389,7 @@ return /\d/.test(String.fromCharCode(keynum));
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Crear Nuevo Sílabo</h4>
         <br/><br/>
-        <form>
+        
         	
         	<div class="jumbotron">
         		<h4>Unidades de Aprendizaje</h4>
@@ -391,9 +398,7 @@ return /\d/.test(String.fromCharCode(keynum));
           <h4><strong>Unidad I</strong></h4><br>
           <div id="agregarSemana">
             <label for="inputEditTema">Tema</label>
-            <input type="text" class="form-control"  placeholder="Nombre del Tema">
-            <label for="inputEditDescrip">Descripción</label>
-            <input type="text" class="form-control"  placeholder="Descripción del tema">
+            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="unidad1_semana_0">
             <br>
             </div>
             <input type="submit" id="btnNewSemana" name="btnNewSemana" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Semana">
@@ -401,9 +406,8 @@ return /\d/.test(String.fromCharCode(keynum));
           <h4><strong>Unidad II</strong></h4><br>
           <div id="agregarSemana2">
             <label for="inputEditTema">Tema</label>
-            <input type="text" class="form-control"  placeholder="Nombre del Tema">
-            <label for="inputEditDescrip">Descripción</label>
-            <input type="text" class="form-control"  placeholder="Descripción del tema">
+            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="unidad2_semana_0">
+            
             <br>
             </div>
             <input type="submit" id="btnNewSemana2" name="btnNewSemana2" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Semana">
@@ -412,26 +416,22 @@ return /\d/.test(String.fromCharCode(keynum));
           <h4><strong>Unidad III</strong></h4><br>
           <div id="agregarSemana3">
             <label for="inputEditTema">Tema</label>
-            <input type="text" class="form-control"  placeholder="Nombre del Tema">
-            <label for="inputEditDescrip">Descripción</label>
-            <input type="text" class="form-control"  placeholder="Descripción del tema">
+            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="unidad3_semana_0">
             <br>
             </div>
             <input type="submit" id="btnNewSemana3" name="btnNewSemana3" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Semana">
            
             <br><br>
             <br><br>
-            <input type="" class="btn btn-danger" style="margin:20px 0px; float:right;" value="Guardar y Exportar">
+            <input type="submit" name="btn_funcion" class="btn btn-danger" style="margin:20px 0px; float:right;" value="Guardar y Exportar">
           </div>
           <br/><br/>
-        </form>
       </div>
-      
     </div>
-    
   </div>
 </div>
 
+</form>
 
 
 <div id="myModal2" class="modal fade" role="dialog">
@@ -443,7 +443,7 @@ return /\d/.test(String.fromCharCode(keynum));
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Crear Nuevo Sílabo</h4>
         <br/><br/>
-        <form>
+        <!-- </form> -->
           <div class="form-group">
             <label for="inputCurso">Ingrese un Curso</label>
             <input type="text" class="form-control"  placeholder="Código del curso">
@@ -459,7 +459,7 @@ return /\d/.test(String.fromCharCode(keynum));
             
           </div>
           <br/><br/>
-        </form>
+        
       </div>
       
     </div>
@@ -476,22 +476,23 @@ return /\d/.test(String.fromCharCode(keynum));
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Editar Bibliografía</h4>
         <br/><br/>
-        <form>
+        
           <div class="form-group">
-            <label for="inputEditBiblio1">Bibliografía</label>
-            <input type="text" class="form-control"  placeholder="Reseña bibliográfica">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Eliminar</button>
+          <form method="post" action="<%=request.getContextPath() %>/Silabo">
+            <label for="inputEditBiblio1">Bibliografía</label><br/>           
             <br/><br><br>
-            <label for="inputEditBiblio2">Bibliografía 2</label>
-            <input type="text" class="form-control"  placeholder="Reseña bibliográfica">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Eliminar</button>
+             <%for(int i=0;i<VECTOR_LIST_B.size();i++){%>
+                <label for="inputEditBiblio2">Bibliografía <%= i+1%></label>
+	            <input type="text" class="form-control" placeholder="Reseña bibliográfica" name="reseña_<%=i%>" value="<%= VECTOR_LIST_B.get(i).getReseña()%>">
+	            <input type="text" class="form-control" name="id_bibliografia_<%=i%>" value="<%= VECTOR_LIST_B.get(i).getIdBibliografia()%>">
+    	        <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Eliminar</button>
+        	<%}%>
             <br><br>
-            <button type="button" class="btn btn-danger" style="margin:10px 0px; float:right;">Guardar Cambios</button>
+            <input type="submit" class="btn btn-danger" style="margin:10px 0px; float:right;" name="btn_funcion" value="Modificar Bibliografia">
+            </form>
           </div>
           <br/><br/>
-        </form>
+        
       </div>
       
     </div>
@@ -514,17 +515,6 @@ return /\d/.test(String.fromCharCode(keynum));
             <input type="text" class="form-control"  placeholder="Fórmula del Promedio Final">
             <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
             <br><br><br>
-            <label for="inputPE">Promedio de Evaluaciones</label>
-            <input type="text" class="form-control"  placeholder="Fórmula del Promedio de Evaluaciones">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Borrar</button>
-            <br><br><br>
-            <label for="inputPL">Promedio de Laboratorio</label>
-            <input type="text" class="form-control"  placeholder="Fórmula del Promedio de Laboratorio">
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
-            <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Borrar</button>
-           
-            <br><br>
             <button type="button" class="btn btn-danger" style="margin:10px 0px; float:right;">Guardar Cambios</button>
           </div>
           <br/><br/>

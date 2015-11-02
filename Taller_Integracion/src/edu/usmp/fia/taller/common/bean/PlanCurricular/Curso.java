@@ -39,6 +39,8 @@ public class Curso implements Serializable {
 	private String description;
 	@JsonProperty
 	private List<String> requirements;
+	@JsonProperty
+	private int order;
 
 	public Curso() {
 	}
@@ -56,6 +58,15 @@ public class Curso implements Serializable {
 		this.laboHours = course.getLaboHours();
 		this.description = course.getDescription();
 		this.requirements = course.getRequirements();
+		this.order = course.getOrder();
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 	public int getId() {

@@ -1,18 +1,16 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<span id="dlg-title" hidden="true">Cambiar Nombre de Curso</span>
+<span id="dlg-title" hidden="true">Ordenar Curso en Malla</span>
 <div>
-<% System.out.println("formChangeName"); %>
-	<p>Este cambio le permite cambiar el nombre de un curso. Para esto solo seleccione el curso que desea cambiar de nombre y modifique el nombre del curso.</p>
+<% System.out.println("formOrderCourse"); %>
+	<p>Este cambio le permite cambiar la posición de un curso en la Malla Curricular. Para esto solo ingrese el nuevo orden del curso.</p>
 	<form id="frm-change" action="">
 		<label class="label" style="color:#999;">Curso:</label>
 		<span id="course-name"></span>
 		<input id="course" name="course" type="hidden">
 		<hr/>
-		<label class="label" style="color:#999;">Nuevo Nombre:</label>
-		<br/><br/><input id="newname" name="newname" type="text" class="field">
+		<label class="label" style="color:#999;">Nueva Posición:</label>
+		<br/><br/><input id="neworder" name="neworder" type="text" class="field">
 	</form>
 	<br/>
 	<br/>

@@ -106,6 +106,15 @@ public class Utils {
 		}
 	}
 	
+	public static void orderCourse(Curso course, List<Curso> courses) {
+		for (int i = 0; i < courses.size(); ++i) {
+			if (courses.get(i).getCode().equals(course.getCode())) {
+				courses.get(i).setOrder(course.getOrder());
+				break;
+			}
+		}
+	}
+	
 	public static String getCourseTypeName(int id) {
 		switch (id) {
 		case Constants.COURSE_TYPE_REQUIRED:
