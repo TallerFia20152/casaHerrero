@@ -1,0 +1,24 @@
+@CHARSET "ISO-8859-1";
+	.modal-header {
+	    min-height: 16.43px;
+	    padding: 15px;
+	    border-bottom: 1px solid #921a1a;
+	    BACKGROUND: #921a1a;
+	}
+	
+	.modal .modal-header h4 {
+    text-shadow: none;
+    color: #fff;
+	}
+	
+	.table>caption+thead>tr:first-child>td, .table>caption+thead>tr:first-child>th, .table>colgroup+thead>tr:first-child>td, .table>colgroup+thead>tr:first-child>th, .table>thead:first-child>tr:first-child>td, .table>thead:first-child>tr:first-child>th {
+    	border-top: 0;
+    	BACKGROUND: #921a1a;
+    	text-shadow: none;
+    	color: #fff;
+	}
+	
+	.modal-dialog {
+	    width: 750px;
+	    margin: 30px auto;
+	}

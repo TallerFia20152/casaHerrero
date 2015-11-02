@@ -55,12 +55,12 @@ public class GenerarPreMatricula extends ActionServlet {
 				if(registro)
 				{
 					System.out.println("CORRECTO");
-					mensaje="Se generó correctamente la Pre Matricula";
+					mensaje="Se registró correctamente los cursos preferibles";
 				}
 				else
 				{
 					System.out.println("INCORRECTO");
-					mensaje="No se pudo generar la Pre Matricula, favor de reintentar.Si el error persistiese comuniquese con el Area de Informatica";
+					mensaje="No se pudo registrar los cursos preferibles, favor de reintentar.Si el error persistiese comuniquese con el Area de Informatica";
 				}		
 				
 			}else

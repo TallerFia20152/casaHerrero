@@ -51,7 +51,7 @@
 								</p>
 								<p>
 									<input type="hidden" id="creditosMaximos"
-										name="creditosMaximos" value="22">
+										name="creditosMaximos" value="23">
 								</p>
 								<p ALIGN=right>
 									<strong>Cantidad de Creditos Seleccionado : </strong><label
@@ -143,17 +143,17 @@
 
 								if ($(this).is(":checked")) {
 									creditos = creditos+ parseInt(credito);
-									if (creditos > creditosMaximos) {
+									if (creditos >creditosMaximos) {
 										$(this).prop("checked",false);
 										creditos = creditos- parseInt(credito);
-										alert("Usted no puede registrar mas de 22 creditos");
+										alert("Usted no puede registrar mas de " + creditosMaximos + " creditos");
 									}
 								} else {
 									creditos = creditos - parseInt(credito);
 
 								}
 								console.log(creditos);
-								if(creditos<16)
+								if(creditos<=(parseInt(creditosMinimos)-1))
 								{
 									$('#cantCreditos').html('<font color="red"><strong>'+ creditos+ '</strong></font>');								
 								}
@@ -164,7 +164,7 @@
 							});
 
 							$('#formulario').submit(function(event) {
-								if (creditos < creditosMinimos) {
+								if (creditos <= parseInt(creditosMinimos)) {
 									alert('Debe de escoger un minimo de '+ creditosMinimos+ ' y un maximo de '+ creditosMaximos + ' Créditos');
 									return false;
 								}

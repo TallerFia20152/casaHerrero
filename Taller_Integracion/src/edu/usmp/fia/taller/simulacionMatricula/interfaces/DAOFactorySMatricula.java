@@ -34,6 +34,6 @@ public interface DAOFactorySMatricula {
 	public boolean BuscarPreMatricula(String codAlumno) throws Exception;	
 	public boolean BuscarHorariosAlumnos(String codAlumno)throws Exception;	
 	
-	
+	public List<Curso> ListarReporteMatriculaProgrevisa() throws Exception;
 	
 }

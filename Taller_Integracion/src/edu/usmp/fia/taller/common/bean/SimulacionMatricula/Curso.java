@@ -21,6 +21,7 @@ public class Curso {
 	private String mHorasPractica;
 	private List<Profesor> mProfesor;
 	private List<Seccion> mSeccion;
+	private String mSeccio;
 	
 	public Curso()
 	{
@@ -38,6 +39,7 @@ public class Curso {
 		mHorasLaboratorio="";
 		mHorasPractica="";
 		mSeccion=new ArrayList<Seccion>();
+		mSeccio="";
 	}	
 	
 	public String getCodigo() {
@@ -124,17 +126,17 @@ public class Curso {
 	public void setHorasPractica(String mHorasPractica) {
 		this.mHorasPractica = mHorasPractica;
 	}
-
 	public List<Seccion> getSeccion() {
 		return mSeccion;
 	}
-
 	public void setSeccion(List<Seccion> mSeccion) {
 		this.mSeccion = mSeccion;
 	}
-
-	
-	
-	
+	public String getSeccio() {
+		return mSeccio;
+	}
+	public void setSeccion(String mSeccio) {
+		this.mSeccio = mSeccio;
+	}
 }
 
