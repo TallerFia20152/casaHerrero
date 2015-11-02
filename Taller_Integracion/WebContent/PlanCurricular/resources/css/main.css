@@ -1,4 +1,8 @@
 @CHARSET "UTF-8";
+label{
+	color: #999;
+}
+
 body {
 	font-family: "Trebuchet MS", "Helvetica", "Arial", "Verdana",
 		"sans-serif";
@@ -65,6 +69,7 @@ td.subtitle {
 	display: block;
     float:left;
     width: 130px;
+    color: #999;
 }
 
 .field {

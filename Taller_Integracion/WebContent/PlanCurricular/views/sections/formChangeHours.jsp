@@ -7,7 +7,7 @@
 <% System.out.println("formChangeHours"); %>
 	<p>Este cambio le permite cambiar las horas de un curso. Para esto solo seleccione el curso al que desea cambiar las horas y seleccione la nueva distribucion de horas.</p>
 	<form id="frm-change" action="">
-		<label class="label">Curso:</label>
+		<label class="label" style="color:#999;">Curso:</label>
 		<span id="course-name"></span>
 		<input id="course" name="course" type="hidden">
 		<hr/>
@@ -30,32 +30,32 @@
 			</div>
 			
 			<br/><br/>
-			<label>Nueva Distribucion de horas:</label>
+			<label style="color:#999;">Nueva Distribucion de horas:</label>
 			<br/><br/>
-			<label class="label">H. Teoria:</label>
+			<label class="label" style="color:#999;">H. Teoria:</label>
 			<select id="thours" name="thours" class="field">
-				<option value="0">0</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>	
+				<option value="0" style="color:#999;">0</option>
+				<option value="1" style="color:#999;">1</option>
+				<option value="2" style="color:#999;">2</option>
+				<option value="3" style="color:#999;">3</option>
+				<option value="4" style="color:#999;">4</option>	
 			</select>
 			<br/>
-			<label class="label">H. Practica:</label>
+			<label class="label" style="color:#999;">H. Practica:</label>
 			<select id="phours" name="phours" class="field">
-				<option value="0">0</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
+				<option value="0" style="color:#999;">0</option>
+				<option value="1" style="color:#999;">1</option>
+				<option value="2" style="color:#999;">2</option>
+				<option value="3" style="color:#999;">3</option>
+				<option value="4" style="color:#999;">4</option>
 			</select>
 			<label class="label">H. Laboratorio:</label>
 			<select id="lhours" name="lhours" class="field">
-				<option value="0">0</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
+				<option value="0" style="color:#999;">0</option>
+				<option value="1" style="color:#999;">1</option>
+				<option value="2" style="color:#999;">2</option>
+				<option value="3" style="color:#999;">3</option>
+				<option value="4" style="color:#999;">4</option>
 			</select>
 		</div>
 	</form>

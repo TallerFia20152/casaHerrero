@@ -28,6 +28,8 @@ public interface Constants {
 	public static final int CHANGE_TYPE_MOVE = 5;
 	public static final String CHANGE_NAME_CANCEL = "Cursos Dados de Baja";
 	public static final int CHANGE_TYPE_CANCEL = 6;
+	public static final String CHANGE_NAME_ORDER = "Orden del Curso";
+	public static final int CHANGE_TYPE_ORDER = 7;
 	
 	public static final int CHANGE_STATUS_TRUE = 1;
 	public static final int CHANGE_STATUS_FALSE = 0;

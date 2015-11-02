@@ -317,6 +317,32 @@ public class ChangeBusinessImpl implements ChangeBusiness {
 		return change;
 	}
 	
+	public ChangeBean orderCourse(String code, List<Curso> courses, List<Curso> newCourses,
+			List<ChangeBean> changes) {
+
+		Curso course = Utils.getCourseByCode(code, courses);
+		ChangeBean change = new ChangeBean(Constants.CHANGE_TYPE_ORDER,
+				Constants.CHANGE_NAME_ORDER);
+
+		if (course == null) {
+			change.setCode(400);
+			change.setMessage("Curso seleccionado no existe.");
+		} else {
+			change.setCode(200);
+			change.setMessage("[INFO] Orden de curso cambiado ["
+					+ course.getCode() + " " + course.getName() + "]");
+
+			change.setDescription("Se cambio el orden del curso <b>"
+					+ course.getName() + "</b>");
+			
+			/* Update Changes and New Courses */
+			Utils.orderCourse(course, newCourses);
+			change.setCourse(course);
+			changes.add(change);
+		}
+		return change;
+	}
+	
 	
 	public ChangeBean changeRequeriments(String code, String newreq1, String newreq2, int newcred1, int newcred2,
 			List<Curso> courses, List<Curso> newCourses,

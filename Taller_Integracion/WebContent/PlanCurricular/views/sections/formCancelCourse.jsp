@@ -6,7 +6,7 @@
 <div>
 	<p>Este cambio le permite desabilitar un curso. Para esto solo seleccione el curso que desea desabillitar.</p>
 	<form id="frm-change" action="">
-		<label class="label">Curso:</label>
+		<label class="label" style="color:#999;">Curso:</label>
 		<span id="course-name"></span>
 		<input id="course" name="course" type="hidden">
 		<hr/>

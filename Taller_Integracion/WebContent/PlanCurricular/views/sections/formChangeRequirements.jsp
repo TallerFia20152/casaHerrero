@@ -7,7 +7,7 @@
 <% System.out.println("formChangeRequirements"); %>
 	<p>Este cambio le permite cambiar los requisitos de un curso.</p>
 	<form id="frm-change" action="">
-		<label class="label">Curso:</label>
+		<label class="label" style="color:#999;">Curso:</label>
 		<span id="course-name"></span>
 		<input id="course" name="course" type="hidden">
 		<hr/>
@@ -20,41 +20,41 @@
 		</select>
 		<br/><br/> --%>
 		<div id="div-req">
-			<label>Requesitos Actuales:</label>
+			<label style="color:#999;">Requesitos Actuales:</label>
 			<br/><br/>
 			<c:forEach items="${sessionCourses}" var="course">
 				<div id="div-${course.code}" class="grp-req">
 				<c:forEach items="${course.requirements}" var="requirement" varStatus="i" >
-					<label>Requisito ${i.index + 1}: <b>${requirement}</b><br/>
+					<label style="color:#999;">Requisito ${i.index + 1}: <b>${requirement}</b><br/>
 				</c:forEach>
 				</div>	
 			</c:forEach>
 			<br/><br/>
-			<label>Nuevos Requesitos:</label>
+			<label style="color:#999;">Nuevos Requesitos:</label>
 			<br/><br/>
 			<div id="div-nreq">
-				<label class="label">Requisitos 1:&nbsp;</label>
+				<label class="label" style="color:#999;">Requisitos 1:&nbsp;</label>
 				<select id="slc-nreq1" name="newreq1" class="field">
-					<option value="0">Ninguno</option>
+					<option value="0" style="color:#999;">Ninguno</option>
 					<c:forEach items="${sessionCourses}" var="course">
-						<option id="opt1-${course.code}" value="${course.code}" class="grp-nreq">${course.name}</option>
+						<option id="opt1-${course.code}" value="${course.code}" class="grp-nreq" style="color:#999;">${course.name}</option>
 					</c:forEach>
-					<option value="z">Creditos</option>
+					<option value="z" style="color:#999;">Creditos</option>
 				</select><br/>
 				<div id="z1" style="display:none">
-					<label class="label">Creditos 1:&nbsp;</label>
+					<label class="label" style="color:#999;">Creditos 1:&nbsp;</label>
 					<input id="credits1" class="field" name="newcred1"><br/>
 				</div>
-				<label class="label">Requisitos 2:&nbsp;</label>
+				<label class="label" style="color:#999;">Requisitos 2:&nbsp;</label>
 				<select id="slc-nreq2" name="newreq2" class="field">
-					<option value="0">Ninguno</option>
+					<option value="0" style="color:#999;">Ninguno</option>
 					<c:forEach items="${sessionCourses}" var="course">
 						<option id="opt2-${course.code}" value="${course.code}" class="grp-nreq">${course.name}</option>
 					</c:forEach>
-					<option value="z">Creditos</option>
+					<option value="z" style="color:#999;">Creditos</option>
 				</select><br/>
 				<div id="z2" style="display:none">
-					<label class="label">Creditos 2:&nbsp;</label>
+					<label class="label" style="color:#999;">Creditos 2:&nbsp;</label>
 					<input id="credits2" class="field" name="newcred2"><br/>
 				</div>
 			</div>
