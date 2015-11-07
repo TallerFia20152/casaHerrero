@@ -14,6 +14,8 @@
 <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
 <script src="js/selectize.min.js" type="text/javascript"></script>
 <script src="js/toastr.min.js" type="text/javascript"></script>
+<script src="js/selectizes/departamentoSelectize.js" type="text/javascript"></script>
+<script src="js/selectizes/provinciaSelectize.js" type="text/javascript"></script>
 <script src="js/selectizes/distritoSelectize.js" type="text/javascript"></script>
 <script src="js/selectizes/universidadSelectize.js" type="text/javascript"></script>
 <script src="js/selectizes/especialidadSelectize.js" type="text/javascript"></script>
@@ -26,8 +28,6 @@
 	Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
 	Persona oPersona = oUsuario.getPersona();
 %>
-
-
 <body class="page-body skin-red">
 	<div class="page-container">
 		<jsp:include page="/resources/include/sidebar-menu.jsp"></jsp:include>
@@ -86,17 +86,34 @@
                                         
                                 </div>
                                 <div class="form-group">
-                                    <label>Direccion <span class="required">*</span>
+                                    <label>Departamento<span class="required">*</span>
                                     </label>
                                     
-                                        <input style="text-transform:uppercase;" type="text"  maxlength="100" id="dir" required="required" class="form-control">
+                                        <input type="text" id="comboDepartamento" />
                                     
                                 </div>
+                                <div class="form-group">
+                                    <label>Provincia<span class="required">*</span>
+                                    </label>
+                                    
+                                        <input type="text" id="comboProvincia" />
+                                    
+                                </div>
+                                
+                                
+                                
                                 <div class="form-group">
                                     <label>Distrito<span class="required">*</span>
                                     </label>
                                     
                                         <input type="text" id="comboDistrito" />
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <label>Direccion <span class="required">*</span>
+                                    </label>
+                                    
+                                        <input style="text-transform:uppercase;" type="text"  maxlength="100" id="dir" required="required" class="form-control">
                                     
                                 </div>
                                 <div class="form-group">

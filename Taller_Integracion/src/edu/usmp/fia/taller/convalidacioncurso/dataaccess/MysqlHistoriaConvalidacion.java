@@ -19,6 +19,7 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Persona;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricular;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricularDetalle;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Provincia;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.UniversidadOrigen;
 import edu.usmp.fia.taller.convalidacioncurso.dataaccess.interfaces.DAOHistoriaConvalidacion;
 
@@ -111,7 +112,7 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 				alu.setFechanacimiento(rs.getString("fecha_nacimiento"));
 				alu.setDireccion(rs.getString("direccion"));
 				alu.setDistrito(new Distrito());
-				alu.getDistrito().setId(rs.getInt("distrito_id"));
+				alu.getDistrito().setId(rs.getString("distrito_id"));
 				alu.setNumerocelular(rs.getInt("numero_celular"));
 				alu.setNumerocasa(rs.getInt("numero_casa"));
 				alu.setFotografia(null);
@@ -220,10 +221,13 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 
 		sql = new StringBuilder();
 		sql.append(
-				"INSERT INTO t_alumno(id,dni,fecha_nacimiento,direccion,distrito_id,numero_celular,numero_casa,modalidad_ingreso_id,especialidad_id,facultad_id)")
+				"INSERT INTO t_alumno(id,dni,fecha_nacimiento,direccion,departamento_id,provincia_id,distrito_id,numero_celular,numero_casa,modalidad_ingreso_id,especialidad_id,facultad_id)")
 				.append(" VALUES('").append(wAlumno.getPersona().getId()).append("','").append(wAlumno.getDni())
 				.append("','").append(wAlumno.getFechanacimiento()).append("','").append(wAlumno.getDireccion())
-				.append("','").append(wAlumno.getDistrito().getId()).append("',").append(wAlumno.getNumerocelular())
+				.append("','").append(wAlumno.getDepartamento().getId()).append("',")
+				.append("','").append(wAlumno.getProvincia().getId()).append("',")
+				.append("','").append(wAlumno.getDistrito().getId()).append("',")
+				.append(wAlumno.getNumerocelular())
 				.append(",").append(wAlumno.getNumerocasa()).append(",'").append(wAlumno.getModalidadingreso().getId())
 				.append("',").append(wAlumno.getEspecialidad().getId()).append(",").
 				// append(wAlumno.getFacultad().getId()).append("')");
@@ -277,12 +281,13 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 	}
 
 	@Override
-	public List<Distrito> listardistritos(Departamento wDepartamento) throws Exception {
+	public List<Distrito> listardistritos(Departamento wDepartamento,Provincia wProvincia) throws Exception {
 		List<Distrito> distritos;
 		ResultSet rs = null;
 		StringBuilder sql = new StringBuilder();
-		sql.append("select id,upper(nombre) nombre from t_distrito where departamento_id=")
-				.append(wDepartamento.getId()).append(" ;");
+		sql.append("select id,upper(nombre) nombre from t_distrito where departamento_id='").
+				append(wDepartamento.getId()).append("' and provincia_id='").
+				append(wProvincia.getId()).append("';");
 
 		try {
 			this.Conectar(false);
@@ -290,7 +295,7 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 			distritos = new ArrayList<>();
 			while (rs.next()) {
 				Distrito dis = new Distrito();
-				dis.setId(Integer.parseInt(rs.getString("id")));
+				dis.setId(rs.getString("id"));
 				dis.setNombre(rs.getString("nombre"));
 				distritos.add(dis);
 			}
@@ -307,6 +312,67 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 		return distritos;
 	}
 
+
+	@Override
+	public List<Departamento> listardepartamentos() throws Exception {
+		List<Departamento> departamentos;
+		ResultSet rs = null;
+		StringBuilder sql = new StringBuilder();
+		sql.append("select id,upper(nombre) nombre from t_departamento");
+
+		try {
+			this.Conectar(false);
+			rs = this.EjecutarOrdenDatos(sql.toString());
+			departamentos = new ArrayList<>();
+			while (rs.next()) {
+				Departamento dep = new Departamento();
+				dep.setId(rs.getString("id"));
+				dep.setNombre(rs.getString("nombre"));
+				departamentos.add(dep);
+			}
+			rs.close();
+			this.Cerrar(true);
+		} catch (Exception e) {
+			this.Cerrar(false);
+			throw e;
+		} finally {
+			if (rs != null) {
+				rs = null;
+			}
+		}
+		return departamentos;
+	}
+	@Override
+	public List<Provincia> listarprovincias(Departamento wDepartamento) throws Exception {
+		List<Provincia> provincias;
+		ResultSet rs = null;
+		StringBuilder sql = new StringBuilder();
+		sql.append("select id,upper(nombre) nombre from t_provincia where departamento_id='").
+		append(wDepartamento.getId()).append("';");
+
+		try {
+			this.Conectar(false);
+			rs = this.EjecutarOrdenDatos(sql.toString());
+			provincias = new ArrayList<>();
+			while (rs.next()) {
+				Provincia pro = new Provincia();
+				pro.setId(rs.getString("id"));
+				pro.setNombre(rs.getString("nombre"));
+				provincias.add(pro);
+			}
+			rs.close();
+			this.Cerrar(true);
+		} catch (Exception e) {
+			this.Cerrar(false);
+			throw e;
+		} finally {
+			if (rs != null) {
+				rs = null;
+			}
+		}
+		return provincias;
+	}
+	
 	@Override
 	public List<ModalidadIngreso> listarmodalidades() throws Exception {
 		List<ModalidadIngreso> modalidades;

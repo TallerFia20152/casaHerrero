@@ -1,17 +1,62 @@
 jQuery(function($) {
 
-	
+	var comboDepartamento =$('#comboDepartamento').departamentoSelectize();
+	var comboProvincia =$('#comboProvincia').provinciaSelectize();
 	var comboDistrito = $("#comboDistrito").distritoSelectize();
 	var comboEspecial = $("#comboEspecialidad").especialidadSelectize();
 	var comboModalidad = $("#comboModalidad").modalidadSelectize();
 	var comboSexo = $("#sexo").sexoSelectize();
-
 	
-	comboDistrito.enable(comboDistrito.cargarDistrito('1'));
+	
+	//comboDistrito.enable(comboDistrito.cargarDistrito('1'));
 	comboEspecial.enable(comboEspecial.cargarEspecialidad('9'));
 	comboModalidad.enable(comboModalidad.cargarModalidad());
 	comboSexo.enable(comboSexo.cargarSexo());
+	comboProvincia.disable();
+	comboDistrito.disable();
+	
+	
+	comboDepartamento.cargarDepartamento();
+	//comboFacultad.cargarFacultades();
 
+    comboDepartamento.on("change", function () {
+        if (comboDepartamento.getValue().length) {
+            $.when(comboProvincia.cargarProvincia(comboDepartamento.getValue()))
+            .then(function () {
+                comboProvincia.enable();
+            });
+        } else {
+            comboProvincia.clear();
+            
+        }
+    });
+
+    comboProvincia.on("change", function () {
+        if (comboDepartamento.getValue().length && comboProvincia.getValue().length) {
+            $.when(comboDistrito.cargarDistrito(comboDepartamento.getValue(), comboProvincia.getValue()))
+            .then(function () {
+                comboDistrito.enable();
+            });
+        } else {
+            comboDistrito.clear();
+        }
+    });
+    
+
+    comboProvincia.on("clear", function () {
+       
+        comboDistrito.clear();
+        comboDistrito.disable();
+    });
+
+    
+    comboDepartamento.on("clear", function () {
+        comboProvincia.clear();
+        comboProvincia.disable();
+        comboDistrito.clear();
+        comboDistrito.disable();
+    });
+    
 	$(document).on("submit", '#login', function(event) {
 		event.preventDefault();
 
@@ -28,6 +73,8 @@ jQuery(function($) {
 			'numcel' : $('#numcel').val(),
 			'numcas' : $('#numcas').val(),
 			'mod' : comboModalidad.getValue(),
+			'dep':comboDepartamento.getValue(),
+			'pro':comboProvincia.getValue(),
 			'dis' : comboDistrito.getValue(),
 			'especialidad' : comboEspecial.getValue()
 		};

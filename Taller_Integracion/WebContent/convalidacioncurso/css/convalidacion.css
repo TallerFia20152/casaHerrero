@@ -1,12 +1,13 @@
 #SeleccionarAlumno {
 	padding: 10px;
-	margin: 20px; //
+	margin: 20px; 
 	background-color: rgba(177, 6, 58, 0.87);
 	background-color: #a22424;
 	box-shadow: 2px 2px 2px transparent inset, -5px 5px 5px
 		rgba(3, 3, 3, 0.03), 2px 1px 1px transparent, -5px 10px 10px
 		rgba(0, 0, 0, 0.4);
 }
+
 #label span {
 	color: #FFF;
 	text-shadow: 0.5px 0.5px 0.5px rgba(11, 3, 3, 0.43);
@@ -51,17 +52,54 @@ fieldset legend {
 	right: 0px;
 	top: 0px;
 	z-index: 10 !important*/
-	position:fixed;
-    /*border-bottom: 1px solid #DDD;*/
-    top: 0px;
-   
-    z-index: 99;
-    /*height: 16px;*/
-    color:white;
-    padding-top: 0px;
-    background: #921a1a 50% 50% repeat-x;
+	/*left:0px;*/
+	rigth:0px;
+	position: fixed;
+	/*border-bottom: 1px solid #DDD;*/
+	top: 0px;
+	z-index: 99;
+	/*height: 16px;*/
+	color: white;
+	padding-top: 0px;
+	background: #921a1a 50% 50% repeat-x;
+}
+
+.fijocur {
+	/*position: fixed !important;
+	right: 0px;
+	top: 0px;
+	z-index: 10 !important*/
+	position: fixed;
+	/*border-bottom: 1px solid #DDD;*/
+	top: 25px;
+	z-index: 99;
+	/*height: 16px;*/
+	color: white;
+	padding-top: 0px;
+	/*background: #921a1a 50% 50% repeat-x;*/
+}
+
+.scrolling {
+	margin-top: 40px !important;
 	
 }
-.scrolling {
-    margin-top:40px !important;
+.dropado {
+	border: solid 1px;
+	width: 100px;
+	height: 18px;
+	margin: 2px;
+}
+.contenedor{
+	text-align: center;
+	font-size: 14px;
+	
+}
+.over{
+	font-size: 16px bold;
+}
+.dropvacio {
+	border: dashed 1px;
+	width: 105px;
+	height: 20px;
+	margin: 2px;
 }

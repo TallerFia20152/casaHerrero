@@ -8,6 +8,8 @@ public class Alumno {
 	private String fechanacimiento;
 	private String direccion;
 	private Distrito distrito;
+	private Provincia provincia;
+	private Departamento departamento;
 	private int numerocelular;
 	private int numerocasa;
 	private Blob fotografia;
@@ -21,6 +23,22 @@ public class Alumno {
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	public Provincia getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
+	}
+
+	public Departamento getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
 	}
 
 	public String getDni() {

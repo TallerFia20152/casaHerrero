@@ -27,6 +27,7 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.Alumno;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.AlumnoConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Convalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ConvalidacionAlumno;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Departamento;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Distrito;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Especialidad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.InsertConvalidacion;
@@ -69,7 +70,13 @@ public class RegistroDatos extends ActionServlet {
         alu.getEspecialidad().setId(Integer.parseInt(request.getParameter("especialidad")));
         
         alu.setDistrito(new Distrito());
-        alu.getDistrito().setId(Integer.parseInt(request.getParameter("dis")));
+        alu.getDistrito().setId(request.getParameter("dis"));
+        
+        alu.setDepartamento(new Departamento());
+        alu.getDepartamento().setId(request.getParameter("dep"));
+        
+        
+        
         
         
         DAOFactory oDAOFactory;
@@ -175,7 +182,7 @@ public class RegistroDatos extends ActionServlet {
         Gson gson = new Gson();
         try {
             oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-            oDAOFactory.getConvalidacion().getHistoriaConvalidacion().registrarConvalidaciones(convalidaciones);;
+            oDAOFactory.getConvalidacion().getHistoriaConvalidacion().registrarConvalidaciones(convalidaciones);
             mensaje="OK";
         } catch (Exception e) {
             

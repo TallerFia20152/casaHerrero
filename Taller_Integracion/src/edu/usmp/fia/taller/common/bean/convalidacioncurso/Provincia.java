@@ -1,19 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.usmp.fia.taller.common.bean.convalidacioncurso;
 
-/**
- *
- * @author Ingeniero
- */
-public class Distrito {
+public class Provincia {
 
 	private String id;
 	private String nombre;
-	private Provincia provincia;
 	private Departamento departamento;
 
 	public String getId() {
@@ -22,14 +12,6 @@ public class Distrito {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public Provincia getProvincia() {
-		return provincia;
-	}
-
-	public void setProvincia(Provincia provincia) {
-		this.provincia = provincia;
 	}
 
 	public String getNombre() {
