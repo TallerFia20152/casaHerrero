@@ -18,6 +18,7 @@ public interface DAORegistroDocente {
 	public Personaa buscarDocente(String codigo)throws Exception;
 	public Curso buscarCurso(String codigo)throws Exception;
 	public Vector<CursoAptoProfesor> buscarCursoAptos(String profesor_id)throws Exception;
+	public Vector<DisponibilidadProfesor> buscarHorasDisponibles(String profesor_id) throws Exception;
 	public boolean guardarCursosAptos(String json_cusosAptos, String id_profesor)throws Exception;
 	public boolean guardarRangoHoras(String json_rangoHoras, String id_profesor)throws Exception;
 	//INICIO metodos de email

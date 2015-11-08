@@ -351,7 +351,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 		    String[] arrayDatos = datos.split("==");
 		    String[] arrayHoras = arrayDatos[2].split("-");
 		    
-		    String buscarCursoSeccion = "SELECT a.id as id FROM t_curso_seccion a INNER JOIN t_seccion b ON a.seccion_id = b.id WHERE CONCAT(a.abreviatura,' - ',b.nombre) = '"+arrayDatos[0]+"'";
+		    String buscarCursoSeccion = "SELECT a.id as id FROM t_curso_seccion a INNER JOIN t_seccion b ON a.seccion_id = b.id WHERE CONCAT(a.abreviatura,'-',b.nombre) = '"+arrayDatos[0]+"'";
 			System.out.println("pintando getCargarHorario 2: "+buscarCursoSeccion);
 		    ResultSet rs3 = stmt3.executeQuery(buscarCursoSeccion);
 			String idSeccion = "";
@@ -359,7 +359,7 @@ public class MysqlElaboracionHorarios extends MySqlDAOFactory implements DAOElab
 			{
 				idSeccion = rs3.getString("id");
 			}
-			close(con3);
+		
 			
 			String buscarDisponibilidadProfesor = "SELECT a.id as id FROM t_disponibilidad_profesor a INNER JOIN t_persona b ON a.profesor_id = b.id WHERE CONCAT(b.nombre,' ',b.apellido_paterno) = '"+arrayDatos[1]+"' AND dia_id = '"+arrayHoras[0]+"' AND hora_id = '"+arrayHoras[1]+"'";
 			System.out.println("pintando getCargarHorario 3: "+buscarDisponibilidadProfesor);

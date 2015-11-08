@@ -1018,5 +1018,37 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		return cursos;
 	}
 	
+	@Override
+	public Vector<DisponibilidadProfesor> buscarHorasDisponibles(String profesor_id) throws Exception {
+		DisponibilidadProfesor hora=null;
+		Vector<DisponibilidadProfesor> horas=null;
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt1 = conexion.createStatement();
+
+			ResultSet rs1=stmt1.executeQuery("SELECT d.id,d.profesor_id,d.dia_id,d.hora_id,d.estado,di.nombre,h.horainicio FROM t_disponibilidad_profesor d, t_dia di, t_hora h WHERE di.id=d.dia_id and h.id=d.hora_id and d.profesor_id='"+profesor_id+"' ORDER BY d.dia_id, d.hora_id ASC");
+			horas=new Vector<DisponibilidadProfesor>();
+			while(rs1.next()){
+				hora=new DisponibilidadProfesor();
+				hora.setId(rs1.getString("id"));;
+				hora.setProfesorId(profesor_id);
+				hora.setDia(rs1.getString("nombre"));
+				hora.setHora(rs1.getString("horainicio"));
+				hora.setDiaId(rs1.getString("dia_id"));
+				hora.setHoraId(rs1.getString("hora_id"));
+				hora.setEstado(rs1.getString("estado"));;
+				
+				horas.addElement(hora);
+			}
+				
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		return horas;
+	}
+	
 	
 }

@@ -332,7 +332,7 @@ border-color: #4CA5AE;
       		<div class="inputs-horarios" style="display:none;">
       			<input type="text" name="horas-horario" class="horas-horario"/>
       		</div>
-      		<input type="hidden" name="cicloTot" id="cicloTot" value="<%= cycle %>" class="cicloTot">
+      		<input type="hidden" name="cicloTot" id="cicloTot" value="<%= cycle %>" >
       		
 			<!--  <button class="btn btn-success" onclick="$('.horas-horario').val(JSON.stringify(horasHorarios));return confirm('¿Estas seguro que deseas guardar?');">Guardar Versión</button>-->
 			<button class="btn btn-success" onclick="$('.horas-horario').val(JSON.stringify(horasHorarios));$('.cicloTot').val($('.cicloo').val());return confirm('¿Estas seguro que deseas guardar?');">Guardar Versión</button>
