@@ -29,6 +29,7 @@ public class GenerarPreMatricula extends ActionServlet {
 			System.out.println("INGRESO");
 			//boolean eliminar=false;
 			boolean registro=false;
+			boolean eliminar=false;
 			boolean existe=false;
 			String mensaje="";
 			
@@ -38,35 +39,34 @@ public class GenerarPreMatricula extends ActionServlet {
 			Usuario oUsuario= (Usuario) sesion.getAttribute(SessionParameters.USUARIO.text());
 			
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+			
+			
 			existe= factory.getSimulacionMatricula().BuscarPreMatricula(oUsuario.getPersona().getIdPersona().toString());
 
-			if (!existe)
+			if (existe)
 			{
-				for(int i=0;i<codCurso.length;i++)
-				{
-					System.out.println("CURSO "+ codCurso[i]);
-				}
-				//eliminar= factory.getSimulacionMatricula().EliminarHorariosAlumno(oUsuario.getPersona().getIdPersona().toString());
-				//eliminar= factory.getSimulacionMatricula().EliminarPreMatricula(oUsuario.getPersona().getIdPersona().toString());
-				
-				registro= factory.getSimulacionMatricula().GenerarPreMatricula(oUsuario.getPersona().getIdPersona().toString(),codCurso);
-				
-				System.out.println("INGRESARÁ");
-				if(registro)
-				{
-					System.out.println("CORRECTO");
-					mensaje="Se generó correctamente la Pre Matricula";
-				}
-				else
-				{
-					System.out.println("INCORRECTO");
-					mensaje="No se pudo generar la Pre Matricula, favor de reintentar.Si el error persistiese comuniquese con el Area de Informatica";
-				}		
-				
-			}else
-			{
-				mensaje="Usted ya registro sus Cursos Preferibles.";
+				eliminar= factory.getSimulacionMatricula().EliminarHorariosAlumno(oUsuario.getPersona().getIdPersona().toString());
+				eliminar= factory.getSimulacionMatricula().EliminarPreMatricula(oUsuario.getPersona().getIdPersona().toString());				
 			}
+			for(int i=0;i<codCurso.length;i++)
+			{
+				System.out.println("CURSO "+ codCurso[i]);
+			}
+		
+			registro= factory.getSimulacionMatricula().GenerarPreMatricula(oUsuario.getPersona().getIdPersona().toString(),codCurso);
+			
+			System.out.println("INGRESARÁ");
+			if(registro)
+			{
+				System.out.println("CORRECTO");
+				mensaje="Se registró correctamente los cursos preferibles";
+			}
+			else
+			{
+				System.out.println("INCORRECTO");
+				mensaje="No se pudo registrar los cursos preferibles, favor de reintentar.Si el error persistiese comuniquese con el Area de Informatica";
+			}	
+		
 			
 			request.setAttribute("mensaje", mensaje);
 			request.getRequestDispatcher("SimulacionMatricula/mensaje.jsp").forward(request, response);

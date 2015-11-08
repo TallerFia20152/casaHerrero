@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.usmp.fia.taller.common.bean.RegistroDocente.Hora;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Alumno;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Area;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso;
+import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Horas;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Profesor;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Seccion;
 import edu.usmp.fia.taller.common.dao.MySqlDAOFactory;
@@ -96,7 +98,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			sql.append(" And (a.estado='Apto' or a.estado='Repite') ");
 			sql.append(" And i.estado= 1 ");
 			sql.append(" And a.alumno_id='" + codAlumno + "'");
-			sql.append(" Order by ci.id");
+			sql.append(" Order by ci.id asc,i.id desc");
 
 			System.out.println("SQL SCRIPT ==> " + sql.toString());
 
@@ -470,7 +472,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 				cursoAlumno.setCredito(rs.getString("creditos"));
 				cursoAlumno.setCiclo(rs.getString("ciclo"));
 				
-				
 				listaCurso.add(cursoAlumno);
 			}
 
@@ -504,7 +505,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			query.append(" WHERE ca.alumno_id= '" + codigoAlumno + "'");
 			query.append(
 					" And ( pc.curso_condicion_id = 1 OR pc.curso_condicion_id = 2 or pc.curso_condicion_id = 3) ");
-			query.append(" ORDER BY ca.estado desc, pc.ciclo_id asc, cap.id asc,pc.creditos asc,cu.id asc");
+			query.append(" ORDER BY ca.estado desc, pc.ciclo_id asc, cap.id asc,pc.creditos asc,cu.id desc");
 
 			System.out.println("QUERY SCRIPT => " + query.toString());
 
@@ -1019,12 +1020,6 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		List<Area> listaArea = null;
 
 		try {
-			/*
-			for(int i=0;i<100;i++)
-			{
-			System.out.println("INGRESA A SIMULAR");
-			}
-			*/
 			System.out.println("INGRESA A SIMULAR");
 			listaArea=ObtenerProbablesCursosCantidad();
 			System.out.println("TERMINA SIMULACION");
@@ -1051,9 +1046,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			listaArea = ObtenerArea();
 			listaAreaEnvio = new ArrayList<Area>();
 			
-			listaAlumno = ListarAlumnos();
-			System.out.println("LISTADO DE ALUMNOS " + listaAlumno);
-			
+			listaAlumno = ListarAlumnos();	
 			System.out.println("CANTIDAD DE ALUMNOS " + listaAlumno.size());
 			
 			for (Area area : listaArea) {
@@ -1095,8 +1088,11 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 							
 							if(curso.getCodigo().trim().equals(cursoProbableAlumno.getCodigo().trim()))
 							{
+								curso.setSeccio(ObtenerSeccion(cursoProbableAlumno.getCodigo()));
+								System.out.println("LA SECCION OBTENIDA ES " + curso.getSeccio());
+								
 								curso.setCantidadAlumnos(curso.getCantidadAlumnos()+1);
-								System.out.println("CANTIDAD " + curso.getCantidadAlumnos());
+								System.out.println("CANTIDAD " + curso.getCantidadAlumnos());								
 							}
 						}
 					}					
@@ -1108,7 +1104,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			return listaAreaEnvio;
 
 		} catch (Exception e) {
-			System.out.println("ERROR AL OBTENER AREAS CURSOS=> " + e.getMessage());
+			System.out.println("ERROR AL OBTENER PROBABLES CURSOS CANTIDAD=> " + e.getMessage());
 			return null;
 		} finally {
 			LimpiarConexion(con, query, ps, rs);
@@ -1116,7 +1112,47 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 
 	}
 	
-	
+	private String ObtenerSeccion(String codCurso) throws Exception
+	{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StringBuffer query = null;
+
+		String seccion;
+		try {
+			seccion = "";
+
+			query = new StringBuffer();
+			query.append("SELECT c.id,c.nombre,s.nombre from t_curso_seccion cs,t_curso c,t_seccion s");
+			query.append(" Where cs.curso_id=c.id");
+			query.append(" And c.id= '" + codCurso+ "'");
+			query.append(" And cs.seccion_id=s.id");
+					
+			System.out.println("SECCION ==> "+ query.toString());
+			
+			con = MySqlDAOFactory.obtenerConexion();
+
+			System.out.println("SCRIPT " + query);
+
+			ps = con.prepareStatement(query.toString());
+			rs = ps.executeQuery();
+
+			if (rs.next()) 
+			{
+				seccion = rs.getString("s.nombre");
+			}
+			
+			System.out.println("LA SECCION ES " + seccion);
+			
+			return seccion;
+
+		} catch (Exception e) {
+			System.out.println("ERROR AL OBTENER LA SECCIONES=> " + e.getMessage());
+			return null;
+		} finally {
+			LimpiarConexion(con, query, ps, rs);
+		}
+	}
 
 	private Integer CantidadAlumnoPreferencial(String codigoCurso) throws Exception {
 		PreparedStatement ps = null;
@@ -1146,7 +1182,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			return cantidad;
 
 		} catch (Exception e) {
-			System.out.println("ERROR AL OBTENER AREAS CURSOS=> " + e.getMessage());
+			System.out.println("ERROR AL OBTENER CANTIDAD CURSOS PREFERENCIAL=> " + e.getMessage());
 			return null;
 		} finally {
 			//LimpiarConexion(con, query, ps, rs);
@@ -1201,7 +1237,7 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			return listaAreaEnvio;
 
 		} catch (Exception e) {
-			System.out.println("ERROR AL OBTENER AREAS CURSOS=> " + e.getMessage());
+			System.out.println("ERROR AL OBTENER CURSOS PREFERIDOS=> " + e.getMessage());
 			return null;
 		} finally {
 			LimpiarConexion(con, query, ps, rs);
@@ -1382,19 +1418,20 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 		try 
 		{			
 			query = new StringBuffer();
-			query.append("SELECT c.id as codigo,c.nombre as curso,s.nombre as seccion,d.nombre as dia,h.horaInicio,h.horaFin,h.turno,cic.nombre");
-			query.append(" FROM t_plan_curricular_detalle pd, t_horario_detalle hd, t_disponibilidad_aula da,t_aula a, t_dia d,t_hora h,t_curso_seccion cs,t_curso c,t_seccion s,t_ciclo  cic ");
+			query.append("SELECT c.id as codigo,c.nombre as curso,s.nombre as seccion,d.nombre as dia,h.horaInicio,max(h.horaFin) as horaFin,h.turno");
+			query.append(" FROM t_plan_curricular_detalle pd, t_horario_detalle hd, t_disponibilidad_aula da,t_aula a, t_dia d,t_hora h,t_curso_seccion cs,t_curso c,t_seccion s");
 			query.append(" Where da.id=hd.disponibilidad_aula_id");
 			query.append(" And pd.curso_id=c.id");
 			query.append(" And da.aula_id=a.id");
 			query.append(" And da.dia_id=d.id");
 			query.append(" And da.hora_id=h.id");
 			query.append(" And hd.curso_seccion_id=cs.id");
-			query.append(" And hd.disponibilidad_aula_id=da.id");
-			query.append(" And c.id=" +idCurso );
+			query.append(" And hd.disponibilidad_aula_id=da.id");			
 			query.append(" And cs.curso_id=c.id");
-			query.append(" And cs.seccion_id=s.id");
-			query.append(" group by s.id");		
+			query.append(" and cs.seccion_id=s.id");
+			query.append(" And c.id=" +idCurso );
+			query.append(" GROUP BY s.id,d.nombre");
+			query.append(" ORDER BY 3,2 desc,h.turno desc,horaInicio");
 
 			con = MySqlDAOFactory.obtenerConexion();
 
@@ -1404,17 +1441,51 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			rs = ps.executeQuery();
 
 			listado= new ArrayList<Seccion>();
+			seccion= new Seccion();
+											
 			while (rs.next()) 
-			{
+			{	
 				seccion= new Seccion();
 				seccion.setDescripcion(rs.getString("seccion"));
-				seccion.setDia(rs.getString("dia"));
-				seccion.setTurno(rs.getString("turno"));
-				seccion.setHoraInicio(rs.getString("horaInicio"));
-				seccion.setHoraFin(rs.getString("horaFin"));
+				seccion.setDia1(rs.getString("dia"));
+				seccion.setTurno1(rs.getString("turno"));
+				seccion.setHoraInicio1(rs.getString("horaInicio").trim().substring(0,5));
+				seccion.setHoraFin1(rs.getString("horaFin").trim().substring(0,5));					
+				System.err.println(seccion.getHoraInicio1() + "TAMAÑO => "+ seccion.getHoraInicio1().length());
 				
 				listado.add(seccion);
+				
+				/*
+				seccion1=rs.getString("seccion").trim().toUpperCase();
+				
+				if(seccion.getDescripcion().trim().toUpperCase().equalsIgnoreCase(seccion1))
+				{
+					seccion.setDescripcion(rs.getString("seccion"));
+					seccion.setDia2(rs.getString("dia"));
+					seccion.setTurno2(rs.getString("turno"));
+					seccion.setHoraInicio2(rs.getString("horaInicio").trim().substring(0,5));
+					seccion.setHoraFin2(rs.getString("horaFin").trim().substring(0,5));
+					System.err.println(seccion.getHoraInicio2() + "TAMAÑO => "+ seccion.getHoraInicio2().length());										
+					listado.add(seccion);
+					
+					seccion= new Seccion();	
+					
+				}
+				else
+				{
+					seccion.setDescripcion(rs.getString("seccion"));
+					seccion.setDia1(rs.getString("dia"));
+					seccion.setTurno1(rs.getString("turno"));
+					seccion.setHoraInicio1(rs.getString("horaInicio").trim().substring(0,5));
+					seccion.setHoraFin1(rs.getString("horaFin").trim().substring(0,5));					
+					System.err.println(seccion.getHoraInicio1() + "TAMAÑO => "+ seccion.getHoraInicio1().length());
+					
+					listado.add(seccion);
+				}
+				*/
+				
 			}
+			
 			return listado;
 			
 		} catch (Exception e) {
@@ -1523,6 +1594,201 @@ public class MySqlFactorySMatricula implements DAOFactorySMatricula {
 			return false;
 		} finally {
 			LimpiarConexion(con, sql, ps, rs);
+		}
+	}
+
+	@Override
+	public List<Curso> ListarReporteMatriculaProgrevisa() throws Exception {
+		List<Curso> listado = null;
+		StringBuffer sql = null;
+		Curso curso= null;
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			sql = new StringBuffer();
+			listado = new ArrayList<Curso>();
+
+			sql.append(" SELECT c.id,c.nombre,s.nombre from t_curso_seccion cs,t_curso c,t_seccion s ");
+			sql.append(" where cs.curso_id=c.id ");
+			sql.append(" and cs.seccion_id=s.id ");
+			sql.append(" GROUP BY s.nombre");
+			sql.append(" ORDER BY c.id	");
+
+			con = MySqlDAOFactory.obtenerConexion();
+
+			ps = con.prepareStatement(sql.toString());
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				curso= new Curso();
+				curso.setCodigo(rs.getString("c.id").trim());
+				curso.setCurso(rs.getString("c.nombre").trim());
+				curso.setSeccio(rs.getString("s.nombre").trim());
+				curso.setCantidadAlumnos(ObtenerCantAlumnosSeccion(curso.getSeccio()));
+				listado.add(curso);
+			}
+			return listado;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			System.out.println("Error al listado a todos los alumnos");
+			return null;
+		} finally {
+			LimpiarConexion(con, sql, ps, rs);
+
+			if (curso != null)
+				curso = null;
+
+			if (listado != null)
+				listado = null;
+		}
+	}
+	
+	private int ObtenerCantAlumnosSeccion(String seccion) throws Exception 
+	{
+		StringBuffer sql = null;
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			int cantidad=0;
+			sql = new StringBuffer();
+
+			sql.append(" select count(*) as cantidad from t_horario_alumno");
+			sql.append(" where seccion_id='" + seccion + "'");			
+
+			con = MySqlDAOFactory.obtenerConexion();
+
+			ps = con.prepareStatement(sql.toString());
+			rs = ps.executeQuery();
+			
+			
+			while (rs.next()) {
+				cantidad=rs.getInt("cantidad");				
+			}
+			
+			System.out.println("CANTIDAD  => " + cantidad);
+			
+			return cantidad;
+
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			System.out.println("Error al listado a todos los alumnos");
+			return 0;
+		} finally {
+			LimpiarConexion(con, sql, ps, rs);
+		}
+		
+	}
+
+	@Override
+	public List<Seccion> SeleccionarSeccionAgrupados(String idCurso) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StringBuffer query = null;
+		
+		Seccion seccion;
+		List<Seccion> listado;
+		try 
+		{			
+			query = new StringBuffer();
+			query.append("SELECT c.id as codigo,c.nombre as curso,s.nombre as seccion");
+			query.append(" FROM t_plan_curricular_detalle pd, t_horario_detalle hd, t_disponibilidad_aula da,t_aula a, t_dia d,t_hora h,t_curso_seccion cs,t_curso c,t_seccion s");
+			query.append(" Where da.id=hd.disponibilidad_aula_id");
+			query.append(" And pd.curso_id=c.id");
+			query.append(" And da.aula_id=a.id");
+			query.append(" And da.dia_id=d.id");
+			query.append(" And da.hora_id=h.id");
+			query.append(" And hd.curso_seccion_id=cs.id");
+			query.append(" And hd.disponibilidad_aula_id=da.id");			
+			query.append(" And cs.curso_id=c.id");
+			query.append(" and cs.seccion_id=s.id");
+			query.append(" And c.id=" +idCurso );
+			query.append(" GROUP BY s.id");
+
+			con = MySqlDAOFactory.obtenerConexion();
+
+			System.out.println("SCRIPT " + query);
+
+			ps = con.prepareStatement(query.toString());
+			rs = ps.executeQuery();
+
+			listado= new ArrayList<Seccion>();
+			seccion= new Seccion();
+											
+			while (rs.next()) 
+			{	
+				seccion= new Seccion();
+				seccion.setDescripcion(rs.getString("seccion"));				
+				listado.add(seccion);
+			}
+			
+			return listado;
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL VERIFICAR LA PRE-MATRICULA DE UN ALUMNO=> " + e.getMessage());
+			return null;
+		} finally 
+		{
+			LimpiarConexion(con, query, ps, rs);
+		}
+	}
+
+	@Override
+	public List<Horas> HorasSeccion(String idCurso, String seccion) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StringBuffer query = null;
+		
+		Horas hora;
+		List<Horas> listado;
+		try 
+		{			
+			query = new StringBuffer();
+			query.append("SELECT c.id as codigo,c.nombre as curso,s.nombre as seccion,d.nombre as dia,h.horaInicio,max(h.horaFin) as horaFin,h.turno");
+			query.append(" FROM t_plan_curricular_detalle pd, t_horario_detalle hd, t_disponibilidad_aula da,t_aula a, t_dia d,t_hora h,t_curso_seccion cs,t_curso c,t_seccion s");
+			query.append(" Where da.id=hd.disponibilidad_aula_id");
+			query.append(" And pd.curso_id=c.id");
+			query.append(" And da.aula_id=a.id");
+			query.append(" And da.dia_id=d.id");
+			query.append(" And da.hora_id=h.id");
+			query.append(" And hd.curso_seccion_id=cs.id");
+			query.append(" And hd.disponibilidad_aula_id=da.id");			
+			query.append(" And cs.curso_id=c.id");
+			query.append(" and cs.seccion_id=s.id");
+			query.append(" And c.id=" +idCurso );
+			query.append(" And s.nombre='" +seccion +"'" );
+			query.append(" GROUP BY s.id,d.nombre");
+			query.append(" ORDER BY 3,2 desc,h.turno desc,horaInicio");
+
+			con = MySqlDAOFactory.obtenerConexion();
+
+			System.out.println("SCRIPT " + query);
+
+			ps = con.prepareStatement(query.toString());
+			rs = ps.executeQuery();
+
+			listado= new ArrayList<Horas>();
+			hora= new Horas();
+											
+			while (rs.next()) 
+			{	
+				hora= new Horas();
+				hora.setDia(rs.getString("dia").toUpperCase());
+				hora.setHoraInicio(rs.getString("horaInicio").trim().substring(0,5));
+				hora.setHoraFin(rs.getString("horaFin").trim().substring(0,5));					
+				listado.add(hora);							
+			}
+			
+			return listado;
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL VERIFICAR LAS HORAS DE SECCION DE UN ALUMNO=> " + e.getMessage());
+			return null;
+		} finally 
+		{
+			LimpiarConexion(con, query, ps, rs);
 		}
 	}
 

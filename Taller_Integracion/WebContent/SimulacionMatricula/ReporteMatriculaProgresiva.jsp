@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Seccion"%>
 <%@page import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso"%>
 <%@page
 	import="edu.usmp.fia.taller.common.bean.SimulacionMatricula.Area"%>
@@ -18,11 +19,6 @@
 
 </head>
 
-<%
-	Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
-	Persona oPersona = oUsuario.getPersona();
-%>
-
 <body class="page-body skin-red">
 	<div class="page-container">
 		<jsp:include page="/resources/include/sidebar-menu.jsp"></jsp:include>
@@ -38,32 +34,16 @@
 			<h1>Simulacion Matricula</h1>
 
 			<br />
-
-<!-- 
-			<div class="row">
-				<div class="col-md-12 opcion">
-					<a download="Demanda_Cursos_Prrobables.xls" href=""
-						onclick="return ExcellentExport.excel(this, 'table-1');"
-						class="btn btn-lg btn-black">Exportar</a> 
-					
-					<a
-						href="javascript:window.print();"
-						class="btn btn-lg btn-black btn-icon icon-left hidden-print">
-						Imprimir <i class="entypo-doc-text"></i>
-					</a>
-				</div>
-				<p>
-			</div>
- -->
-<br />
-			<%
-				List<Area> listaArea = (List<Area>) request.getAttribute("listaCursos");
+			<br />
 			
-				if (listaArea==null)
+			<%
+				List<Curso> listado = (List<Curso>) request.getAttribute("listaCursos");
+			
+				if (listado==null)
 				{
 			%>
 				<div class="row">
-					<div class="alert alert-danger"><strong>LO SENTIMOS</strong> No hay los datos necesarios para generar la Simulacion de Matricula Probable</div>
+					<div class="alert alert-danger"><strong>LO SENTIMOS</strong> No hay los datos necesarios para mostrar los resultados de la Matricula Progresiva</div>
 				</div>
 			<%
 				}
@@ -79,7 +59,7 @@
 						<!-- panel head -->
 						<div class="panel-heading">
 							<div class="panel-title">
-								<strong>SIMULACION CURSOS PROBABLES</strong>
+								<strong>REPORTE DE MATRICULA PROGRESIVA</strong>
 							</div>
 
 							<div class="panel-options">
@@ -96,7 +76,7 @@
 										<tr>
 											<th><STRONG>CODIGO</STRONG></th>
 											<th><STRONG>CURSO</STRONG></th>
-											<th><STRONG>SECCION</STRONG></th>
+											<th><STRONG><center>SECCION</center></STRONG></th>
 											<th>
 												<center>
 													<STRONG>CANTIDAD</STRONG>
@@ -104,46 +84,31 @@
 											</center>
 										</tr>
 									</thead>
-									<%
-										if (listaArea != null) {
-
-											for (int i = 0; i < listaArea.size(); i++) {
-									%>
 									<tbody>
-										<tr>
-											<td><font size="3" , color="#B04444"> <strong><%=listaArea.get(i).getNombre().toUpperCase()%></strong>
-											</font></td>
-										</tr>
-										<%
-											for (Curso curso: listaArea.get(i).getCursoList()) {
-										%>
+									<%
+										for(Curso curso:listado)
+										{
+									%>
 										<tr>
 											<td><%=curso.getCodigo()%></td>
-											<td><%=curso.getCurso()%>
-											<td><%=curso.getSeccio()%>											
-											</td>
-											<td align="center"><%=curso.getCantidadAlumnos()%>
-											</td>
+											<td><%=curso.getCurso()%></td>
+											<td><center><%=curso.getSeccio()%></center></td>
+											<td><center><%=curso.getCantidadAlumnos()%></center></td>
 										</tr>
-										<%
-											}
-										%>
-									</tbody>
 									<%
 										}
-										}
 									%>
+									</tbody>
 								</table>
 							</div>
 							</p>
 						</div>
-
 					</div>
-
 				</div>
-
 			</div>
-			<%} %>
+			<%
+				}
+			%>
 
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>

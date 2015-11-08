@@ -42,7 +42,6 @@
 			<h2>Detalles del Curso</h2>
 
 			<br />
-
 			<%
 				Curso curso = (Curso) request.getAttribute("listaCursos");
 			%>

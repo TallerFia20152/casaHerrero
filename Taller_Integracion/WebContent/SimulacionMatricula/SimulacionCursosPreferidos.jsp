@@ -69,7 +69,7 @@
 						<!-- panel head -->
 						<div class="panel-heading active">
 							<div class="panel-title">
-								<strong>SIMULACION CURSOS PREFERIBLES</strong>
+								<strong>DEMANDA CURSOS PREFERIBLES</strong>
 							</div>
 
 							<div class="panel-options">
