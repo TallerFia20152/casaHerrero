@@ -14,10 +14,6 @@
 		<li class="active"><a href="#"> <span
 				class="badge badge-danger pull-right">0</span> Reporte de Cruces
 		</a></li>
-
-		<li><a href="#"> <span class="badge badge-gray pull-right">1</span>
-				Solicitudes y/o Observaciones
-		</a></li>
 	</ul>
 
 	<div class="mail-distancer"></div>

@@ -17,6 +17,7 @@
 
 <title>Taller Proyectos</title>
 <jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+<link rel="stylesheet" type="text/css" href="SimulacionMatricula/css/Simulacion.css">
 
 </head>
 

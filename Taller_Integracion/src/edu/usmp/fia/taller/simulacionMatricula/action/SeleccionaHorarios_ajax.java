@@ -1,34 +1,49 @@
 package edu.usmp.fia.taller.simulacionMatricula.action;
 
-
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.usmp.fia.taller.common.dao.DAOFactory;
-import edu.usmp.fia.taller.common.action.ActionServlet;
-import edu.usmp.fia.taller.common.action.Default;
-import edu.usmp.fia.taller.common.action.HttpMethod;
-import edu.usmp.fia.taller.common.action.HttpMethodType;
-import edu.usmp.fia.taller.common.action.RequireLogin;
+import com.google.gson.Gson;
+
 import edu.usmp.fia.taller.common.action.SessionParameters;
+import edu.usmp.fia.taller.common.bean.Usuario;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Curso;
 import edu.usmp.fia.taller.common.bean.SimulacionMatricula.Seccion;
-import edu.usmp.fia.taller.common.bean.Usuario;
-/**
- * Servlet implementation class ListaCursosServlet
- */
+import edu.usmp.fia.taller.common.dao.DAOFactory;
 
-@WebServlet("/SeleccionarHorarios")
-public class SeleccionarHorarios extends ActionServlet {
+@WebServlet("/SeleccionaHorarios")
+public class SeleccionaHorarios_ajax extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public SeleccionaHorarios_ajax() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	@Default()
-	@RequireLogin(true)
-	@HttpMethod(HttpMethodType.GET)	
-	public void SimularCursoPreferido() throws Exception {
-		
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.err.println("INGRESA SELECIONA");
 		
 		List<Curso> listado=null;
@@ -38,15 +53,15 @@ public class SeleccionarHorarios extends ActionServlet {
 		try 
 		{
 			System.out.println("INGRESOOOO");
-			//boolean existe=false;
+			boolean existe=false;
 			
 			HttpSession sesion= request.getSession();
 			Usuario oUsuario= (Usuario) sesion.getAttribute(SessionParameters.USUARIO.text());
 			
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			/*
-			existe= factory.getSimulacionMatricula().BuscarPreMatricula(oUsuario.getPersona().getIdPersona().toString());
 			
+			existe= factory.getSimulacionMatricula().BuscarPreMatricula(oUsuario.getPersona().getIdPersona().toString());
+								
 			if(!existe)
 			{				
 				request.setAttribute("mensaje", "Usted no a escogido sus cursos preferibles");
@@ -72,8 +87,8 @@ public class SeleccionarHorarios extends ActionServlet {
 					
 					for(Curso cursoPreferible:listado)
 					{
-						System.out.println("CURSO PREFERIBLE " + cursoPreferible.getCodigo());
-						listadoSeccion=factory.getSimulacionMatricula().SeleccionarSeccionAgrupados(cursoPreferible.getCodigo());
+						
+						listadoSeccion=factory.getSimulacionMatricula().SeleccionarSeccion(cursoPreferible.getCodigo());
 						
 						for(Seccion seccion:listadoSeccion)
 						{
@@ -85,14 +100,17 @@ public class SeleccionarHorarios extends ActionServlet {
 						
 					}
 					
-					
+					response.setContentType("application/json;charset=UTF-8");
+					Gson gson = new Gson();				
+			        String json = gson.toJson(listado);
+			        response.getWriter().write(json);
 						
 		            System.out.println("SALE DEL SERVLET SELECCIONAAHORARIOS");
-					request.setAttribute("listadoCursos", listadoReturn);
-					request.getRequestDispatcher("SimulacionMatricula/SeleccionarHorarios.jsp").forward(request, response);
+					//request.setAttribute("listadoCursos", listadoReturn);
+					//request.getRequestDispatcher("SimulacionMatricula/SeleccionarHorarios.jsp").forward(request, response);
 				//}			
 				
-			//}			
+		}			
 		} catch (Exception e) {
 			System.out.println("ERROR ListarCursosAptosPreferibles ====>> " +e.getMessage() + "");
 		}
@@ -105,5 +123,7 @@ public class SeleccionarHorarios extends ActionServlet {
 				factory=null;					
 		}
 		
+		
 	}
+
 }
