@@ -14,6 +14,8 @@ import org.json.simple.parser.ParseException;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
+
+
 import edu.usmp.fia.taller.common.bean.RegistroDocente.*;
 import edu.usmp.fia.taller.common.dao.MySqlDAOFactory;
 import edu.usmp.fia.taller.registrodocente.dataaccess.interfaces.DAORegistroDocente;;
@@ -62,11 +64,11 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		Ubigeo ubigeo=null;
 		try {
 			oCn = (Connection) MySqlDAOFactory.obtenerConexion();
-			oPs = (PreparedStatement) oCn.prepareStatement("select * from ubigeo where codprov='00' and coddist='00' order by nombre");
+			oPs = (PreparedStatement) oCn.prepareStatement("select * from t_departamento order by nombre");
 			oRs = oPs.executeQuery();
 				while(oRs.next()){
 					ubigeo = new Ubigeo();
-					ubigeo.setCoddpto(oRs.getString("coddpto"));
+					ubigeo.setCoddpto(oRs.getString("id"));
 					ubigeo.setNombre(oRs.getString("nombre"));
 					ubigeos.add(ubigeo);
 				}
@@ -102,11 +104,11 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 					+"','"+docente.getUrl_foto()+"','"+docente.getEstado()
 					+"','"+docente.getEstado_civil()+"','"+docente.getFecha_nacimiento()+"','"+docente.getReferencia_direccion()+"')";
 
+			System.out.print("\n"+consulta+"\n");
 			
 			int filas=stmt.executeUpdate(consulta,Statement.RETURN_GENERATED_KEYS);
 			
 			return true;
-			
 			
 		} catch (Exception e) {
 			
@@ -118,12 +120,52 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 	}
 	
 	@Override
+	public boolean modificarDocente(Docente docente) throws Exception {
+
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+			//INSERT INTO  VALUES (NULL, 'adsadasd', 'asdasd', 'asdasd', 'asdasd', '1');
+			
+			
+			//(id_profesor ,id_Pais_nacionalidad ,id_Departamento_nacionalidad ,id_Provincia_nacionalidad ,id_Distrito_nacionalidad ,id_Departamento_direccion ,id_Provincia_direccion ,id_Distrito_direccion ,url_foto ,estado ,estado_civil ,fecha_nacimiento ,referencia_direccion)
+			String consulta = "UPDATE  t_profesor SET "
+					+"id_Pais_nacionalidad='"+docente.getId_Pais_nacionalidad()+"'"
+					+",id_Departamento_nacionalidad='"+docente.getId_Departamento_nacionalidad()+"'"
+					+",id_Provincia_nacionalidad='"+docente.getId_Provincia_nacionalidad()+"'"
+					+",id_Distrito_nacionalidad='"+docente.getId_Distrito_nacionalidad()+"'"
+					+",id_Departamento_direccion='"+docente.getId_Departamento_direccion()+"'"
+					+",id_Provincia_direccion='"+docente.getId_Provincia_direccion()+"'"
+					+",id_Distrito_direccion='"+docente.getId_Distrito_direccion()+"'"
+					+",url_foto='"+docente.getUrl_foto()+"'"
+					+",estado='"+docente.getEstado()+"'"
+					+",estado_civil='"+docente.getEstado_civil()+"'"
+					+",fecha_nacimiento='"+docente.getFecha_nacimiento()+"'"
+					+",referencia_direccion='"+docente.getReferencia_direccion()+"'"
+					+" where id ='"+docente.getId_docente()+"'";
+			System.out.print("\n"+consulta+"\n");
+			
+			int filas=stmt.executeUpdate(consulta,Statement.RETURN_GENERATED_KEYS);
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return false;
+	}
+	
+	
+	@Override
 	public boolean guardarCursosAptos(String json_cusosAptos, String id_profesor) throws Exception {
 
 		Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
 		Statement stmt = conexion.createStatement();
 		String sqlDelete[]=insertarCamposDinamicosCursosAptos("t_cursos_aptos_x_profesor",json_cusosAptos,id_profesor);
-		System.out.print(sqlDelete[0]+"\n"+sqlDelete[1]);
 		
 		try {
 			if(!sqlDelete[0].equals(""))
@@ -131,36 +173,6 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 			if(!sqlDelete[1].equals(""))
 				stmt.executeUpdate(sqlDelete[1]);
 			
-			 JSONArray json2 =(JSONArray) new JSONParser().parse(json_cusosAptos.toString());
-			 //DELETE FROM t_telefono_profesor WHERE `id_telefono` not in (1,3) and `id_profesor`=1
-			 String deleteClausule="";
-			 String insertsNuevos="";
-			 String id="";
-			 for(int i =0; i<json2.size();i++){
-				 JSONObject jsonObjet= (JSONObject) json2.get(i);
-				 id=jsonObjet.get("id").toString();
-				 String cursoId=jsonObjet.get("curso_id").toString();
-				 if(!id.equals("-1")){
-					 if(deleteClausule.equals("")){
-						deleteClausule+="'"+cursoId+"'";
-					 }
-					 else{
-						deleteClausule+=","+"'"+cursoId+"'";
-					 }
-				 }else{
-					
-					 if(insertsNuevos.equals("")){
-						insertsNuevos+="('"+cursoId+"','"+id_profesor+"','2015-10-12','1'";
-					 }
-					 else{
-						insertsNuevos+="),('"+cursoId+"','"+id_profesor+"','2015-10-12','1'";
-					 }
-				}
-			 }
-			
-			 String query = "INSERT INTO t_curso_profesor (curso_id, profesor_id, estado) VALUES ('"+id+"', '"+id_profesor+"','1')";
-			 System.out.println(query);
-			 stmt.executeUpdate(query);
 			close(stmt);
 			close(conexion);
 
@@ -179,7 +191,7 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
 		Statement stmt = conexion.createStatement();
 		String sqlDelete[]=insertarCamposDinamicosHoras("t_disponibilidad_profesor",json_rangoHoras,id_profesor);
-		
+
 		try {
 			if(!sqlDelete[0].equals(""))
 				stmt.executeUpdate(sqlDelete[0]);
@@ -207,12 +219,16 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 				List<Ubigeo> ubigeos = new ArrayList<Ubigeo>();
 				Ubigeo ubigeo=null;
 				try {
+					
 					oCn = (Connection) MySqlDAOFactory.obtenerConexion(); 
-					oPs = (PreparedStatement) oCn.prepareStatement("select * from ubigeo where coddpto='"+coddpto+"' and coddist='00' and codprov<>'00' order by nombre");
+					oPs = (PreparedStatement) oCn.prepareStatement("select * from t_provincia where departamento_id="+coddpto+" order by nombre");
+					
 					oRs = oPs.executeQuery();
+					
 						while(oRs.next()){
 							ubigeo = new Ubigeo();
-							ubigeo.setCodprov(oRs.getString("codprov"));
+							System.out.print("id:"+oRs.getString("id")+" nombre:"+oRs.getString("nombre"));
+							ubigeo.setCodprov(oRs.getString("id"));
 							ubigeo.setNombre(oRs.getString("nombre"));
 							ubigeos.add(ubigeo);
 						}
@@ -235,11 +251,11 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		Ubigeo ubigeo=null;
 		try {
 			oCn = (Connection) MySqlDAOFactory.obtenerConexion();
-			oPs = (PreparedStatement) oCn.prepareStatement("select * from ubigeo where codprov='"+codprov+"' and coddpto='"+coddpto+"' and coddist<>'00' order by nombre");
+			oPs = (PreparedStatement) oCn.prepareStatement("select * from t_distrito where provincia_id="+codprov+" and departamento_id="+coddpto+" order by nombre");
 			oRs = oPs.executeQuery();
 				while(oRs.next()){
 					ubigeo = new Ubigeo();
-					ubigeo.setCoddist(oRs.getString("coddist"));
+					ubigeo.setCoddist(oRs.getString("id"));
 					ubigeo.setNombre(oRs.getString("nombre"));
 					ubigeos.add(ubigeo);
 				}
@@ -443,6 +459,28 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 			//stmt.executeUpdate(sqlPersona,Statement.RETURN_GENERATED_KEYS);
 			stmt.executeUpdate(sqlPersona);
 			return id_persona;
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return -1;
+	}
+	
+	@Override
+	public int modificarPersona(Personaa persona) throws Exception {
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+		//	int id_persona=generarIdProfesor();
+
+			String sqlPersona = "UPDATE  t_persona SET nombre='"+persona.getNombre1()+"' , apellido_paterno='"+persona.getApePaterno()+"' , apellido_materno='"+persona.getApeMaterno()+"' , sexo='"+persona.getSexo()+"' where id ='"+persona.getIdPersona()+"'";
+		
+			//stmt.executeUpdate(sqlPersona,Statement.RETURN_GENERATED_KEYS);
+			stmt.executeUpdate(sqlPersona);
+			return persona.getIdPersona();
 		} catch (Exception e) {
 			
 			System.out.print(e.getMessage());
@@ -685,15 +723,16 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 			 for(int i =0; i<json2.size();i++){
 				 JSONObject jsonObjet= (JSONObject) json2.get(i);
 				 String id=jsonObjet.get("id").toString();
+				 String id2=jsonObjet.get("id2").toString();
 				 String dia=jsonObjet.get("dia").toString();
 				 String horaInicio=jsonObjet.get("horaInicio").toString();
 				 String horaFin=jsonObjet.get("horaFin").toString();
 				 if(!id.equals("-1")){
 					 if(deleteClausule.equals("")){
-						deleteClausule+="'"+id+"'";
+						deleteClausule+="'"+id+"','"+id2+"'";
 					 }
 					 else{
-						deleteClausule+=","+"'"+id+"'";
+						deleteClausule+=","+"'"+id+"',"+"'"+id2+"'";
 					 }
 				 }else{
 					
@@ -864,26 +903,7 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 				docente.setNombre1(rs1.getString("nombre"));
 				docente.setApePaterno(rs1.getString("apellido_paterno"));
 				docente.setApeMaterno(rs1.getString("apellido_materno"));
-				//docente.setSexo(rs1.getString("sexo"));
-			//	System.out.println(docente.getNombre1());
-				/*
-				docente.setId_docente(rs.getString("id"));
-				docente.setId_Pais_nacionalidad(rs.getInt("id_Pais_nacionalidad"));
-				docente.setId_Departamento_nacionalidad(rs.getInt("id_Departamento_nacionalidad"));
-				docente.setId_Provincia_nacionalidad(rs.getInt("id_Provincia_nacionalidad"));
-				docente.setId_Distrito_nacionalidad(rs.getInt("id_Distrito_nacionalidad"));
-				docente.setId_Departamento_direccion(rs.getInt("id_Departamento_direccion"));
-				docente.setId_Provincia_direccion(rs.getInt("id_Provincia_direccion"));
-				docente.setId_Distrito_direccion(rs.getInt("id_Distrito_direccion"));
-				
-				
-				docente.setUrl_foto(rs.getString("url_foto"));;
-				docente.setEstado(rs.getString("estado").charAt(0));
-				docente.setEstado_civil(rs.getString("estado_civil").charAt(0));
-				docente.setFecha_nacimiento(rs.getString("fecha_nacimiento"));
-				docente.setReferencia_direccion(rs.getString("referencia_direccion"));;
-				
-				*/
+
 				docentes.addElement(docente);
 			}
 				
@@ -1049,6 +1069,288 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		}
 		return horas;
 	}
+
+	@Override
+	public String eliminarDocente(String codigo) {
+		String resultado="";
+		System.out.println("entre al eliminar");
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+			
+		
+			
+			String consulta2 = "delete from t_cursos_aptos_x_profesor where profesor_id=" + codigo;
+			String consulta3 = "delete from t_disponibilidad_profesor where profesor_id=" + codigo;
+			String consulta4 = "delete from t_documento_profesor where id_profesor=" + codigo;
+			String consulta5 = "delete from t_email_profesor where id_profesor=" + codigo;
+			String consulta6 = "delete from t_telefono_profesor where id_profesor=" + codigo;
+			String consulta7 = "delete from t_curso_profesor where profesor_id=" + codigo;
+			
+			String consulta = "delete from t_profesor where id=" + codigo;
+			String consulta1 = "delete from t_persona where id=" + codigo;
+			
+			
+			int filas2=stmt.executeUpdate(consulta2);
+			int filas3=stmt.executeUpdate(consulta3);
+			int filas4=stmt.executeUpdate(consulta4);
+			int filas5=stmt.executeUpdate(consulta5);
+			int filas6=stmt.executeUpdate(consulta6);
+			int filas7=stmt.executeUpdate(consulta7);
+			int filas=stmt.executeUpdate(consulta);
+			int filas1=stmt.executeUpdate(consulta1);
+			
+			System.out.println("entre al try catch del eliminar");
+			System.out.println("filas: "+filas+" filas1: "+filas1+" filas2: "+filas2+" filas3: "+filas3+" filas4: "+filas4+" filas5: "+filas5+" filas6: "+filas6+" filas7: "+filas7);
+			if(filas==1 && filas1==1){
+				System.out.println("datos eliminados");
+				resultado="Datos Eliminados";
+			}else{
+				resultado="Ocurrio un Error";
+			}
+			
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return resultado;
+	}
+
+	@Override
+	public Personaa buscarPersona(String codigo) throws Exception {
+		Personaa persona=null;
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt1 = conexion.createStatement();
+			
+			//SELECT tProf.id, tPer.nombre, tPer.apellido_paterno, tPer.apellido_materno FROM t_profesor tProf	INNER JOIN t_persona tPer ON tProf.id = tPer.id	WHERE tPer.id =  "2000000002"
+			ResultSet rs1=stmt1.executeQuery("SELECT * from t_persona where id="+codigo);
+
+			while(rs1.next()){
+				persona=new Personaa();
+				
+				
+				persona.setIdPersona(Integer.parseInt(rs1.getString("id")));
+				persona.setNombre1(rs1.getString("nombre"));
+				persona.setApePaterno(rs1.getString("apellido_paterno"));
+				persona.setApeMaterno(rs1.getString("apellido_materno"));
+				persona.setSexo(rs1.getString("sexo"));
+				
+				
+			}
+				
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		return persona;
+	}
+
+	@Override
+	public Docente buscarDocente1(String codigo) throws Exception {
+		Docente docente=null;
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt1 = conexion.createStatement();
+			
+			
+			ResultSet rs1=stmt1.executeQuery("SELECT * from t_profesor where id="+codigo);
+
+			while(rs1.next()){
+				docente=new Docente();
+				
+				
+				docente.setId_docente(Integer.parseInt(rs1.getString("id")));
+				docente.setId_Pais_nacionalidad(rs1.getInt("id_Pais_nacionalidad"));
+				docente.setId_Departamento_nacionalidad(rs1.getInt("id_Departamento_nacionalidad"));
+				docente.setId_Provincia_nacionalidad(rs1.getInt("id_Provincia_nacionalidad"));
+				docente.setId_Distrito_nacionalidad(rs1.getInt("id_Distrito_nacionalidad"));
+				docente.setId_Departamento_direccion(rs1.getInt("id_Departamento_direccion"));
+				docente.setId_Provincia_direccion(rs1.getInt("id_Provincia_direccion"));
+				docente.setId_Distrito_direccion(rs1.getInt("id_Distrito_direccion"));
+				docente.setUrl_foto(rs1.getString("url_foto"));
+				docente.setEstado(rs1.getString("estado").charAt(0));
+				docente.setEstado_civil(rs1.getString("estado_civil").charAt(0));
+				docente.setFecha_nacimiento(rs1.getString("fecha_nacimiento"));
+				docente.setReferencia_direccion(rs1.getString("referencia_direccion"));
+				
+				
+						
+			}
+				
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		return docente;
+	}
+
+	@Override
+	public Vector<Email> buscarEmail(String codigo) throws Exception {
+		Email email=null;
+		Vector<Email> emails=null;
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("select * from t_email_profesor where id_profesor="+codigo);
+			
+			emails = new Vector<Email>();
+			
+			
+			while(rs.next()){
+				
+				
+				email = new Email();
+				email.setIdEmail(rs.getInt("id_email"));
+				email.setIdProfesor(rs.getString("id_profesor"));
+				email.setEmail(rs.getString("email"));
+				
+				
+				
+				emails.add(email);
+				
+				
+			}
+			
+							
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return emails;
+	}
+
+	@Override
+	public Vector<Telefono> buscarTelefono(String codigo) throws Exception {
+		Telefono telefono=null;
+		Vector<Telefono> telefonos=null;
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("select * from t_telefono_profesor where id_profesor="+codigo);
+			
+			telefonos = new Vector<Telefono>();
+			
+			
+			while(rs.next()){
+				
+				
+				telefono = new Telefono();
+				telefono.setIdTelefono(rs.getInt("id_telefono"));
+				telefono.setId_profesor(rs.getString("id_profesor"));
+				telefono.setTelefono(rs.getString("telefono"));
+				
+				
+				
+				telefonos.add(telefono);
+				
+				
+			}
+			
+							
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return telefonos;
+	}
+
+	@Override
+	public Vector<Documento> buscarDocumento(String codigo) throws Exception {
+		Documento documento=null;
+		Vector<Documento> documentos=null;
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("select * from t_documento_profesor where id_profesor="+codigo);
+			
+			documentos = new Vector<Documento>();
+			
+			
+			while(rs.next()){
+				
+				
+				documento = new Documento();
+				documento.setIdDocumento(rs.getInt("id_documento"));
+				documento.setId_profesor(rs.getString("id_profesor"));
+				documento.setNumero(rs.getString("numero"));
+				documento.setTipo(rs.getString("tipo").charAt(0));
+				
+				
+				
+				documentos.add(documento);
+				
+				
+			}
+			
+							
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return documentos;
+	}
+
+	@Override
+	public Vector<GradoAcademico> buscarGradoAcademico(String codigo) throws Exception {
+		GradoAcademico gradoAcademico=null;
+		Vector<GradoAcademico> gradoAcademicos=null;
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("select * from t_grado_academico_profesor where id_profesor="+codigo);
+			
+			gradoAcademicos = new Vector<GradoAcademico>();
+			
+			
+			while(rs.next()){
+				
+				
+				gradoAcademico = new GradoAcademico();
+				gradoAcademico.setIdGradoAcademico(rs.getInt("id_grado_academico"));
+				gradoAcademico.setId_profesor(rs.getString("id_profesor"));
+				gradoAcademico.setEspecialidad(rs.getInt("especialidad"));
+				gradoAcademico.setGrado(rs.getString("grado"));
+				gradoAcademico.setProfesion(rs.getString("profesion"));
+				gradoAcademico.setNombreInstitucion(rs.getString("nombre_institucion"));
+				gradoAcademico.setFechaIngreso(rs.getString("fecha_ingreso"));
+				
+				
+				
+				gradoAcademicos.add(gradoAcademico);
+				
+				
+			}
+			
+							
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return gradoAcademicos;
+	}
+
+	
+	
 	
 	
 }

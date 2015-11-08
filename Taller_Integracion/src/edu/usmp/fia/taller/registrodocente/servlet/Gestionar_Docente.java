@@ -1,14 +1,20 @@
 package edu.usmp.fia.taller.registrodocente.servlet;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
@@ -16,6 +22,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
+
+
 
 import edu.usmp.fia.taller.common.action.ActionServlet;
 import edu.usmp.fia.taller.common.action.HttpMethod;
@@ -42,6 +50,7 @@ public class Gestionar_Docente extends ActionServlet {
 	@HttpMethod(HttpMethodType.POST)
 	@RequireLogin(true)
 	public void guardarDocente() throws Exception {
+		
 		Docente docente=null;
 		Personaa persona=null;
 		JSONObject  mensaje=new JSONObject();
@@ -61,36 +70,57 @@ public class Gestionar_Docente extends ActionServlet {
 			response.setCharacterEncoding("utf-8");
 			PrintWriter out = response.getWriter(); */
 			
-			
+
+			String tipoRegistro=request.getParameter("tipoRegistro");
+			int idPersona=Integer.parseInt(request.getParameter("codigo"));
 			String url_foto=request.getParameter("urlfoto");
+			System.out.print("\n"+1+"\n");
 			String nombre=request.getParameter("nombres");
+			System.out.print("\n"+2+"\n");
 			String apellido_paterno=request.getParameter("apellidopaterno");
+			System.out.print("\n"+3+"\n");
 			String apellido_materno=request.getParameter("apellidomaterno");
+			System.out.print("\n"+4+"\n");
 			String sexo=request.getParameter("sexo");
+			System.out.print("\n"+5+"\n");
 			char estado_civil=request.getParameter("estadocivil").charAt(0);
+			System.out.print("\n"+6+"\n");
 			String fecha_nacimiento=request.getParameter("fechanacimiento");
+			System.out.print("\n"+7+"\n");
 			int id_Pais_nacionalidad=Integer.parseInt(request.getParameter("pais"));
+			System.out.print("\n"+8+"\n");
 			int id_Departamento_nacionalidad=Integer.parseInt(request.getParameter("departamento1"));
+			System.out.print("\n"+9+"\n");
 			int id_Provincia_nacionalidad=Integer.parseInt(request.getParameter("provincia1"));
+			System.out.print("\n"+10+"\n");
 			int id_Distrito_nacionalidad=Integer.parseInt(request.getParameter("distrito1"));
+			System.out.print("\n"+11+"\n");
 			int id_Departamento_direccion=Integer.parseInt(request.getParameter("departamento2"));
+			System.out.print("\n"+12+"\n");
 			int id_Provincia_direccion=Integer.parseInt(request.getParameter("provincia2"));
+			System.out.print("\n"+13+"\n");
 			int id_Distrito_direccion=Integer.parseInt(request.getParameter("distrito2"));
+			System.out.print("\n"+14+"\n");
 			String referencia_direccion=request.getParameter("referencia");
+			System.out.print("\n"+15+"\n");
 			char estado='1';
 
 			persona=new Personaa();
-
+			persona.setIdPersona(idPersona);
 			persona.setNombre1(nombre);
 			persona.setApePaterno(apellido_paterno);
 			persona.setApeMaterno(apellido_materno);
 			persona.setSexo(sexo);
 			DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
-			
-			
-			int idPersona = regdoce.regDocente().guardarPersona(persona);
-			
+			int idPersonaRes=-1;
+			if(tipoRegistro==null){
+				idPersonaRes = regdoce.regDocente().guardarPersona(persona);
+			}else{
+				idPersonaRes = regdoce.regDocente().modificarPersona(persona);
+			}
+
+			System.out.print("\n"+idPersonaRes+"\n");
 			docente=new Docente();
 			docente.setId_docente(idPersona);
 			docente.setUrl_foto(url_foto);
@@ -115,7 +145,12 @@ public class Gestionar_Docente extends ActionServlet {
 			docente.setFecha_ingreso(fecha_ingreso);*/
 
 	//		DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
-			boolean resultadoExito = regdoce.regDocente().guardarDocente(docente);
+			boolean resultadoExito=false;
+			if(tipoRegistro==null){
+				resultadoExito = regdoce.regDocente().guardarDocente(docente);
+			}else{
+				resultadoExito = regdoce.regDocente().modificarDocente(docente);
+			}
 			
 			response.setContentType("application/json");
 			response.setCharacterEncoding("utf-8");
@@ -220,8 +255,8 @@ public class Gestionar_Docente extends ActionServlet {
 			Vector<CursoAptoProfesor> cursos=regdoce.regDocente().buscarCursoAptos(codigo);
 			Vector<DisponibilidadProfesor> horas=regdoce.regDocente().buscarHorasDisponibles(codigo);
 
-			request.setAttribute("cursosAptos", cursos);	
 			request.setAttribute("docente", docente);
+			request.setAttribute("cursosAptos", cursos);
 			request.setAttribute("horasDisponibles", horas);
 			
 			request.getRequestDispatcher("Gestionar_Docente?f=cargarListas").forward(request, response);
@@ -264,5 +299,110 @@ public class Gestionar_Docente extends ActionServlet {
 			// TODO: handle exception
 			System.out.print(e.getMessage());
 		}
+	}
+	@HttpMethod(HttpMethodType.GET)
+	@RequireLogin(true)
+	public void cargarDocentes() throws Exception {
+		
+		try {
+			DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
+			Vector<Dia> dias = regdoce.regDocente().listarDias();
+			Vector<Hora> horas=regdoce.regDocente().listarHoras();
+			Vector<Personaa> docentes=regdoce.regDocente().listarDocentes();
+			Vector<Curso> cursos=regdoce.regDocente().listarCursos();
+			
+			request.setAttribute("dias", dias);
+			request.setAttribute("horas", horas);
+			request.setAttribute("docentes", docentes);
+			request.setAttribute("cursos", cursos);
+			
+			request.getRequestDispatcher("/RegistroDocente/ListadoDocentes.jsp").forward(request, response);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.print(e.getMessage());
+		}
+	}
+	
+	@HttpMethod(HttpMethodType.GET)
+	@RequireLogin(true)
+	public void eliminarDocente() throws Exception {
+		String codigo=request.getParameter("dato");
+		try {
+			DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
+			
+			String mensaje = regdoce.regDocente().eliminarDocente(codigo);
+			request.setAttribute("mensaje", mensaje);
+			System.out.println("en mensaje es : "+mensaje);
+			request.getRequestDispatcher("/RegistroDocente/mensaje.jsp").forward(request, response);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.print(e.getMessage());
+		}
+	}
+	
+	
+	@HttpMethod(HttpMethodType.GET)
+	@RequireLogin(true)
+	public void modificarDocente() throws Exception {
+		String codigo=request.getParameter("dato");
+		try {
+			DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
+			
+			Personaa persona=regdoce.regDocente().buscarPersona(codigo);
+			Docente docente=regdoce.regDocente().buscarDocente1(codigo);
+			Vector<Email> emails=regdoce.regDocente().buscarEmail(codigo);
+			Vector<Telefono> telefonos=regdoce.regDocente().buscarTelefono(codigo);
+			Vector<Documento> documentos=regdoce.regDocente().buscarDocumento(codigo);
+			Vector<GradoAcademico> gradoAcademicos=regdoce.regDocente().buscarGradoAcademico(codigo);
+			List<Ubigeo> departamentos = dao.getRegistroDocente().regDocente().getDepartamentos();
+			List<Ubigeo> provincias1 = dao.getRegistroDocente().regDocente().getProvincias(""+docente.getId_Departamento_nacionalidad());
+			List<Ubigeo> provincias2 = dao.getRegistroDocente().regDocente().getProvincias(""+docente.getId_Departamento_direccion());
+			List<Ubigeo> distritos1 = dao.getRegistroDocente().regDocente().getDistritos(""+docente.getId_Departamento_nacionalidad(),""+docente.getId_Provincia_nacionalidad());
+			List<Ubigeo> distritos2 = dao.getRegistroDocente().regDocente().getDistritos(""+docente.getId_Departamento_direccion(),""+docente.getId_Provincia_direccion());
+			
+			//docente.getId_Departamento_nacionalidad()
+			request.setAttribute("persona", persona);
+			request.setAttribute("docente", docente);
+			request.setAttribute("emails", emails);
+			request.setAttribute("telefonos", telefonos);
+			request.setAttribute("documentos", documentos);
+			request.setAttribute("gradoAcademicos", gradoAcademicos);
+			request.setAttribute("departamentos", departamentos);
+			request.setAttribute("provincias1", provincias1);
+			request.setAttribute("provincias2", provincias2);
+			request.setAttribute("distritos1", distritos1);
+			request.setAttribute("distritos2", distritos2);
+			
+			request.getRequestDispatcher("/RegistroDocente/modificarDocente.jsp").forward(request, response);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.print(e.getMessage());
+		}
+	}
+	
+	@HttpMethod(HttpMethodType.POST)
+	@RequireLogin(true)
+	
+	public void procesoArchivo() throws Exception {
+		String nombre=request.getParameter("nombre");
+		Part arch=request.getPart("archivo");
+		InputStream is= arch.getInputStream();
+		File f =new File("C:/Users/Ronald/Desktop/nueva integracion 02-11/Taller_Integracion_V7/WebContent/RegistroDocente/imagenDocente"+nombre);
+		FileOutputStream ous=new FileOutputStream(f);
+		int dato =is.read();
+		while(dato!=-1){
+			ous.write(dato);
+			dato=is.read();
+		}
+		ous.close();
+		is.close();
+		
+		
 	}
 }

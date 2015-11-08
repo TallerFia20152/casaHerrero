@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.GradoAcademico"%>
+<%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Documento"%>
+<%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Telefono"%>
+<%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Email"%>
+<%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Docente"%>
+<%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Personaa"%>
+<%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Ubigeo"%>
+<%@page import="java.util.Vector"%>
+<%@page import="java.util.List"%>
 <%@page import="edu.usmp.fia.taller.common.action.SessionParameters"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Usuario"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Persona"%>
@@ -17,13 +26,24 @@
  <script src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/validator.min.js"></script>
  <script src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/combos.js"></script>
  <script src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/accionesRegistroDocentes.js"></script>
- <script src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/codigo.js"></script>
 <jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 </head>
 
 <%
 	Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
 	Persona oPersona = oUsuario.getPersona();
+	Personaa persona=(Personaa)request.getAttribute("persona");
+	Docente docente=(Docente)request.getAttribute("docente");
+	Vector<Email> emails=(Vector)request.getAttribute("emails");
+	Vector<Telefono> telefonos=(Vector)request.getAttribute("telefonos");
+	Vector<Documento> documentos=(Vector)request.getAttribute("documentos");
+	Vector<GradoAcademico> gradoAcademicos=(Vector)request.getAttribute("gradoAcademicos");
+	
+	List<Ubigeo> departamentos=(List)request.getAttribute("departamentos");
+	List<Ubigeo> provincias1=(List)request.getAttribute("provincias1");
+	List<Ubigeo> provincias2=(List)request.getAttribute("provincias2");
+	List<Ubigeo> distritos1=(List)request.getAttribute("distritos1");
+	List<Ubigeo> distritos2=(List)request.getAttribute("distritos2");
 %>
 
 
@@ -36,7 +56,9 @@
 			<!-- Contenido -->
 
 			<div>
-				<form class="form-horizontal" data-toggle="validator" role="form" id="formDocente" name="formulario" enctype="multipart/form-data" method="post">
+			<input type="hidden" value="true" id="vistaModificar">
+				<form class="form-horizontal" data-toggle="validator" role="form" id="formDocente">
+			<input type="hidden" value="update" name="tipoRegistro">
 					<div class="row">
 
 						<div class="col-md-6">
@@ -48,18 +70,25 @@
 									<label for="foto" class="col-sm-3 control-label">Url
 										Foto: </label>
 									<div class="col-sm-9">
-										<input type="file" name="archivo"
-											class="form-control input-sm" onchange="cargarArchivo(this)" />
-											
+										<input type="text" name="urlfoto"
+											class="form-control input-sm" placeholder="<%=docente.getUrl_foto() %>" value="<%=docente.getUrl_foto() %>" />
 									</div>
 								</div>
-<img  src="C:/Users/Ronald/Desktop/nueva integracion 02-11/Taller_Integracion_V7/WebContent/RegistroDocente/imagenDocente/hola.jpg" height="100px" width="100px">
+								<div class="form-group">
+									<label for="codigo" class="col-sm-3 control-label">Codigo:
+									</label>
+									<div class="col-sm-9">
+							<input type="hidden" name="codigo" value="<%=persona.getIdPersona() %>" />
+										<input type="text"
+											class="form-control input-sm" value="<%=persona.getIdPersona() %>" disabled="disabled"/>
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="Nombres" class="col-sm-3 control-label">Nombres:
 									</label>
 									<div class="col-sm-9">
 										<input type="text" name="nombres"
-											class="form-control input-sm" required />
+											class="form-control input-sm" required placeholder="<%=persona.getNombre1() %>" value="<%=persona.getNombre1() %>" />
 									</div>
 								</div>
 
@@ -68,7 +97,7 @@
 										Paterno:</label>
 									<div class="col-sm-9">
 										<input type="text" name="apellidopaterno"
-											class="form-control input-sm" required />
+											class="form-control input-sm" required placeholder="<%=persona.getApePaterno() %>" value="<%=persona.getApePaterno() %>" />
 									</div>
 								</div>
 
@@ -77,25 +106,25 @@
 										Materno:</label>
 									<div class="col-sm-9">
 										<input type="text" name="apellidomaterno"
-											class="form-control input-sm" required />
+											class="form-control input-sm" required placeholder="<%=persona.getApeMaterno() %>" value="<%=persona.getApeMaterno() %>" />
 									</div>
 								</div>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="sexo" class="col-sm-3 control-label">Sexo:</label>
 									<div class="col-sm-9">
-										<select size="1" name="sexo" class="form-control input-sm">
+										<select size="1" name="sexo" id="sexo" class="form-control input-sm">
 											<option value="Masculino">Masculino</option>
 											<option value="Femenino">Femenino</option>
 										</select>
 									</div>
 								</div>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="estado_civil" class="col-sm-3 control-label">Estado
 										Civil:</label>
 									<div class="col-sm-9">
-										<select size="1" name="estadocivil"
+										<select size="1" name="estadocivil" id="estadocivil"
 											class="form-control input-sm">
 											<option value="S">Soltero</option>
 											<option value="C">Casado</option>
@@ -103,12 +132,12 @@
 										</select>
 									</div>
 								</div>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="paisnacimiento" class="col-sm-3 control-label">Pais
 										de Nacimiento:</label>
 									<div class="col-sm-9">
-										<select size="1" name="pais" class="form-control input-sm">
+										<select size="1" name="pais" id="pais" class="form-control input-sm">
 											<option value="1">Peru</option>
 											<option value="2">Chile</option>
 											<option value="3">Colombia</option>
@@ -126,37 +155,58 @@
 										de Nacimiento:</label>
 									<div class="col-sm-9">
 										<input type="date" name="fechanacimiento"
-											class="form-control input-sm">
+											class="form-control input-sm" placeholder="<%=docente.getFecha_nacimiento() %>" value="<%=docente.getFecha_nacimiento() %>" >
 									</div>
 								</div>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="combo_departamentos_1"
 										class="col-sm-3 contro1-label">Departamento:</label>
 									<div class="col-sm-9">
 										<select id="combo_departamentos_1"
 											class="form-control input-sm" name="departamento1" required>
-											<option selected="true" disabled="disabled">Seleccionar</option>
+											<option disabled="disabled">Seleccionar</option>
+											<% for(int i=0; i<departamentos.size(); i++){
+												String selected="";
+												if(Integer.parseInt(departamentos.get(i).getCoddpto())==docente.getId_Departamento_nacionalidad())
+													selected="selected";
+											%>
+											<option value="<%=departamentos.get(i).getCoddpto()%>" <%=selected%>><%=departamentos.get(i).getNombre()%></option>
+											<% }%>
 										</select>
 									</div>
 								</div>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="combo_provincias_1" class="col-sm-3 contro1-label">Provincia</label>
 									<div class="col-sm-9">
-										<select id="combo_provincias_1" class="form-control input-sm"
-											disabled="true" name="provincia1" required>
-											<option selected="true" disabled="disabled">Seleccionar</option>
+										<select id="combo_provincias_1" class="form-control input-sm" name="provincia1" required>
+											<option disabled="disabled">Seleccionar</option>
+										<% for(int i=0; i<provincias1.size(); i++){
+											String selected="";
+											if(Integer.parseInt(provincias1.get(i).getCodprov())==docente.getId_Provincia_nacionalidad())
+												selected="selected";
+										%>
+											<option value="<%=provincias1.get(i).getCodprov() %>" <%=selected%>><%=provincias1.get(i).getNombre()%></option>
+											<% }%>
 										</select>
 									</div>
 								</div>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="combo_distritos_1" class="col-sm-3 contro1-label">Distrito</label>
 									<div class="col-sm-9">
-										<select id="combo_distritos_1" class="form-control input-sm"
-											disabled="true" name="distrito1">
-											<option selected="true" disabled="disabled">Seleccionar</option>
+										<select id="combo_distritos_1" class="form-control input-sm" name="distrito1">
+											<option disabled="disabled">Seleccionar</option>
+										<% for(int i=0; i<distritos1.size(); i++){
+											String selected="";
+											System.out.print(distritos1.get(i).getCoddist()+"-"+docente.getId_Distrito_nacionalidad());
+											if(Integer.parseInt(distritos1.get(i).getCoddist())==docente.getId_Distrito_nacionalidad())
+												selected="selected";
+										%>
+											<option value="<%=distritos1.get(i).getCoddist() %>" <%=selected%>><%=distritos1.get(i).getNombre()%></option>
+								
+											<% }%>
 										</select>
 									</div>
 								</div>
@@ -166,34 +216,55 @@
 
 							<fieldset>
 								<legend align="left">Direccion</legend>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="combo_departamentos_2"
 										class="col-sm-3 contro1-label">Departamento:</label>
 									<div class="col-sm-9">
 										<select id="combo_departamentos_2"
 											class="form-control input-sm" name="departamento2">
-											<option selected="true" disabled="disabled">Seleccionar</option>
+											<option disabled="disabled">Seleccionar</option>
+											<% for(int i=0; i<departamentos.size(); i++){
+												String selected="";
+												if(Integer.parseInt(departamentos.get(i).getCoddpto())==docente.getId_Departamento_direccion())
+													selected="selected";
+											%>
+											<option value="<%=departamentos.get(i).getCoddpto()%>" <%=selected%>><%=departamentos.get(i).getNombre()%></option>
+											<% }%>
 										</select>
 									</div>
 								</div>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="combo_provincias_2" class="col-sm-3 contro1-label">Provincia</label>
 									<div class="col-sm-9">
 										<select id="combo_provincias_2" class="form-control input-sm"
-											disabled="true" name="provincia2">
-											<option selected="true" disabled="disabled">Seleccionar</option>
+											name="provincia2">
+											<option disabled="disabled">Seleccionar</option>
+										<% for(int i=0; i<provincias2.size(); i++){
+											String selected="";
+											if(Integer.parseInt(provincias2.get(i).getCodprov())==docente.getId_Provincia_direccion())
+												selected="selected";
+										%>
+											<option value="<%=provincias2.get(i).getCodprov() %>" <%=selected%>><%=provincias2.get(i).getNombre()%></option>
+											<% }%>
 										</select>
 									</div>
 								</div>
-
+<!-- no se que hacer con este como box -->
 								<div class="form-group">
 									<label for="combo_distritos_2" class="col-sm-3 contro1-label">Distrito</label>
 									<div class="col-sm-9">
-										<select id="combo_distritos_2" class="form-control input-sm"
-											disabled="true" name="distrito2">
-											<option selected="true" disabled="disabled">Seleccionar</option>
+										<select id="combo_distritos_2" class="form-control input-sm" name="distrito2">
+											<option disabled="disabled">Seleccionar</option>
+										<% for(int i=0; i<distritos2.size(); i++){
+											String selected="";
+											if(Integer.parseInt(distritos2.get(i).getCoddist())==docente.getId_Distrito_direccion())
+												selected="selected";
+										%>
+											<option value="<%=distritos2.get(i).getCoddist() %>" <%=selected%>><%=distritos2.get(i).getNombre()%></option>
+								
+											<% }%>
 										</select>
 									</div>
 								</div>
@@ -202,7 +273,7 @@
 									<label for="referencia" class="col-sm-3 contro1-label">Referencia:</label>
 									<div class="col-sm-9">
 										<input type="text" name="referencia"
-											class="form-control input-sm" />
+											class="form-control input-sm" placeholder="<%=docente.getReferencia_direccion() %>" value="<%=docente.getReferencia_direccion() %>" />
 									</div>
 								</div>
 
@@ -239,6 +310,14 @@
 											<th data-field="valor">Telefono</th>
 										</tr>
 									</thead>
+									<% for(int i=0;i<telefonos.size();i++){ %>
+									<tr>
+									<td></td>
+									<td><%=telefonos.get(i).getIdTelefono() %></td>
+									<td><%=telefonos.get(i).getIdTelefono() %></td>
+									<td><%=telefonos.get(i).getTelefono() %></td>
+									</tr>
+									<%} %>
 								</table>
 								</br>
 
@@ -269,6 +348,14 @@
 											<th data-field="valor">E-mail</th>
 										</tr>
 									</thead>
+									<% for(int i=0;i<emails.size();i++){ %>
+									<tr>
+									<td></td>
+									<td><%=emails.get(i).getIdEmail()%></td>
+									<td><%=emails.get(i).getIdEmail()%></td>
+									<td><%=emails.get(i).getEmail()%></td>
+									</tr>
+									<%} %>
 								</table>
 								</br>
 
@@ -311,6 +398,18 @@
 											<th data-field="valor"># Documento</th>
 										</tr>
 									</thead>
+									<% for(int i=0;i<documentos.size();i++){ %>
+									<tr>
+									<td></td>
+									<td><%=documentos.get(i).getIdDocumento()%></td>
+									<td><%=documentos.get(i).getIdDocumento()%></td>
+									<td><%
+									String tipoDoc="Licencia de conducir";
+									if(documentos.get(i).getTipo()=='1'){
+										tipoDoc="DNI";}%><%=tipoDoc%></td>
+									<td><%=documentos.get(i).getNumero()%></td>
+									</tr>
+									<%} %>
 								</table>
 
 							</fieldset>
@@ -393,6 +492,22 @@
 											<th data-field="fechaIngreso">Ingreso</th>
 										</tr>
 									</thead>
+									<% for(int i=0;i<gradoAcademicos.size();i++){ %>
+									<tr>
+									<td></td>
+									<td><%=gradoAcademicos.get(i).getIdGradoAcademico()%></td>
+									<td><%=gradoAcademicos.get(i).getIdGradoAcademico()%></td>
+									<%
+									String especialidad="S.I";
+									if(gradoAcademicos.get(i).getEspecialidad()=='1'){
+										especialidad="T.I";}%>
+									<td><%=gradoAcademicos.get(i).getGrado() %></td>
+									<td><%=gradoAcademicos.get(i).getProfesion() %></td>
+									<td><%=especialidad%></td>
+									<td><%=gradoAcademicos.get(i).getNombreInstitucion() %></td>
+									<td><%=gradoAcademicos.get(i).getFechaIngreso() %></td>
+									</tr>
+									<%} %>
 								</table>
 								<div class="form-group" id="msj1" style="display: none">
 									<br />
@@ -403,13 +518,12 @@
 							<input type="submit" value="Agregar" class="btn btn-primary">
 						</div>
 					</div>
-<input type="hidden" name="nombre" value="" />
+
 				</form>
-				
 			</div>
 					<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>
-<iframe name="null" style="display: none;"></iframe>
+
 
 
 		<!-- Fin contenido -->
@@ -505,7 +619,12 @@ function campoGradoDinamicosPost(dataForm,campo){
 	  dataForm.push({name:"json_"+campo,value:JSON.stringify(nuevoCampo)});
 	  return dataForm;
 }
-
+	var estadoCivil="<%=docente.getEstado_civil() %>";
+	var paisNacionalidad="<%=docente.getId_Pais_nacionalidad() %>";
+	var sexodocente="<%=persona.getSexo() %>";
+	$("#estadocivil").val(estadoCivil);
+	$("#sexo").val(sexodocente);
+	$("#pais").val(paisNacionalidad);
 </script>
 </body>
 </html>

@@ -199,7 +199,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 										<button data-toggle="modal" href="#agregarCurso" type="button"
 											class="btn btn-success btn-addItem">Agregar Curso</button>
 									</dir>
-									<dir class="col-xs-7">
+									<dir class="col-xs-8">
 									<a class="btn btn-success btn-addItem" href="javascript:removeCursoApto('curso')" >Eliminar
 											Curso</a>
 									</dir>
@@ -241,7 +241,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 										<button data-toggle="modal" href="#agregarCurso" type="button"
 											class="btn btn-success btn-addItem">Agregar Curso</button>
 									</dir>
-									<dir class="col-xs-7">
+									<dir class="col-xs-8">
 										<a class="btn btn-success btn-addItem" href="javascript:removeCursoApto('curso')" >Eliminar
 											Curso</a>
 									</dir>
@@ -321,7 +321,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 											data-method="append" data-table="rangoHoras">Agregar
 											Rango</button>
 									</dir>
-									<dir class="col-xs-7">
+									<dir class="col-xs-8">
 										<button type="button" class="btn btn-success btn-addItem"
 											data-method="remove" data-table="rangoHoras">Eliminar
 											Rango</button>

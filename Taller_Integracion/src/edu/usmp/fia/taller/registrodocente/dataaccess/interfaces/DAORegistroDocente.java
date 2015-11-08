@@ -8,6 +8,7 @@ import edu.usmp.fia.taller.common.bean.RegistroDocente.*;
 public interface DAORegistroDocente {
 	public List<Docente> getDocentes() throws Exception;
 	public boolean guardarDocente(Docente docente) throws Exception;
+	public boolean modificarDocente(Docente docente) throws Exception;
 	public List<Ubigeo> getDepartamentos() throws Exception;
 	public List<Ubigeo> getProvincias(String coddpto) throws Exception;
 	public List<Ubigeo> getDistritos(String coddpto,String codprov) throws Exception;
@@ -21,6 +22,18 @@ public interface DAORegistroDocente {
 	public Vector<DisponibilidadProfesor> buscarHorasDisponibles(String profesor_id) throws Exception;
 	public boolean guardarCursosAptos(String json_cusosAptos, String id_profesor)throws Exception;
 	public boolean guardarRangoHoras(String json_rangoHoras, String id_profesor)throws Exception;
+	public String eliminarDocente(String codigo);
+	
+	//INICIO modificar docente
+	public Personaa buscarPersona(String codigo)throws Exception;
+	public Docente buscarDocente1(String codigo)throws Exception;
+	public Vector<Email> buscarEmail(String codigo)throws Exception;
+	public Vector<Telefono> buscarTelefono(String codigo)throws Exception;
+	public Vector<Documento> buscarDocumento(String codigo)throws Exception;
+	public Vector<GradoAcademico> buscarGradoAcademico(String codigo)throws Exception;
+	
+	
+	//FIN modificar docente
 	//INICIO metodos de email
 	public boolean guardarEmail(Email emal) throws Exception;
 	public boolean guardarEmails(String json_email,String id_profesor) throws Exception;
@@ -30,6 +43,7 @@ public interface DAORegistroDocente {
 	
 //----------------------------INICIO metodo de persona
 	public int guardarPersona(Personaa persona) throws Exception;
+	public int modificarPersona(Personaa persona) throws Exception;
 //----------------------------FIN metodo de persona
 	
 	
