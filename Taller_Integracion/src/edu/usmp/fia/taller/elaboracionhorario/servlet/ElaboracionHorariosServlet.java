@@ -139,7 +139,7 @@ public class ElaboracionHorariosServlet extends  ActionServlet  {
 					System.out.println("jsonHoras: "+jsonHoras);
 					JSONArray jsonObject = new JSONArray(jsonHoras);
 					DAOFactory oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-					oDAOFactory.getElaboracionHorario().elabHorarios().getCargarHorario(cycle, versionHorario, jsonObject);
+					oDAOFactory.getElaboracionHorario().elabHorarios().getCargarHorario(cicloTot, versionHorario, jsonObject);
 					System.out.println("CYCLE final: "+cycle);
 					response.sendRedirect("ElaboracionHorariosServlet?f=leerHorario&cycle="+cycle);
 				} catch (Exception e) {

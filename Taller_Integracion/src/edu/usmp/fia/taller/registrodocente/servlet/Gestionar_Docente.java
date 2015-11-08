@@ -218,8 +218,11 @@ public class Gestionar_Docente extends ActionServlet {
 			
 			Personaa docente = regdoce.regDocente().buscarDocente(codigo);
 			Vector<CursoAptoProfesor> cursos=regdoce.regDocente().buscarCursoAptos(codigo);
+			Vector<DisponibilidadProfesor> horas=regdoce.regDocente().buscarHorasDisponibles(codigo);
+
 			request.setAttribute("cursosAptos", cursos);	
 			request.setAttribute("docente", docente);
+			request.setAttribute("horasDisponibles", horas);
 			
 			request.getRequestDispatcher("Gestionar_Docente?f=cargarListas").forward(request, response);
 			

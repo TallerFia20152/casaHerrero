@@ -2,6 +2,7 @@
 
 <%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Curso"%>
 <%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.CursoAptoProfesor"%>
+<%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.DisponibilidadProfesor"%>
 <%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Personaa"%>
 <%@page import="edu.usmp.fia.taller.common.bean.Persona"%>
 <%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Hora"%>
@@ -14,8 +15,6 @@
 
 <html lang="en">
 <head>
-
-<title>Registro Docente</title>
 <jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
 <link
 	href="<%=request.getServletContext().getContextPath() %>/RegistroDocente/css/boostrap/bootstrap.min.css"
@@ -38,6 +37,8 @@
 	src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/combos.js"></script>
 <script
 	src="<%=request.getServletContext().getContextPath() %>/RegistroDocente/js/accionesRegistroDocentes.js"></script>
+
+<title>Registro Docente</title>
 
 </head>
 <%
@@ -335,6 +336,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 										<tr>
 											<th data-field="state" data-checkbox="true"></th>
 											<th data-field="id" data-visible="false">Id</th>
+											<th data-field="id2" data-visible="false">Id</th>
 											<th data-field="id_local" data-visible="false">Id_local</th>
 											<th data-field="dia">Dia</th>
 											<th data-field="diaL" data-visible="false"></th>
@@ -344,6 +346,26 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 											<th data-field="horaFinL" data-visible="false"></th>
 										</tr>
 									</thead>
+									<%
+									Vector<DisponibilidadProfesor> horasD=(Vector)request.getAttribute("horasDisponibles");
+									if(horasD!=null){ 	
+										for(int i=0; i<horasD.size(); i=i+2){ %>
+										<tr>
+											<td class="bs-checkbox">
+											<input data-index="<%=i %>" name="btSelectItem" type="checkbox"></td>
+											<td><%=horasD.get(i).getId() %></td>
+											<td><%=horasD.get(i+1).getId() %></td>
+											<td><%=horasD.get(i).getId() %></td>	
+											<td><%=horasD.get(i).getDia() %></td>
+											<td><%=horasD.get(i).getDiaId() %></td>
+											<td><%=horasD.get(i).getHora() %></td>
+											<td><%=horasD.get(i).getHoraId() %></td>
+											<td><%=horasD.get(i+1).getHora() %></td>
+											<td><%=horasD.get(i+1).getHoraId() %></td>	
+										</tr>
+										<% } 
+									}%> 
+									
 								</table>
 
 						</fieldset>
@@ -424,6 +446,7 @@ Vector<Curso> listaCursos=(Vector)request.getAttribute("cursos");
 			  $.each( dataTable, function( key, value ) {
 				  nuevoCampo.push({
 					  "id": value.id,
+					  "id2": value.id2,
 					  "dia":value.diaL,
 					  "horaInicio":value.horaInicioL,
 					  "horaFin":value.horaFinL
