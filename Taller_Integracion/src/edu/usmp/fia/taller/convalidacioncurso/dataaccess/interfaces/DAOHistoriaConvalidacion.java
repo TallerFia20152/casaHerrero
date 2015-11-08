@@ -16,6 +16,7 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.Facultad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.InsertConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.PlanCurricularDetalle;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Provincia;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.UniversidadOrigen;
 
 import java.util.List;
@@ -32,7 +33,9 @@ public interface DAOHistoriaConvalidacion {
     public Alumno obtenerDatosAlumno(Alumno wAlumno)throws Exception;
     public List<UniversidadOrigen> listaruniversidades()throws Exception;
     public List<Especialidad> listarespecialidades(Facultad wFacultad)throws Exception;
-    public List<Distrito> listardistritos(Departamento wDepartamento)throws Exception;
+    public List<Departamento> listardepartamentos()throws Exception;
+    public List<Provincia> listarprovincias(Departamento wDepartamento)throws Exception;
+    public List<Distrito> listardistritos(Departamento wDepartamento,Provincia wProvincia)throws Exception;
     public List<ModalidadIngreso> listarmodalidades()throws Exception;
     public void registrarAlumno(Alumno wAlumno)throws Exception;
     public void registrarConvalidacionAlumno(List<AlumnoConvalidacion> wConvalidacionAlumnos,List<InsertConvalidacion> wConvalidaciones)throws Exception;

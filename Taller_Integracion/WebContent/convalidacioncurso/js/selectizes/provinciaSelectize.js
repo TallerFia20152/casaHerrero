@@ -1,7 +1,7 @@
 
 (function ($) {
     
-    $.fn.distritoSelectize = function (options) {
+    $.fn.provinciaSelectize = function (options) {
         var $root = this;
 
         var defaultOptions = {
@@ -13,14 +13,14 @@
             maxItems: 1
         };
 
-        var comboDistrito = $root.selectize($.extend(defaultOptions, options))[0].selectize;
+        var comboProvincia = $root.selectize($.extend(defaultOptions, options))[0].selectize;
 
         var methods = {
-            "cargarDistrito": function (coddep,codpro) {
+            "cargarProvincia": function (coddep) {
                 var xhr;
-                comboDistrito.clearOptions();
-                comboDistrito.load(function (callback) {
-                    xhr = $.getJSON('../convalidacion?f=listardistritos&coddep='+coddep+'&codpro='+codpro
+                comboProvincia.clearOptions();
+                comboProvincia.load(function (callback) {
+                    xhr = $.getJSON('../convalidacion?f=listarprovincias&coddep='+coddep
                     )
                             .done(function (secciones) {
                                 callback(secciones);
@@ -35,6 +35,6 @@
             }
         };
 
-        return $.extend(comboDistrito, methods);
+        return $.extend(comboProvincia, methods);
     };
 })(jQuery);

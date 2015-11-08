@@ -1,24 +1,19 @@
 jQuery(function ($) {
-	
+	//var app = angular.module('myApp',['ngDragDrop']);
 	var comboAlumno = $("#comboAlumno").alumnoSelectize("dynamicOptionsAlumno");
     comboAlumno.enable();
-    
-    
+
     var ArrayCursosOrigen=[];
-    //$(document).ajaxStop($.unblockUI);
+    $(document).ajaxStop($.unblockUI);
     //var ArrayCursosConvalidados=[];
     //var ArrayCursosNoConvalidados=[];
     
+    
+    
     $(document).on("change", '#comboAlumno', function (event) {
-    	//$.blockUI({ message: "Espere mientras se cargan los datos" });
+
     	var codcli = $(this).val();
-        //listamos los cursos registrados por el alumno
-         
-        //setTimeout($.unblockUI, 4000);
-        //console.log(ArrayCursosOrigen);	
-                 
                  if (codcli.length) {
-                 	
                 	 $.ajax({
                      	url:"../convalidacion",
                      	async:false,
@@ -27,14 +22,14 @@ jQuery(function ($) {
                      	method:'POST',
                      	success:function(convcurs){
                      		//console.log(convcurs);
-                     		
                      		if(convcurs!=null){
-                     			var nuevafila="";
+                     		var nuevafila="";
                      		$.each(convcurs, function (index, curcon) {
                      		nuevafila = nuevafila + "<tr data-object='"+JSON.stringify(curcon)+"'>";
-                			nuevafila = nuevafila + "<td>"+curcon.cursoorigencodigo +"</td>";
+                			nuevafila = nuevafila + "<td style='width: 110px;' ><div class='contenedor dropado'><div class='movible' style='cursor:pointer;'>"+curcon.cursoorigencodigo +"</div></div></td>";
                 			nuevafila = nuevafila + "<td class='nombrecursoorigen' style='cursor:pointer;'>"+curcon.cursoorigennombre +"</td>";
                 			nuevafila = nuevafila + "</tr>";
+                			
                 			ArrayCursosOrigen.push({
                 				'codigo':curcon.cursoorigencodigo,
                 				'nombre':curcon.cursoorigennombre
@@ -42,13 +37,59 @@ jQuery(function ($) {
                 			
                      		});
                      		$("#cursosorigen").empty().append(nuevafila);
+
+                     		
+                     		
+                     		$(".movible").draggable({ 
+                     			 
+                     			cursorAt: { top: 8, left: 50 },
+                     			revert:true,
+                     			start: function( event, ui ) {
+                     				var idcuerpo=$(this).parent().parent().parent().attr("id");
+                     				if(idcuerpo=='cursosorigen'){
+            	            			console.log('idcuerpo');
+            	            		}else{
+            	            			$(this).parent().removeClass("dropado").addClass('dropvacio');
+            	            		}
+                     			},
+                     			stop: function( event, ui ) {
+                     				//var idcuerpo=$(this).parent().parent().parent().attr("id");
+                     					$(this).parent().removeClass("dropvacio").addClass('dropado');
+                     			},
+//                     			cursor: "move",
+                     			helper:"original",
+                     			revertDuration: 0,
+                     			scrollSpeed: 0
+                     				
+                     		});
+                     		
+                     	     var nav = $('#navcur');
+                             var pos = nav.offset();
+                             var h = $('#navcur').height();
+                             var w = $('#navcur').width();
+                             $('#navcur').css("height", h);
+                             $('#navcur').css("width", w);
+                             $(window).on('scroll', function() {
+                             	//console.log($(this).scrollTop());
+                             	//console.log(pos.top);
+                                 if ($(this).scrollTop() >= (pos.top - 73)) {
+                                     nav.addClass('fijocur');
+                                 } else {
+                                     nav.removeClass('fijocur');
+                                 }
+                             });
+                     		
+                     		
                      		
                      	}
                      	
                      }
                 	 });
  					
-                	 
+              	   $.blockUI({
+                       message: "<p>Cargando datos del alumno</p>"
+                   });
+
                 	 
                 	 
                      $.ajax({
@@ -65,11 +106,13 @@ jQuery(function ($) {
                              $('#facultad').empty().append(datos.facultad.nombre);
                              $('#escuela').empty().append(datos.especialidad.nombre);
                              $('#nomplan').empty().append('PLAN DE ESTUDIOS DE '+datos.especialidad.nombre);
-                             
+                             //barra estatica
                              var nav = $('#datosalumno');
                              var pos = nav.offset();
                              var h = $('#datosalumno').height();
+                             //var w = $('#datosalumno').width();
                              $('#datosalumno').css("height", h);
+                             $('#datosalumno').css("width", "100%");
                              $(window).on('scroll', function() {
                              	//console.log($(this).scrollTop());
                              	//console.log(pos.top);
@@ -86,29 +129,33 @@ jQuery(function ($) {
                      	
                      
                  }
-           			
-           			
-           			
-     
-       
 
     });
+    comboAlumno.on("clear", function () {
+        
+    	ArrayCursosOrigen=[];
+    	$("#cursosorigen").empty();
+    	$('#cursosplan').empty();
+    	 $('#codigo').empty();
+         $('#apellidos').empty();
+         $('#nombres').empty();
+         $('#facultad').empty();
+         $('#escuela').empty();
+         $('#nomplan').empty();
+    	
+    });
     
-    
-    
-    function llenarComboCursos(id){
-        $.when($("#"+id).cursoOrigenSelectize())
-        .then(function() {
-            $("#"+id).cursoOrigenSelectize().enable($("#"+id).cursoOrigenSelectize().cargarCursosOrigen(comboAlumno.getValue()));
-        });
-    } 
-    
-  
+    $(document).on('mouseover', '.movible', function (event) {
+        ($(this)).addClass("over");
+    });
+    $(document).on('mouseout', '.movible', function (event) {
+        ($(this)).removeClass("over");
+    });
    function CargarPlanEstudios(_codcli){
 	   // blockUI
-//	   $.blockUI({
-//           message: "<p>Espere mientras hacemos la verificaci&oacute;n</p>"
-//       });
+	   $.blockUI({
+           message: "<p>Espere mientras cargamos los datos</p>"
+       });
 	   $.ajax({
 	        url: "../convalidacion",
 	        data: {'f': 'convalidacion','codalu':_codcli},
@@ -126,19 +173,44 @@ jQuery(function ($) {
 	                nuevafila = nuevafila + "<tr class='condata' data-object='" + JSON.stringify(detalle) + "' style='font-size:14px;'>";
 	                nuevafila = nuevafila + "<td style='text-align:center;'>" + detalle.curso.id + "</td><td style='cursor:pointer'>" + detalle.curso.nombre + "</td>";
 	                nuevafila = nuevafila + "<td style='text-align:center;'>" + detalle.creditos + "</td>";
-	                nuevafila = nuevafila + "<td style='text-align:center;width:400px;'>" + "<select class='ccOrigen' id='cursosorigen"+index+"'> </select>" + "</td>";
+	                nuevafila = nuevafila + "<td style='text-align:center;'><div class='contenedor dropvacio' id='curusmp"+index+"'></div></td>";
+	                //nuevafila = nuevafila + "<td style='text-align:center;width:400px;'>" + "<select class='ccOrigen' id='cursosorigen"+index+"'> </select>" + "</td>";
 	                nuevafila = nuevafila + "</tr>";
-	                //llenarComboCursos("cursosorigen"+index);
+	                
+	                
 	            });
 	            $('#cursosplan').empty().append(nuevafila);
-	            console.log(JSON.stringify(ArrayCursosOrigen));
-	            $.each(cursosjson, function (index, detalle) {
-//	            	llenarComboCursos("cursosorigen"+index);
-	            	$("#cursosorigen"+index).cursoOrigenSelectize();
-	            	$("#cursosorigen"+index).cursoOrigenSelectize().enable($("#cursosorigen"+index).cursoOrigenSelectize().cargarCursos(ArrayCursosOrigen));
-	            	
+	            
+	            
+	            
+	            $(".contenedor").droppable({
+	            	tolerance:'intersect',
+	            	accept:'.movible',
+	            	drop:function(event,ui){
+	            		var idcuerpo=$(this).parent().parent().parent().attr("id");
+	            		//si drop en tabla derecha
+	            		if(idcuerpo=='cursosorigen'){
+	            			var curact = ($(this).parent().parent()).data('object');
+	            			// si pertenece a ese tdt
+	            			if(curact.cursoorigencodigo==ui.draggable.html()){
+	            				//si esta vacio
+	            				if($(this).children().length==0){
+	    	            			$(this).removeClass("dropvacio").addClass("dropado");
+	    		            		$(this).append(ui.draggable);	
+	    	            		}
+	            			}
+	            			
+	            		}else{
+	            			 //si esta vacio
+	            			if($(this).children().length==0){
+		            			$(this).removeClass("dropvacio").addClass("dropado");
+			            		$(this).append(ui.draggable);	
+		            		}
+	            		}
+	            		
+	            	}
 	            });
-	          //  pintarsinhistorico();
+
 	        },
 	        error: function (res) {
 	            // toastr["error"]("Ocurrió un error al obtener Estado");
@@ -151,87 +223,7 @@ jQuery(function ($) {
 	   
 	   //agregarCursosOrigen();
    };
-   function agregarCursosOrigen(){
-	   $('#cursosplan .condata').each(function () {
-		   var tdadd ="";
-		   var contadortd=0;
-		   //console.log({'codcur':$(this).data("object").curso.id,
-	        //		  'codplan':$(this).data("object").plancurricular.id});
-//		   $.blockUI({
-//	           message: "<p>Espere mientras hacemos la verificaci&oacuete;n</p>"
-//	       });
-		   $.ajax({
-	        	url:"../convalidacion",
-	        	async:false,
-	        	data:{'f':'buscarEnConvalidacion',
-	        		  'codcur':$(this).data("object").curso.id,
-	        		  'codplan':$(this).data("object").plancurricular.id},
-	        	datatype:'json',
-	        	method:'POST',
-	        	success:function(datos){
-	        		// traera los cursos equivalentes a este detalle
-	        		if(datos.length!==0){
-	        			//console.log(datos);
-	        			tdadd="<td style='text-align:center;' class='envioterminar' ";	
-	        		for(var j=0;j<datos.length;j++){
-	        		
-	        			// si está, pinta al lado y borra de lista
-	        			
-		        			for(var n=0;n<ArrayCursosOrigen.length;n++){
-		        		//		console.log(ArrayCursosOrigen[n]+" "+datos[j]);
-		        				if(datos[j].cursoorigencodigo==ArrayCursosOrigen[n].cursoorigencodigo){
-		        					//pinta curso al lado
-		        					tdadd = tdadd + "data-object='"+JSON.stringify(ArrayCursosOrigen[n])+"'>";
-		        					tdadd = tdadd + ArrayCursosOrigen[n].cursoorigencodigo + " "+ArrayCursosOrigen[n].cursoorigennombre;
-		        					//borra de la lista
-		        					for(var i=0;i<ArrayCursosOrigen.length;i++){
-		        						//console.log(datos[j].cursoorigencodigo+ " " +ArrayCursosOrigen[i].cursoorigencodigo);
-		        			    		if(datos[j].cursoorigencodigo==ArrayCursosOrigen[i].cursoorigencodigo){
-		        			    			delete ArrayCursosOrigen[i];
-		        			    			ArrayCursosOrigen.splice(i,1);
-		        			    			contadortd++;
-		        			    		}
-		        			    	}
-		        					
-		        					
-		        				}	
-		        			}
-	        		 }
-	        		
-	        		//console.log(contadortd);
-	        		//console.log(datos.length);
-	        		//si es mas de un curso y el alumno no los tiene
-	        		if(contadortd != datos.length && contadortd!=0 && datos.length!=0){
-
-	        			tdadd = tdadd +"Falta(n) Curso(s) para convalidar<br/>";
-	        		}
-	        		tdadd = tdadd +"</td>";
-	        			
-	        		}
-	        	}
-	        });
-		   //console.log(tdadd);
-		   $(this).append(tdadd);
-
-		   pintarsinhistorico();
-		   //console.log(JSON.stringify(ArrayCursosOrigen));
-		   
-     });
-
-	   toastr["success"]("Carga de datos Exitosa");
-   };
-   function pintarsinhistorico(){
-	   var nuevafila="";
-	   //console.log("marco");
-	   //console.log(ArrayCursosOrigen);
-		for(var n=0;n<ArrayCursosOrigen.length;n++){
-			nuevafila = nuevafila + "<tr data-object='"+JSON.stringify(ArrayCursosOrigen[n])+"'>";
-			nuevafila = nuevafila + "<td>"+ArrayCursosOrigen[n].cursoorigencodigo +"</td>";
-			nuevafila = nuevafila + "<td class='nombrecursoorigen' style='cursor:pointer;'>"+ArrayCursosOrigen[n].cursoorigennombre +"</td>";
-			nuevafila = nuevafila + "</tr>";
-		}
-		$("#cursosorigen").empty().append(nuevafila);
-   };
+      
     
    $(document).on("click", '.nombrecursoorigen', function (event) {
     
@@ -249,40 +241,48 @@ jQuery(function ($) {
     		//insertamos
     	
     	var ajaxdata=[];
-    	$('#cursosplan .envioterminar').each(function (){
-    		var detalle = ($(this).parent()).data("object");
+    	$('#cursosplan .contenedor').each(function (){
+
+    		var detalle = ($(this).parent().parent()).data("object");
+    		var divorigen = $(this).children();
         	//console.log(detalle);
-        	var curori=$(this).data("object");
-        	if($(this).text()!=""){
-        		
-        	
+    		
+        	if(divorigen.length==1){
     		ajaxdata.push({
         			'plancurricular':detalle.plancurricular.id
         			,
         			'curso':detalle.curso.id
         			,
-        			'codigocursoorigen':curori.cursoorigencodigo,
+        			'codigocursoorigen':divorigen.text().trim(),
         			'alumno':comboAlumno.getValue()
         	});
         	}
     	});
-    	
-    	$.ajax({
-    		url:"../registrodatos",
-        	data:{'f':'registrarConvalidacion','listadata':JSON.stringify(ajaxdata)},
-        	datatype:'json',
-        	method:'POST',
-        	success:function(datos){
-        		if(datos=="OK"){
-        			toastr["success"]("Registro Exitoso");
-        			comboAlumno.clear();
-        	    	$('#cursosplan').empty();
-        		}else{
-        			toastr["warning"]("Error al registrar");
-        		}
-        	}	
-    		
-    	});
+    	console.log(ajaxdata);
+    	if(ajaxdata.length>=1){
+    		 $.blockUI({
+    	           message: "<p>Registrando Convalidaciones</p>"
+    	       });
+    	 	$.ajax({
+        		url:"../registrodatos",
+            	data:{'f':'registrarConvalidacion','listadata':JSON.stringify(ajaxdata)},
+            	datatype:'json',
+            	method:'POST',
+            	success:function(datos){
+            		if(datos=="OK"){
+            			toastr["success"]("Registro Exitoso");
+            			comboAlumno.clear();
+            	    	$('#cursosplan').empty();
+            		}else{
+            			toastr["error"]("Error al registrar");
+            		}
+            	}	
+        		
+        	});
+    	}else{
+    		toastr["warning"]("Verifique los datos");
+    	}
+   
     	
     	
     });

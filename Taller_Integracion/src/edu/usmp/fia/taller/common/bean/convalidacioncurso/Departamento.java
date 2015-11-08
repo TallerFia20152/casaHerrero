@@ -10,22 +10,22 @@ package edu.usmp.fia.taller.common.bean.convalidacioncurso;
  * @author Ingeniero
  */
 public class Departamento {
-private int id;
-private String nombre;
+	private String id;
+	private String nombre;
 
-    public int getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 }
