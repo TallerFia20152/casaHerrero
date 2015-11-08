@@ -31,18 +31,30 @@ public class RegistrarHorarios extends ActionServlet {
 		
 		try 
 		{
-			System.out.println("INGRESO A RegistrarHorarios POST");
 			boolean registro=false;
 			boolean existe=false;
-			String mensaje="";
+			String mensaje="";			
+			
+			String[] seccion = request.getParameterValues("seccion");
+			System.out.println("Secciones " + seccion);
 			
 			String[] codCurso = request.getParameterValues("codigos");
-			String[] seccion = request.getParameterValues("seccion");
+			
+			String[] codCurso1 = request.getParameterValues("codCursoCruce1");
+			String[] codCurso2 = request.getParameterValues("codCursoCruce2");
+			String[] seccionCruce1 = request.getParameterValues("seccionCruce1");
+			String[] seccionCruce2= request.getParameterValues("seccionCruce2");
+						
+			
+			System.out.println(codCurso1);
+			System.out.println(codCurso2);
+			System.out.println(seccionCruce1);
+			System.out.println(seccionCruce2);
 			
 			for(int i=0;i<codCurso.length;i++)
 			{
 				System.out.println("CURSO   "+ codCurso[i]);
-				seccion[i]=seccion[i].substring(0,4);
+				seccion[i]=seccion[i]; //.substring(0,4);
 				
 				System.out.println("SECCION "+ seccion[i]);
 			}
@@ -51,11 +63,15 @@ public class RegistrarHorarios extends ActionServlet {
 			Usuario oUsuario= (Usuario) sesion.getAttribute(SessionParameters.USUARIO.text());
 			
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-			existe= factory.getSimulacionMatricula().BuscarHorariosAlumnos(oUsuario.getPersona().getIdPersona().toString());
-
+			
+			/*
+			 * existe= factory.getSimulacionMatricula().BuscarHorariosAlumnos(oUsuario.getPersona().getIdPersona().toString());
+			 
+			
 			
 			if (!existe)
 			{
+				*/
 				registro= factory.getSimulacionMatricula().RegistrarHorariosAlumno(oUsuario.getPersona().getIdPersona().toString(),codCurso,seccion);
 				
 				System.out.println("INGRESARÁ");
@@ -69,11 +85,12 @@ public class RegistrarHorarios extends ActionServlet {
 					System.out.println("INCORRECTO");
 					mensaje="No se pudo escoger los horarios para los cursos preferidos.";
 				}		
-				
+			/*	
 			}else
 			{
 				mensaje="Usted ya seleccionó los horarios de sus Cursos Preferibles.";
 			}
+			*/
 			
 			request.setAttribute("mensaje", mensaje);
 			request.getRequestDispatcher("SimulacionMatricula/mensaje.jsp").forward(request, response);

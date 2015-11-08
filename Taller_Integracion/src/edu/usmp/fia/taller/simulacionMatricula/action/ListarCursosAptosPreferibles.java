@@ -1,5 +1,6 @@
 package edu.usmp.fia.taller.simulacionMatricula.action;
 
+
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
@@ -46,6 +47,7 @@ public class ListarCursosAptosPreferibles extends ActionServlet {
 			Usuario oUsuario= (Usuario) sesion.getAttribute(SessionParameters.USUARIO.text());
 
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+			/*
 			existe= factory.getSimulacionMatricula().BuscarPreMatricula(oUsuario.getPersona().getIdPersona().toString());
 			
 			System.out.println("EXISTE " + existe);
@@ -57,7 +59,8 @@ public class ListarCursosAptosPreferibles extends ActionServlet {
 				request.getRequestDispatcher("SimulacionMatricula/mensaje.jsp").forward(request, response);
 			}
 			else 
-			{	
+			{
+			*/	
 				System.out.println("INGRESO A LISTAR");
 				listadoCursosPropuestos = factory.getSimulacionMatricula().CursosProbables(oUsuario.getPersona().getIdPersona().toString());
 				listado= factory.getSimulacionMatricula().ListarCursosAptos(oUsuario.getPersona().getIdPersona().toString());
@@ -66,7 +69,7 @@ public class ListarCursosAptosPreferibles extends ActionServlet {
 				request.setAttribute("listaCursoAptoPreferibles", listado);
 				request.setAttribute("listaCursoProbables", listadoCursosPropuestos);
 				request.getRequestDispatcher("SimulacionMatricula/MatriculaProgresiva/Pre_Matricula.jsp").forward(request, response);
-			}			
+			//}			
 			
 		} catch (Exception e) {
 			System.out.println("ERROR ListarCursosAptosPreferibles ====>> " +e.getMessage() + "");

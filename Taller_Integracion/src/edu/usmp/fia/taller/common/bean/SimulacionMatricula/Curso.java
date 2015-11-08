@@ -135,7 +135,7 @@ public class Curso {
 	public String getSeccio() {
 		return mSeccio;
 	}
-	public void setSeccion(String mSeccio) {
+	public void setSeccio(String mSeccio) {
 		this.mSeccio = mSeccio;
 	}
 }
