@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <%@page import="edu.usmp.fia.taller.common.bean.RegistroDocente.Personaa"%>
 <%@page import="java.util.Vector"%>
@@ -37,13 +36,32 @@ Vector<Personaa> listaDocentes=(Vector)request.getAttribute("docentes");
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 
 			<!-- Contenido -->
-			
-			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<%
-	String mensaje = (String)request.getAttribute("mensaje");
-%>
-<h2>Resultado de la operación</h2>
-<h3><%=mensaje %></h3>
+			<div>DOCENTES</div>
+			<div>
+			<table data-search="true" id="table_telefono" data-height="600"
+						data-click-to-select="true">
+						<thead>
+							<tr>
+								
+								<th>Codigo</th>
+								<th>Nombre</th>
+								<th>Apellido Paterno</th>
+								<th>Apellido Materno</th>
+								<th></th>
+							</tr>
+						</thead>
+						<% for(int i=0; i<listaDocentes.size(); i++){ %>
+							<tr>
+							
+								<td><%=listaDocentes.get(i).getIdPersona() %></td>
+								<td><%=listaDocentes.get(i).getNombre1() %></td>
+								<td><%=listaDocentes.get(i).getApePaterno() %></td>
+								<td><%=listaDocentes.get(i).getApeMaterno() %></td>
+								<td><a href="Gestionar_Docente?f=modificarDocente&dato=<%=listaDocentes.get(i).getIdPersona() %>")>MODIFICAR</a></td>
+								<td><a href="Gestionar_Docente?f=eliminarDocente&dato=<%=listaDocentes.get(i).getIdPersona() %>")>ELIMINAR</a></td>
+							</tr>
+						<% } %> 
+					</table>
 			</div>
 			
 					<jsp:include page="/resources/include/footer.jsp"></jsp:include>
@@ -60,7 +78,4 @@ Vector<Personaa> listaDocentes=(Vector)request.getAttribute("docentes");
 
 </body>
 </html>
-
-
-
 

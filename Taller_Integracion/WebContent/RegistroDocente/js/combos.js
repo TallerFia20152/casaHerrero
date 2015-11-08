@@ -1,4 +1,9 @@
 $( document ).ready(function() {
+	//$("#combo_departamentos_1").val(idDepN.value);
+	//comprobar que esta en la vista modificar
+	//var vista=document.getElementById('vistaModificar');
+	//if (vista != null){
+		
 	var global_coddpto="";
 	var optionVacio='<option value="0" selected="true" disabled="disabled">Seleccionar</option>';
 	var TotalGrupoCombos = $("select[id*='combo_']").length/3;
@@ -17,12 +22,11 @@ $( document ).ready(function() {
 			var combo_departamento = $('#combo_departamentos_'+i);
 				
 				$(departamentos).each(function(y, v){
-					if(y==0)
-					$('#combo_departamentos_'+i).append(optionVacio);
+					/*if(y==0)
+					$('#combo_departamentos_'+i).append(optionVacio);*/
 					$('#combo_departamentos_'+i).append('<option value="' + v.coddpto + '">' + v.nombre + '</option>');
 	            })
 			}
-			
 		});
 		
 	//cargar combo provincias
@@ -78,7 +82,8 @@ $( document ).ready(function() {
 				});
 			});
 	});
-	
+
+	//}//fin if es vista modificar
 	
 });
 

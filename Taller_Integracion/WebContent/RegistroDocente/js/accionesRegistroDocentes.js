@@ -63,6 +63,7 @@ $( document ).ready(function() {
 			var rows = [];
 			rows.push({
 	            id: -1,
+	            id2: -1,
 	            dia: dia,
 	            horaInicio:rangoinicio,
 	            horaFin:rangofin,
@@ -218,18 +219,14 @@ function refescaDataHora(){
 	var table=$("#table_rangoHoras");
 	var data = table.bootstrapTable('getSelections');
 	var i = 1;
-
 	$.map(data, function (r) {
-		
 		 $table.bootstrapTable('updateRow', {
 			 index: i,
              row: {
                  id: i
              }
-         });
-		 i++;
+         });i++;
    });
-	
 }
 
 function removeCursoApto(tabla){
