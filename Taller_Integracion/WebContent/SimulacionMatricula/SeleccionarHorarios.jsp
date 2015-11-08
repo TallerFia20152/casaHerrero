@@ -15,6 +15,7 @@
 
 <title>Taller Proyectos</title>
 <jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+<link rel="stylesheet" type="text/css" href="SimulacionMatricula/css/Simulacion.css">
 </head>
 
 <%
@@ -65,7 +66,6 @@
 									<th>SECCION - DIA - HORA INICIO - HORA FIN</th>
 								</tr>
 							</thead>
-
 							<tbody>
 								<%
 									for(Curso curso:listado)
@@ -83,7 +83,7 @@
 											for(Seccion seccion:curso.getSeccion())
 											{
 										%>
-											<option><strong><%=seccion.getDescripcion()+ "   " + seccion.getDia()  + "  " + seccion.getHoraInicio()+ "-" + seccion.getHoraFin()%></strong></option>											
+											<option><%=seccion.getDescripcion()+ "   " + seccion.getDia()  + "  " + seccion.getHoraInicio()+ "-" + seccion.getHoraFin()%></option>											
 										<%
 											}
 										%>
@@ -96,10 +96,11 @@
 							</tbody>
 						</table>
 						<div class="row">
-							<div class="col-md-12 opcion">
+							<div class="col-md-12 opcion">							
 								<p>
+									<a href="javascript:;" onclick="jQuery('#modal-6').modal('show', {backdrop: 'static'});" class="btn btn-primary">Informar Cruces</a>
 									<input type="submit" id="boton" value="Registrar"
-										class="btn btn-lg btn-black btn-icon icon-left hidden-print">
+										class="btn btn-black">
 								</p>
 							</div>
 							<p>
@@ -109,7 +110,92 @@
 						%>
 					</form>
 				</div>
-			</div>				
+			</div>		
+					
+			<div class="modal fade" id="modal-6">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title">Informe de Cruces</h4>
+							</div>
+							
+							<div class="modal-body">
+							
+								<div class="row">
+									<div class="col-md-12">
+										
+										<table class="table table-bordered table-striped datatable">
+											<thead>
+												<tr>
+													<th>CURSO PREFERIBLE</th>
+													<th><center>SECCION</center></th>
+													<th><center>SECCION CRUCE</center>	</th>
+												</tr>
+											</thead>
+											<tbody>
+											<%
+												for(Curso curso:listado)
+												{
+											%>
+											<tr>							
+												<td><strong><%=curso.getCurso()%></strong></td>									
+												
+												<td>										
+													<select class="form-control" name="seccion">
+													<option></option>
+													<%
+														for(Seccion seccion:curso.getSeccion())
+														{
+													%>
+													
+														<option><%=seccion.getDescripcion()%></option>											
+													<%
+														}
+													%>
+													</select>
+												</td>
+												
+												<td>										
+													<select class="form-control" name="seccionTodas">
+													<option></option>
+													<%
+														for(Curso todosCursos:listado)
+														{													
+															for(Seccion seccionTodas:todosCursos.getSeccion())
+															{
+														%>
+															<option><%=seccionTodas.getDescripcion()+ " - " + todosCursos.getCurso()%></option>											
+														<%
+															}
+														}
+														%>
+													</select>
+												</td>
+											</tr>
+																				
+											<%
+												}
+											%>
+											</tbody>
+										</table>										
+										
+									</div>
+									
+
+								</div>
+														
+								
+							</div>
+							
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								<button type="button" class="btn btn-primary">Registrar</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
 			<!-- Footer -->
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
@@ -117,5 +203,7 @@
 		<jsp:include page="/resources/include/chat.jsp"></jsp:include>
 	</div>
 	<jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
+	
+	
 </body>
 </html>
