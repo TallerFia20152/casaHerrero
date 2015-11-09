@@ -3,6 +3,7 @@
     <%@page import="edu.usmp.fia.taller.common.bean.silabo.CursoBean"%>
     <%@page import="edu.usmp.fia.taller.common.bean.silabo.SilaboBean"%>
     <%@page import="edu.usmp.fia.taller.common.bean.silabo.BibliografiaBean"%>
+    <%@page import="edu.usmp.fia.taller.common.bean.silabo.SemanaBean"%>
 	<%@page import="java.util.Vector"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="edu.usmp.fia.taller.common.action.SessionParameters"%>
@@ -16,6 +17,8 @@
 	Vector<CursoBean> VECTOR_LIST = (Vector)request.getAttribute("LIST_CURSO");
 	Vector<SilaboBean> VECTOR_LIST_S = (Vector)request.getAttribute("LIST_SILABO");
 	Vector<BibliografiaBean> VECTOR_LIST_B = (Vector)request.getAttribute("LIST_BIBLIOGRAFIA");
+	Vector<CursoBean> VECTOR_LIST_CURSOXSILABO = (Vector)request.getAttribute("LIST_CURSOXSILABO");
+	Vector<SemanaBean> VECTOR_LIST_SEMANA = (Vector)request.getAttribute("LIST_SEMANA");
 	%>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,9 +30,6 @@
 
     <title>Elaboración de Sílabos</title>
 		<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
-		
-		
-		
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
@@ -94,8 +94,7 @@ $(document).ready(function() {
             FieldCount++;
             //agregar campo
             
-			$(agregarSemana).append('<div><label for="inputEditTema_'+ FieldCount +'">Tema</label><input type="text" class="form-control" name="mitexto[]" id="campo_'+ FieldCount +'" placeholder="Nombre del Tema"/><label for="inputEditDescrip_'+ FieldCount +'">Descripción</label><input type="text" class="form-control" name="mitexto[]" id="campo_'+ FieldCount +'" placeholder="Descripción del Tema"/><a href="#" class="eliminar">&times;</a></div>');
-			
+			$(agregarSemana).append('<div><label for="inputEditTema_'+ FieldCount +'">Tema</label><input type="text" class="form-control" name="txt_unidad_1_'+FieldCount+'" id="campo_'+ FieldCount +'" placeholder="Nombre del Tema"/><a href="#" class="eliminar">&times;</a></div>');
             x++; //text box increment
         }
         return false;
@@ -132,7 +131,7 @@ $(document).ready(function() {
             FieldCount++;
             //agregar campo
             
-			$(agregarSemana2).append('<div><label for="inputEditTema2_'+ FieldCount +'">Tema</label><input type="text" class="form-control" name="mitexto[]" id="campo2_'+ FieldCount +'" placeholder="Nombre del Tema"/><label for="inputEditDescrip2_'+ FieldCount +'">Descripción</label><input type="text" class="form-control" name="mitexto[]" id="campo2_'+ FieldCount +'" placeholder="Descripción del Tema"/><a href="#" class="eliminar">&times;</a></div>');
+			$(agregarSemana2).append('<div><label for="inputEditTema2_'+ FieldCount +'">Tema</label><input type="text" class="form-control" name="txt_unidad_2_'+FieldCount+'" id="campo2_'+ FieldCount +'" placeholder="Nombre del Tema"/><a href="#" class="eliminar">&times;</a></div>');
 			
             x++; //text box increment
         }
@@ -170,7 +169,7 @@ $(document).ready(function() {
             FieldCount++;
             //agregar campo
             
-			$(agregarSemana3).append('<div><label for="inputEditTema3_'+ FieldCount +'">Tema</label><input type="text" class="form-control" name="mitexto[]" id="campo3_'+ FieldCount +'" placeholder="Nombre del Tema"/><label for="inputEditDescrip3_'+ FieldCount +'">Descripción</label><input type="text" class="form-control" name="mitexto[]" id="campo3_'+ FieldCount +'" placeholder="Descripción del Tema"/><a href="#" class="eliminar">&times;</a></div>');
+			$(agregarSemana3).append('<div><label for="inputEditTema3_'+ FieldCount +'">Tema</label><input type="text" class="form-control" name="txt_unidad_3_'+FieldCount+'" id="campo3_'+ FieldCount +'" placeholder="Nombre del Tema"/><a href="#" class="eliminar">&times;</a></div>');
 			
             x++; //text box increment
         }
@@ -228,13 +227,8 @@ return /\d/.test(String.fromCharCode(keynum));
 </script>
     
   </head>
+  <body role="document"class="page-body skin-red">
 
-	<%
-	Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
-	Persona oPersona = oUsuario.getPersona();
-%>
-  <body role="document">
-<body class="page-body skin-red">
 	<div class="page-container">
 		<jsp:include page="/resources/include/sidebar-menu.jsp"></jsp:include>
 		<div class="main-content">
@@ -261,7 +255,14 @@ return /\d/.test(String.fromCharCode(keynum));
         <!-- Trigger the modal with a button -->
         <div id="section-app">
         <form method="post" action="<%=request.getContextPath() %>/Silabo">
-        <input type="text" id="txt_Idcurso" name="txt_Idcurso" class="form-control"  placeholder="Código del Curso" onKeyPress="return soloNumeros(event);" maxlength="6" required="required"><br>
+        
+        <select id="txt_Idcurso" name="txt_Idcurso" class="form-control" onChange="validarCursos()" onClick="mostrarDatos()">
+            <option value="">---Seleccione---</option>
+            <%for(int i=0;i<VECTOR_LIST_CURSOXSILABO.size();i++){%>
+                <option value="<%=VECTOR_LIST_CURSOXSILABO.get(i).getIdCurso()%>"><%= VECTOR_LIST_CURSOXSILABO.get(i).getNombreCurso()%></option>
+        	<%}%>
+        </select>
+        
         <input type="submit" id="btn_funcion" name="btn_funcion" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalx" style="margin:10px 0px; float:left;" onClick="mostrar();" value="Buscar Sílabo"><br><br><br>
         </form>
         <input type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="margin:10px 0px; float:left;" value="Crear Nuevo Sílabo"><br><br><br>
@@ -271,7 +272,7 @@ return /\d/.test(String.fromCharCode(keynum));
       <br><br><br><br><br><br><br>
       <div >
     		<label for="inputCurso">Curso</label>
-            <input type="text" id="txt_curso" class="form-control"  placeholder="Nombre del curso" value="<%= VECTOR_LIST_S.get(0).getNombreCurso()%>" ><br>
+            <input type="text" id="txt_curso" class="form-control"  placeholder="Nombre del curso" disabled value="<%= VECTOR_LIST_S.get(0).getNombreCurso()%>" ><br>
             <label for="inputAreaC">Área Curricular</label>
             <input type="text" class="form-control"  placeholder="Área curricular a la que pertenece" disabled value="<%= VECTOR_LIST_S.get(0).getAreaCu()%>"><br>
             <label for="inputCodigo">Código del curso</label>
@@ -283,9 +284,14 @@ return /\d/.test(String.fromCharCode(keynum));
             <label for="inputCondi">Condición del curso</label>
             <input type="text" class="form-control"  placeholder="Condición obligatorio o electivo" disabled value="<%= VECTOR_LIST_S.get(0).getCondCurso()%>"><br>
             <label for="inputSumilla">Sumilla</label>
-            <textarea class="form-control" rows="4"  placeholder="Escriba la sumilla del curso" disabled></textarea><br>
-            <label for="inputBiblio1">Bibliografía</label>
-            <input type="text" class="form-control"  placeholder="Reseña bibliográfica" disabled><br>
+            <textarea class="form-control" rows="4"  placeholder="Sumilla del curso" disabled ><%= VECTOR_LIST_S.get(0).getSumilla()%></textarea><br>
+            
+            
+            <%for(int i=0;i<VECTOR_LIST_B.size();i++){%>
+                <label for="inputEditBiblio2">Bibliografía <%= i+1%></label>
+	            <input type="text" class="form-control" placeholder="Reseña bibliográfica" name="reseña_<%=i%>" value="<%= VECTOR_LIST_B.get(i).getReseña()%>" disabled>
+        	<%}%>
+            
             <label for="inputHTeo">Horas Teoría</label>
             <input type="text" class="form-control"  placeholder="Cantidad de horas teóricas" disabled value="<%= VECTOR_LIST_S.get(0).getHorasT()%>"><br>
             <label for="inputHLab">Horas Laboratorio</label>
@@ -346,18 +352,7 @@ return /\d/.test(String.fromCharCode(keynum));
         	<%}%>
             </select>
             <br/>
-            <label for="inputCod">Código del curso</label>
-            <input type="text" class="form-control" id="id_curso" placeholder="Código del curso" disabled>
-            <label for="inputNom">Nombre del curso</label>
-            <input type="text" class="form-control" id="nombre_curso" placeholder="Nombre del curso" disabled>
-            <label for="inputNroC">Nro de Créditos</label>
-            <input type="text" class="form-control"  placeholder="Cantidad de Créditos" disabled>
-            <label for="inputSumilla">Sumilla</label>
-            <textarea class="form-control" rows="4"  placeholder="Escriba la sumilla del curso" disabled></textarea>
-            <label for="inputHTeo">Horas Teoría</label>
-            <input type="text" class="form-control"  id="horas_teoria" placeholder="Cantidad de horas teóricas" disabled>
-            <label for="inputHLab">Horas Laboratorio</label>
-            <input type="text" class="form-control"  id="horas_practicas" placeholder="Cantidad de horas prácticas"  disabled>
+            
             <br/><br/>
             <label for="inputBiblio1">Bibliografía</label>
             <div id="agregarB">
@@ -382,43 +377,39 @@ return /\d/.test(String.fromCharCode(keynum));
 
 <div id="myModal6" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Crear Nuevo Sílabo</h4>
         <br/><br/>
-        
-        	
         	<div class="jumbotron">
         		<h4>Unidades de Aprendizaje</h4>
       		</div>
           <div class="form-group">
           <h4><strong>Unidad I</strong></h4><br>
           <div id="agregarSemana">
-            <label for="inputEditTema">Tema</label>
-            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="unidad1_semana_0">
+          <label for="inputEditTema">Tema</label>
+            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="txt_unidad_1_0">
             <br>
             </div>
-            <input type="submit" id="btnNewSemana" name="btnNewSemana" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Semana">
-          
+            <input type="submit"  id="btnNewSemana" name="btnNewSemana" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Semana">
           <h4><strong>Unidad II</strong></h4><br>
           <div id="agregarSemana2">
             <label for="inputEditTema">Tema</label>
-            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="unidad2_semana_0">
+            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="txt_unidad_2_0">
             
             <br>
-            </div>
+           </div>
             <input type="submit" id="btnNewSemana2" name="btnNewSemana2" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Semana">
-          
+			          
           
           <h4><strong>Unidad III</strong></h4><br>
           <div id="agregarSemana3">
             <label for="inputEditTema">Tema</label>
-            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="unidad3_semana_0">
+            <input type="text" class="form-control"  placeholder="Nombre del Tema" name="txt_unidad_3_0">
             <br>
-            </div>
+          </div>
             <input type="submit" id="btnNewSemana3" name="btnNewSemana3" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;" value="Nueva Semana">
            
             <br><br>
@@ -445,9 +436,7 @@ return /\d/.test(String.fromCharCode(keynum));
         <br/><br/>
         <!-- </form> -->
           <div class="form-group">
-            <label for="inputCurso">Ingrese un Curso</label>
-            <input type="text" class="form-control"  placeholder="Código del curso">
-            <input type="submit" class="btn btn-xs btn-danger" style="margin:10px 0px; float:right;">Buscar</button>
+            Opciones de edicion
             <br/><br>
             
             <input type="" class="btn btn-success" data-toggle="modal" data-target="#myModal3" style=" margin: 0 auto; width: 300px;" value="Editar Bibliografía">
@@ -509,26 +498,22 @@ return /\d/.test(String.fromCharCode(keynum));
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Editar Evaluaciones</h4>
         <br/><br/>
-        <form>
+        <form method="post" action="<%=request.getContextPath() %>/Silabo?id_silabo=<%=VECTOR_LIST_S.get(0).getIdSilabo()%>">
           <div class="form-group">
           	<label for="inputPF">Promedio Final</label>
-            <input type="text" class="form-control"  placeholder="Fórmula del Promedio Final">
+            <input type="text" class="form-control"  placeholder="Fórmula del Promedio Final" name="prom_final" value="<%=VECTOR_LIST_S.get(0).getPromFinal()%>">
             <button type="button" class="btn btn-xs btn-danger"  style="margin:10px 15px; float:left;">Editar</button>
             <br><br><br>
-            <button type="button" class="btn btn-danger" style="margin:10px 0px; float:right;">Guardar Cambios</button>
+            <input type="submit" name="btn_funcion" class="btn btn-danger" style="margin:10px 0px; float:right;" value="Modificar Promedio">
           </div>
           <br/><br/>
         </form>
       </div>
-      
     </div>
-    
   </div>
 </div>
-
 <div id="myModal5" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -537,24 +522,29 @@ return /\d/.test(String.fromCharCode(keynum));
         <br/><br/>
         <form>
           <div class="form-group">
-            <label for="inputEditBiblio1">Semana 1 sesión 1</label><br>
-			<label for="inputEditBiblio1">Nombre</label>
-            <input type="text" class="form-control"  placeholder="Título">
-            <label for="inputEditBiblio1">Descripción</label>
-            <input type="t" class="form-control"  placeholder="Descripción del tema">
-            <br><br>
-            <label for="inputEditBiblio1">Semana 1 sesión 2</label><br>
-			<label for="inputEditBiblio1">Nombre</label>
-            <input type="text" class="form-control"  placeholder="Título">
-            <label for="inputEditBiblio1">Descripción</label>
-            <input type="t" class="form-control"  placeholder="Descripción del tema">
-            <br><br>
-            <label for="inputEditBiblio1">Semana 2 sesión 1</label><br>
-			<label for="inputEditBiblio1">Nombre</label>
-            <input type="text" class="form-control"  placeholder="Título">
-            <label for="inputEditBiblio1">Descripción</label>
-            <input type="t" class="form-control"  placeholder="Descripción del tema">
-            
+          <h4><strong>Unidad I</strong></h4><br>
+          <%for(int i=0;i<VECTOR_LIST_SEMANA.size();i++){
+   		 	  if(VECTOR_LIST_SEMANA.get(i).getNumSesion()==1){%>
+                <label for="inputEditTema">Tema</label>
+            	<input type="text" class="form-control"  placeholder="Nombre del Tema" name="txt_unidad_1_<%=i%>" value="<%= VECTOR_LIST_SEMANA.get(i).getTitulo()%>">
+            	<br>
+        	<%}}%>
+          <h4><strong>Unidad II</strong></h4><br>
+          <%for(int i=0;i<VECTOR_LIST_SEMANA.size();i++){
+   		 	  if(VECTOR_LIST_SEMANA.get(i).getNumSesion()==2){%>
+                <label for="inputEditTema">Tema</label>
+            	<input type="text" class="form-control"  placeholder="Nombre del Tema" name="txt_unidad_1_<%=i%>" value="<%= VECTOR_LIST_SEMANA.get(i).getTitulo()%>">
+            	<br>
+        	<%}}%>
+          <h4><strong>Unidad III</strong></h4><br>
+          
+          <%for(int i=0;i<VECTOR_LIST_SEMANA.size();i++){
+   		 	  if(VECTOR_LIST_SEMANA.get(i).getNumSesion()==3){%>
+                <label for="inputEditTema">Tema</label>
+            	<input type="text" class="form-control"  placeholder="Nombre del Tema" name="txt_unidad_1_<%=i%>" value="<%= VECTOR_LIST_SEMANA.get(i).getTitulo()%>">
+            	<br>
+        	<%}}%>
+        	
             <br><br>
             <button type="button" class="btn btn-danger" style="margin:10px 0px; float:right;">Guardar Cambios</button>
           </div>
@@ -569,7 +559,8 @@ return /\d/.test(String.fromCharCode(keynum));
 
 			
     </div> <!-- /container -->
-
+</div>
+</div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

@@ -6,6 +6,14 @@ public class CursoBean {
 	String nombreCurso;
 	String estadoCruso;
 	String tipoCurso;
+	String sumillaCurso;
+	
+	public String getSumillaCurso() {
+		return sumillaCurso;
+	}
+	public void setSumillaCurso(String sumillaCurso) {
+		this.sumillaCurso = sumillaCurso;
+	}
 	public String getIdCurso() {
 		return idCurso;
 	}
