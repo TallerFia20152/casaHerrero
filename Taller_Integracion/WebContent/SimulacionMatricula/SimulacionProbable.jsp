@@ -96,6 +96,7 @@
 										<tr>
 											<th><STRONG>CODIGO</STRONG></th>
 											<th><STRONG>CURSO</STRONG></th>
+											<th><STRONG>SECCION</STRONG></th>
 											<th>
 												<center>
 													<STRONG>CANTIDAD</STRONG>
@@ -119,6 +120,7 @@
 										<tr>
 											<td><%=curso.getCodigo()%></td>
 											<td><%=curso.getCurso()%>
+											<td><%=curso.getSeccio()%>											
 											</td>
 											<td align="center"><%=curso.getCantidadAlumnos()%>
 											</td>
