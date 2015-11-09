@@ -203,33 +203,17 @@ public class ChangeBusinessImpl implements ChangeBusiness {
 	}
 
 	
-	public ChangeBean changeAddCourse(int type, String name, int cycle,
-			int tHs, int pHs, int lHs, String[] mentions,
+	public ChangeBean changeAddCourse(String code, int type, int cycle,
+			int tHs, int pHs, int lHs, String[] mentions, int area, int order,
 			List<Curso> courses, List<Curso> newCourses,
 			List<ChangeBean> changes) {
 
-		DAOFactory daoFact = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-		DAOFactoryPCurricular dao = daoFact.getCourseDAO();
-		
-		String code = Utils.getNextCourseCode(dao.obtenerNuevoCodigo(), newCourses);
 		ChangeBean change = new ChangeBean(Constants.CHANGE_TYPE_ADD,
 				Constants.CHANGE_NAME_ADD);
 
 		if (code == null) {
 			change.setCode(400);
 			change.setMessage("El codigo del nuevo curso no puede ser generado.");
-		} else if (Utils.getCourseByName(name, courses) != null) {
-			change.setCode(400);
-			change.setMessage("El nombre del nuevo curso ya pertence a otro curso.");
-		} else if (Utils.getCourseByName(name, newCourses) != null) {
-			change.setCode(400);
-			change.setMessage("El nombre del nuevo curso ya pertence a otro curso.");
-		} else if (name == null || name.trim().length() < 3) {
-			change.setCode(400);
-			change.setMessage("El nombre del nuevo curso no puede contener menos de tres caracteres.");
-		} else if (!name.matches("^[a-zA-Z0-9-áÁéÉíÍóÓúÚ ]*$")) {
-			change.setCode(400);
-			change.setMessage("El nombre del nuevo curso contiene caracteres invalidos, solo se permiten letras y numeros.");
 		} else if (type == Constants.COURSE_TYPE_ELECTIVE && (mentions == null || mentions.length == 0)) {
 			change.setCode(400);
 			change.setMessage("El nuevo curso debe pertenecer a alguna mencion.");
@@ -239,22 +223,18 @@ public class ChangeBusinessImpl implements ChangeBusiness {
 		} else if ((tHs + pHs + lHs) > 6) {
 			change.setCode(400);
 			change.setMessage("La distribucion total de horas no puede ser mayor a 6 horas.");
-		} else if (name.length()>100) {
-			change.setCode(400);
-			change.setMessage("Nombre de curso excede del límite de texto");
 		} else {
 			change.setCode(200);
 			change.setMessage("[INFO] Nuevo curso agregado ["
-					+ code + " " + name + "]");
+					+ code + "]");
 
 			change.setDescription("Se agrego el nuevo curso <b>"
-					+ code + " " + name + "</b>");
+					+ code + " </b>");
 
 			/* Create new Course */
 			Curso newCourse = new Curso();
 			newCourse.setId(1);
 			newCourse.setCode(code);
-			newCourse.setName(name);
 			newCourse.setType(type);
 			newCourse.setCycle(cycle);
 			if (mentions != null) {
@@ -263,6 +243,8 @@ public class ChangeBusinessImpl implements ChangeBusiness {
 			newCourse.setTheoHours(tHs);
 			newCourse.setPracHours(pHs);
 			newCourse.setLaboHours(lHs);
+			newCourse.setCursoArea(area);
+			newCourse.setOrder(order);
 			int credits =0;
 			double phs=pHs;
 			double lhs=lHs;
@@ -317,7 +299,7 @@ public class ChangeBusinessImpl implements ChangeBusiness {
 		return change;
 	}
 	
-	public ChangeBean orderCourse(String code, List<Curso> courses, List<Curso> newCourses,
+	public ChangeBean orderCourse(String code, int order, List<Curso> courses, List<Curso> newCourses,
 			List<ChangeBean> changes) {
 
 		Curso course = Utils.getCourseByCode(code, courses);

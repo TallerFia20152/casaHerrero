@@ -41,6 +41,10 @@ public class Curso implements Serializable {
 	private List<String> requirements;
 	@JsonProperty
 	private int order;
+	@JsonProperty
+	private int creditosReq;
+	@JsonProperty
+	private int cursoArea;
 
 	public Curso() {
 	}
@@ -59,6 +63,7 @@ public class Curso implements Serializable {
 		this.description = course.getDescription();
 		this.requirements = course.getRequirements();
 		this.order = course.getOrder();
+		this.creditosReq = course.getCreditosReq();
 	}
 
 	public int getOrder() {
@@ -91,6 +96,14 @@ public class Curso implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public int getCursoArea() {
+		return cursoArea;
+	}
+
+	public void setCursoArea(int cursoArea) {
+		this.cursoArea = cursoArea;
 	}
 
 	public int getCycle() {
@@ -157,6 +170,13 @@ public class Curso implements Serializable {
 		this.description = description;
 	}
 
+	public int getCreditosReq() {
+		return creditosReq;
+	}
+
+	public void setCreditosReq(int creditosReq) {
+		this.creditosReq = creditosReq;
+	}
 	public List<String> getRequirements() {
 		return requirements;
 	}

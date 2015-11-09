@@ -21,8 +21,8 @@ public interface ChangeBusiness {
 			String[] mentions, List<Curso> courses,
 			List<Curso> newCourses, List<ChangeBean> changes);
 
-	public ChangeBean changeAddCourse(int type, String name, int cycle,
-			int tHrs, int pHrs, int lHrs, String[] mentions,
+	public ChangeBean changeAddCourse(String code, int type, int cycle,
+			int tHrs, int pHrs, int lHrs, String[] mentions, int area, int order,
 			List<Curso> courses, List<Curso> newCourses,
 			List<ChangeBean> changes);
 	
@@ -31,5 +31,7 @@ public interface ChangeBusiness {
 	
 	public ChangeBean changeRequeriments(String code, String newreq1, String newreq2, int newcred1, int newcred2,
 			List<Curso> courses, List<Curso> newCourses,
+			List<ChangeBean> changes);
+	public ChangeBean orderCourse(String code, int order , List<Curso> courses, List<Curso> newCourses,
 			List<ChangeBean> changes);
 }

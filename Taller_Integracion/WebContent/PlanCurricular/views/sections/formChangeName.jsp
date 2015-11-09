@@ -4,14 +4,14 @@
     pageEncoding="UTF-8"%>
 <span id="dlg-title" hidden="true">Cambiar Nombre de Curso</span>
 <div>
-<% System.out.println("formChangeName"); %>
+<% System.out.println("entra al jsp"); %>
 	<p>Este cambio le permite cambiar el nombre de un curso. Para esto solo seleccione el curso que desea cambiar de nombre y modifique el nombre del curso.</p>
 	<form id="frm-change" action="">
-		<label class="label" style="color:#999;">Curso:</label>
+		<label class="label">Curso:</label>
 		<span id="course-name"></span>
 		<input id="course" name="course" type="hidden">
 		<hr/>
-		<label class="label" style="color:#999;">Nuevo Nombre:</label>
+		<label class="label">Nuevo Nombre:</label>
 		<br/><br/><input id="newname" name="newname" type="text" class="field">
 	</form>
 	<br/>

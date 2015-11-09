@@ -1,6 +1,7 @@
 package edu.usmp.fia.taller.PlanCurricular.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import edu.usmp.fia.taller.PlanCurricular.business.CurriculumBusiness;
 import edu.usmp.fia.taller.PlanCurricular.business.impl.CurriculumBusinessImpl;
 import edu.usmp.fia.taller.PlanCurricular.util.Constants;
 import edu.usmp.fia.taller.common.bean.PlanCurricular.Curso;
+import edu.usmp.fia.taller.common.bean.PlanCurricular.T_Curso;
 
 @WebServlet("/PlanCurricular")
 public class HomeServlet extends HttpServlet implements Constants {
@@ -27,12 +29,14 @@ public class HomeServlet extends HttpServlet implements Constants {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
 
 		CurriculumBusiness chgBusiness = new CurriculumBusinessImpl();
 		Map<String, List<Curso>> curriculum = chgBusiness
 				.getCurrentCurriculum();
 		
 		request.getSession().setAttribute(Constants.SESSION_SEMESTER, chgBusiness.getSemester());
+		
 		
 		request.setAttribute(Constants.CURRICULUM_REQUIRED_COURSES,
 				curriculum.get(Constants.CURRICULUM_REQUIRED_COURSES));
@@ -45,7 +49,7 @@ public class HomeServlet extends HttpServlet implements Constants {
 		request.getSession().setAttribute(Constants.SESSION_NEW_COURSES, 
 				curriculum.get(Constants.CURRICULUM_ALL_COURSES_COPY));
 
-		RequestDispatcher reqDisp = getServletContext().getRequestDispatcher("/" + VIEW_PAGE_PATH +"viewHome.jsp");
+		RequestDispatcher reqDisp = getServletContext().getRequestDispatcher("/" + VIEW_PAGE_PATH +"principal.jsp");
 		reqDisp.forward(request, response);
 	}
 }
