@@ -42,18 +42,18 @@
             e.tableRows = [];
             $(e.element).each( function(i,o) {
                 var tempRows = "";
+                $(o).find("tr").not(e.settings.exclude).each(function (i,o) {
+                    tempRows += "<tr>" + $(o).html() + "</tr>";
+                });
+                e.tableRows.push(tempRows);
+            });
+            $(e.element).each( function(i,o) {
+                var tempRows = "";
                 $(o).find("th").not(e.settings.exclude).each(function (i,o) {
                     tempRows += "<th>" + $(o).html() + "</th>";
                 });
                 e.tableRows.push(tempRows);
             });
-            /*$(e.element).each( function(i,o) {
-                var tempRows = "";
-                $(o).find("tr").not(e.settings.exclude).each(function (i,o) {
-                    tempRows += "<tr>" + $(o).html() + "</tr>";
-                });
-                e.tableRows.push(tempRows);
-            });*/
             // get contents of table except for exclude
             $(e.element).each( function(i,o) {
                 var tempRows = "";
@@ -62,9 +62,10 @@
                 });
                 e.tableRows.push(tempRows);
             });
+
+            // get contents of table except for exclude
            
-           
-            
+
             e.tableToExcel(e.tableRows, e.settings.name);
         },
 
@@ -145,7 +146,7 @@
     };
 
     function getFileName(settings) {
-        return ( settings.filename ? settings.filename : "table2excel") + ".xls";
+        return ( settings.filename ? settings.filename : "CambiosGenerados") + ".xls";
     }
 
     $.fn[ pluginName ] = function ( options ) {

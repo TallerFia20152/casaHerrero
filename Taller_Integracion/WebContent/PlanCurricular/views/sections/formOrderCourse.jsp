@@ -9,8 +9,19 @@
 		<span id="course-name"></span>
 		<input id="course" name="course" type="hidden">
 		<hr/>
-		<label class="label" style="color:#999;">Nueva Posición:</label>
-		<br/><br/><input id="neworder" name="neworder" type="text" class="field">
+		<div id="div-t1">
+			<label class="label" style="color:#999;">Posición:</label>
+			<select id="slc-order" name="order" class="field">
+				<option value="1">1</option>
+				<option value="1">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+			</select>
+		</div>
 	</form>
 	<br/>
 	<br/>

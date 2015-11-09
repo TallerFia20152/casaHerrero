@@ -3,6 +3,7 @@ package edu.usmp.fia.taller.PlanCurricular.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,8 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import edu.usmp.fia.taller.common.bean.PlanCurricular.ChangeBean;
 import edu.usmp.fia.taller.common.bean.PlanCurricular.Curso;
 import edu.usmp.fia.taller.common.bean.PlanCurricular.ResponseBean;
+import edu.usmp.fia.taller.common.bean.PlanCurricular.T_Curso;
 import edu.usmp.fia.taller.PlanCurricular.business.ChangeBusiness;
+import edu.usmp.fia.taller.PlanCurricular.business.CurriculumBusiness;
 import edu.usmp.fia.taller.PlanCurricular.business.impl.ChangeBusinessImpl;
+import edu.usmp.fia.taller.PlanCurricular.business.impl.CurriculumBusinessImpl;
 import edu.usmp.fia.taller.PlanCurricular.util.Constants;
 import edu.usmp.fia.taller.PlanCurricular.util.Utils;
 
@@ -35,8 +39,13 @@ public class CHGAddNewServlet extends HttpServlet implements Constants {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		CurriculumBusiness chgBusiness = new CurriculumBusinessImpl();
+		List<T_Curso> cursosT_ciclo = chgBusiness.getCursosT_ciclo();
+		// aqui2
+		request.getSession().setAttribute("cursosT_ciclo", cursosT_ciclo);
+		//
 
-		RequestDispatcher reqDisp = getServletContext().getRequestDispatcher("/" + VIEW_PAGE_PATH +"formAddCourse.jsp");
+		RequestDispatcher reqDisp = getServletContext().getRequestDispatcher("/" + VIEW_SECTION_PATH +"formAddCourse.jsp");
 		reqDisp.forward(request, response);
 	}
 
@@ -54,13 +63,19 @@ public class CHGAddNewServlet extends HttpServlet implements Constants {
 		
 		try {
 			/* Get Request Parameters */
+			String code			= request.getParameter("code");
+			System.out.println("code: " + code);
 			int type			= Utils.getIntegerParameter(request, "type");
 			int cycle			= Utils.getIntegerParameter(request, "cycle");
-			String name			= request.getParameter("name");
-			int tHs				= Utils.getIntegerParameter(request, "teo");;
-			int pHs				= Utils.getIntegerParameter(request, "prac");;
-			int lHs				= Utils.getIntegerParameter(request, "lab");;
+			int tHs				= Utils.getIntegerParameter(request, "teo");
+			int pHs				= Utils.getIntegerParameter(request, "prac");
+			int lHs				= Utils.getIntegerParameter(request, "lab");
 			String mentions[]	=request.getParameterValues("mention");
+			int area 			= Utils.getIntegerParameter(request, "area");
+			int order 			= Utils.getIntegerParameter(request, "order");
+			
+			System.out.println("area: " + area);
+			System.out.println("order: " + order);
 			
 			/* Get Session Attributes */
 			List<Curso> courses 	= Utils.getSessionCourses(request);
@@ -69,8 +84,8 @@ public class CHGAddNewServlet extends HttpServlet implements Constants {
 			
 			/* Apply Business Rules */
 			ChangeBusiness chgBusiness 	= new ChangeBusinessImpl();
-			ChangeBean change = chgBusiness.changeAddCourse(type, name, cycle,
-												tHs, pHs, lHs, mentions, courses, newCourses, changes);
+			ChangeBean change = chgBusiness.changeAddCourse(code, type, cycle,
+												tHs, pHs, lHs, mentions,area, order, courses, newCourses, changes);
 			
 			/* Update changes and new courses in session */
 			request.getSession().setAttribute(SESSION_NEW_COURSES, newCourses);

@@ -102,10 +102,10 @@ $(function() {
 	</style>
 </head>
 
-<%
+<%--
 	Usuario oUsuario = (Usuario) request.getSession(false).getAttribute(SessionParameters.USUARIO.text());
 	Persona oPersona = oUsuario.getPersona();
-%>
+--%>
 
 
 <body class="page-body skin-red">

@@ -55,14 +55,9 @@ public class CHGOrderServlet extends HttpServlet implements Constants {
 		
 		try {
 			/* Get Request Parameters */
-			int type			= Utils.getIntegerParameter(request, "type");
-			int cycle			= Utils.getIntegerParameter(request, "cycle");
-			String name			= request.getParameter("name");
-			int tHs				= Utils.getIntegerParameter(request, "teo");;
-			int pHs				= Utils.getIntegerParameter(request, "prac");;
-			int lHs				= Utils.getIntegerParameter(request, "lab");;
-			String mentions[]	=request.getParameterValues("mention");
-			
+			String course 	= request.getParameter("course");
+			int order 	= Utils.getIntegerParameter(request, "order");
+	
 			/* Get Session Attributes */
 			List<Curso> courses 	= Utils.getSessionCourses(request);
 			List<Curso> newCourses = Utils.getSessionNewCourses(request);
@@ -70,8 +65,7 @@ public class CHGOrderServlet extends HttpServlet implements Constants {
 			
 			/* Apply Business Rules */
 			ChangeBusiness chgBusiness 	= new ChangeBusinessImpl();
-			ChangeBean change = chgBusiness.changeAddCourse(type, name, cycle,
-												tHs, pHs, lHs, mentions, courses, newCourses, changes);
+			ChangeBean change 			= chgBusiness.orderCourse(course, order, courses, newCourses, changes);
 			
 			/* Update changes and new courses in session */
 			request.getSession().setAttribute(SESSION_NEW_COURSES, newCourses);
