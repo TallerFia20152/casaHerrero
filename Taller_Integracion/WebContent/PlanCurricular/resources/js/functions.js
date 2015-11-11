@@ -3,6 +3,7 @@
  */
 function addChange(id, data){
 	var _thead = $('thead[id="'+id+'"]','#tb-change').attr('id');
+	var _thead2 = $('thead[id="'+id+'"]','#tb-cambios').attr('id');
 	
 	if (typeof _thead != 'undefined') {
 		var _tbody = $('tbody[id="'+id+'"]','#tb-change');
@@ -25,6 +26,15 @@ function addChange(id, data){
 									)))
 				.append($(document.createElement('td')).css({'width':'5%', 'text-align': 'center'})
 						.append($(document.createElement('input')).val(data.uuid).attr({type:'checkbox', checked:true, id:data.uuid, onclick:'javascript:changeState(this.value)'})))
+		)
+		var _tbody2 = $('tbody[id="'+id+'"]','#tb-cambios');
+		_tbody2.append($(document.createElement('tr')).attr({id:"tr"+data.uuid})
+				//.append($(document.createElement('td')).css({'width':'5%', 'text-align': 'center'}).text(data.code))
+				.append($(document.createElement('td')).css({'width':'5%', 'text-align': 'center'}).text(data.course.cycle))
+				.append($(document.createElement('td')).html(data.course.code + '&nbsp;' + data.course.name))
+				.append($(document.createElement('td')).html(data.description))
+				.append($(document.createElement('td')).css({'width':'5%', 'text-align': 'center'}))
+				.append($(document.createElement('td')).css({'width':'5%', 'text-align': 'center'}))
 		)
 	} else {
 		$('#tb-change')

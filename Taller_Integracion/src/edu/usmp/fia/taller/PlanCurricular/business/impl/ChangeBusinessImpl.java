@@ -305,11 +305,13 @@ public class ChangeBusinessImpl implements ChangeBusiness {
 		Curso course = Utils.getCourseByCode(code, courses);
 		ChangeBean change = new ChangeBean(Constants.CHANGE_TYPE_ORDER,
 				Constants.CHANGE_NAME_ORDER);
-
+		
 		if (course == null) {
 			change.setCode(400);
 			change.setMessage("Curso seleccionado no existe.");
 		} else {
+			change.setCourse(course);
+			change.getCourse().setOrder(order);
 			change.setCode(200);
 			change.setMessage("[INFO] Orden de curso cambiado ["
 					+ course.getCode() + " " + course.getName() + "]");

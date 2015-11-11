@@ -11,13 +11,6 @@
 		<span id="course-name"></span>
 		<input id="course" name="course" type="hidden">
 		<hr/>
-		<%-- <select id="course" name="course" class="field">
-			<option value="0">Seleccione uno</option>
-			<c:forEach items="${sessionCourses}" var="course">
-				<option value="${course.code}">${course.name}</option>
-			</c:forEach>
-		</select><br/> --%>
-		
 		<div id="div-cycle" style="display:none">
 			<div>
 				<c:forEach items="${sessionCourses}" var="course">

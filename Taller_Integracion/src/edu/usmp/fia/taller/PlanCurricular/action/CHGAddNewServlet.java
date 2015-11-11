@@ -64,16 +64,16 @@ public class CHGAddNewServlet extends HttpServlet implements Constants {
 		try {
 			/* Get Request Parameters */
 			String code			= request.getParameter("code");
-			System.out.println("code: " + code);
+			
 			int type			= Utils.getIntegerParameter(request, "type");
-			int cycle			= Utils.getIntegerParameter(request, "cycle");
+			int cycle			= Utils.getIntegerParameter(request, "cycle");		
 			int tHs				= Utils.getIntegerParameter(request, "teo");
 			int pHs				= Utils.getIntegerParameter(request, "prac");
 			int lHs				= Utils.getIntegerParameter(request, "lab");
 			String mentions[]	=request.getParameterValues("mention");
 			int area 			= Utils.getIntegerParameter(request, "area");
 			int order 			= Utils.getIntegerParameter(request, "order");
-			
+			System.out.println("code: " + code);
 			System.out.println("area: " + area);
 			System.out.println("order: " + order);
 			

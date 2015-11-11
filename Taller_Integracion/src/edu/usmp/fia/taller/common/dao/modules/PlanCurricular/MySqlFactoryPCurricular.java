@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -324,7 +325,9 @@ public class MySqlFactoryPCurricular extends MySqlDAOFactory implements DAOFacto
 		return null;
 	}
 	
-	public String guardarCursos(List<Curso> cursosCambiados) {		
+	public List<String> guardarCursos(List<Curso> cursosCambiados) {	
+		String mensaje = null;
+		List<String> mensajes = new ArrayList<String>();
 		try {
 			Connection con = MySqlDAOFactory.obtenerConexion();
 			Statement stmt = con.createStatement();
@@ -340,45 +343,59 @@ public class MySqlFactoryPCurricular extends MySqlDAOFactory implements DAOFacto
 						+ "" + tmp.getOrder() + ", ' ')";
 				int filas = stmt.executeUpdate(query);
 				if (filas == 1) {
-					System.out.println("grabo correctamente: " + tmp.getCode());
-				}
-				
+					mensaje = "Se grabo correctamente el curso con codigo: " + tmp.getCode();
+					mensajes.add(mensaje);
+				}				
 			}
-			return "grabo correctamente";
+			return mensajes;
 		} catch (Exception e) {
-			System.out.println("no grabo");
+			mensajes.add(null);
 			System.out.println(e.getMessage());
+			return mensajes;			
 		}
-		return null;
+		
 	}
 	
-	public String actualizarCursos(List<Curso> cursosActualizados) {		
+	public HashMap<String, String> actualizarCursos(List<Curso> cursosActualizados) {		
+		HashMap<String, String> mensajes = new HashMap<String, String>();
+		String mensajeTPC = null;
+		String mensajeTPR = null;
+		String mensajeTPM = null;
 		try {
 			Connection con = MySqlDAOFactory.obtenerConexion();
 			Statement stmt = con.createStatement();
 			Curso tmp = new Curso();
+			List<String> requisitos = new ArrayList<String>();
+			mensajes = new HashMap<String, String>();
 			for (int i = 0; i < cursosActualizados.size(); i++) {
 				tmp = cursosActualizados.get(i);
-				System.out.println("orden: " + tmp.getOrder());
+				for (int j = 0; j < requisitos.size(); j++) {
+					if (requisitos.get(j).substring(0, 2).equals("C:")) {
+						tmp.setCreditosReq(Integer.parseInt(requisitos.get(j).substring(2)));
+						System.out.println("nuevos requisitos: "+ Integer.parseInt(requisitos.get(j).substring(2)));
+					}
+				}
 				String query = "UPDATE `t_plan_curricular_detalle` "
 						+ "SET `creditos`='" + tmp.getCredits() + "', `ciclo_id`='" + tmp.getCycle() + "', "
 						+ "`curso_condicion_id`='" + tmp.getType() + "', `horasTeoria`='" + tmp.getTheoHours() + "', "
 						+ "`horasLaboratorio`='" + tmp.getLaboHours() + "', `horasPractica`='" + tmp.getPracHours() + "', "
 						+ "`creditos_requisito`='" + tmp.getCreditosReq() + "', "
-						+ "`curso_area_id`='" + tmp.getCursoArea() + "', `Ordenar`='" + tmp.getOrder() + "' "
+						+ "`Ordenar`='" + tmp.getOrder() + "' "
 						+ "WHERE `id`='1' and`curso_id`='" + tmp.getCode() + "'";
 				int filas = stmt.executeUpdate(query);
 				if (filas == 1) {
-					System.out.println("actualizo correctamente");
+					mensajeTPC = "Se ejecturaon los cambios en Plan Curricular correctamente";
+					mensajes.put("updateTPC", mensajeTPC);
 				}
-				List<String> requisitos = tmp.getRequirements();
+				
 				for (int j = 0; j < requisitos.size(); j++) {
 					String query2 = "UPDATE `t_curso_requisito` "
 							+ "SET `curso_requisito_id`='" + requisitos.get(j) + "' "
 							+ "WHERE `plan_curricular_id`='1' and`curso_id`='" + tmp.getCode() + "' ";
 					int filas2 = stmt.executeUpdate(query2);
 					if (filas2 == 1) {
-						System.out.println("grabo correctamente los requisitos: " + tmp.getCode());
+						mensajeTPR = "Se ejecturaon los cambios los requisitos del curso";
+						mensajes.put("updateTCR", mensajeTPR);
 					}
 				}
 				List<String> menciones = tmp.getMentions();
@@ -389,16 +406,16 @@ public class MySqlFactoryPCurricular extends MySqlDAOFactory implements DAOFacto
 							+ "and`curso_id`='" + tmp.getCode() + "'";
 					int filas3 = stmt.executeUpdate(query3);
 					if (filas3 == 1) {
-						System.out.println("grabo correctamente las menciones: " + tmp.getCode());
+						mensajeTPM = "Se ejecturaon los cambios la mencion de curso";
+						mensajes.put("updateTPM", mensajeTPM);
 					}
 				}
 			}
-			return "grabo correctamente";
+			return mensajes;
 		} catch (Exception e) {
-			System.out.println("no grabo");
 			System.out.println(e.getMessage());
+			return mensajes;
 		}
-		return null;
 	}
 	
 	

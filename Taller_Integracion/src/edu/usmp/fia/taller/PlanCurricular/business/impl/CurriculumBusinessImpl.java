@@ -134,7 +134,7 @@ public class CurriculumBusinessImpl implements CurriculumBusiness {
 		return curriculum;
 	}
 	
-	public Map<String, List<Curso>> grabarNewCurriculum(List<Curso> courses) {
+	public List<String> grabarNewCurriculum(List<Curso> courses) {
 		List<Curso> freeCourses = new ArrayList<Curso>();
 		List<Curso> requiredCourses = new ArrayList<Curso>();
 		List<Curso> mentionCourses = new ArrayList<Curso>();
@@ -156,16 +156,12 @@ public class CurriculumBusinessImpl implements CurriculumBusiness {
 		});
 		DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 		DAOFactoryPCurricular pCurricularDao = dao.getCourseDAO();
-		pCurricularDao.guardarCursos(courses);
+		List<String> mensajes = pCurricularDao.guardarCursos(courses);
 
-		Map<String, List<Curso>> curriculum = new HashMap<String, List<Curso>>();
-		curriculum.put(Constants.CURRICULUM_REQUIRED_COURSES, requiredCourses);
-		curriculum.put(Constants.CURRICULUM_MENTION_COURSES, mentionCourses);
-		curriculum.put(Constants.CURRICULUM_FREE_COURSES, freeCourses);
-		return curriculum;
+		return mensajes;
 	}
 	
-	public Map<String, List<Curso>> actualizarCambios(List<Curso> courses) {
+	public HashMap<String, String> actualizarCambios(List<Curso> courses){
 		List<Curso> freeCourses = new ArrayList<Curso>();
 		List<Curso> requiredCourses = new ArrayList<Curso>();
 		List<Curso> mentionCourses = new ArrayList<Curso>();
@@ -187,13 +183,9 @@ public class CurriculumBusinessImpl implements CurriculumBusiness {
 		});
 		DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 		DAOFactoryPCurricular pCurricularDao = dao.getCourseDAO();
-		pCurricularDao.actualizarCursos(courses);
+		HashMap<String, String> resultadoUpdate = pCurricularDao.actualizarCursos(courses);
 
-		Map<String, List<Curso>> curriculum = new HashMap<String, List<Curso>>();
-		curriculum.put(Constants.CURRICULUM_REQUIRED_COURSES, requiredCourses);
-		curriculum.put(Constants.CURRICULUM_MENTION_COURSES, mentionCourses);
-		curriculum.put(Constants.CURRICULUM_FREE_COURSES, freeCourses);
-		return curriculum;
+		return resultadoUpdate;
 	}
 
 	

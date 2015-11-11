@@ -68,6 +68,11 @@ public class CURApplyServlet extends HttpServlet implements Constants {
 							ncourse.setId(2);
 						}
 						break;
+					case CHANGE_TYPE_ADD:
+						if (ch.isEnable()) {
+							ncourse = ch.getCourse();
+						}
+						break;
 					}
 				}
 			}

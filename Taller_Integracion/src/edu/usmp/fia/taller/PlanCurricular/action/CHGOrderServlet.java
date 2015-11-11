@@ -57,7 +57,8 @@ public class CHGOrderServlet extends HttpServlet implements Constants {
 			/* Get Request Parameters */
 			String course 	= request.getParameter("course");
 			int order 	= Utils.getIntegerParameter(request, "order");
-	
+			System.out.println("orden nuevo: " +order);
+			System.out.println("curso: " + course);
 			/* Get Session Attributes */
 			List<Curso> courses 	= Utils.getSessionCourses(request);
 			List<Curso> newCourses = Utils.getSessionNewCourses(request);

@@ -1,5 +1,6 @@
 package edu.usmp.fia.taller.common.dao.modules.PlanCurricular;
 
+import java.util.HashMap;
 import java.util.List;
 
 import edu.usmp.fia.taller.common.bean.PlanCurricular.Curso;
@@ -13,7 +14,7 @@ public interface DAOFactoryPCurricular {
 	public String obtenerNuevoCodigo();
 	public String obtenerSemestre();
 	public List<T_Curso> obtenerT_Curso();
-	public String guardarCursos(List<Curso> cursosNuevos);
+	public List<String> guardarCursos(List<Curso> cursosNuevos);
 	public List<Curso> obtenerCursosPCD();
-	public String actualizarCursos(List<Curso> cursosNuevos);
+	public HashMap<String, String> actualizarCursos(List<Curso> cursosNuevos);
 }
