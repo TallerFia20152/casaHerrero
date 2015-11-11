@@ -1,10 +1,9 @@
 //table2excel.js
 ;(function ( $, window, document, undefined ) {
     var pluginName = "table2excel",
-
     defaults = {
         exclude: ".noExl",
-                name: "Table2Excel"
+                name: "CambiosGenerados"
     };
 
     // The actual plugin constructor
@@ -40,6 +39,13 @@
             };
 
             e.tableRows = [];
+            /*$(e.element).each( function(i,o) {
+                var tempRows = "";
+                $(o).find("th").not(e.settings.exclude).each(function (i,o) {
+                    tempRows += "<th>" + $(o).html() + "</th>";
+                });
+                e.tableRows.push(tempRows);
+            });*/
             $(e.element).each( function(i,o) {
                 var tempRows = "";
                 $(o).find("tr").not(e.settings.exclude).each(function (i,o) {
@@ -47,21 +53,15 @@
                 });
                 e.tableRows.push(tempRows);
             });
-            $(e.element).each( function(i,o) {
-                var tempRows = "";
-                $(o).find("th").not(e.settings.exclude).each(function (i,o) {
-                    tempRows += "<th>" + $(o).html() + "</th>";
-                });
-                e.tableRows.push(tempRows);
-            });
+            
             // get contents of table except for exclude
-            $(e.element).each( function(i,o) {
+            /*$(e.element).each( function(i,o) {
                 var tempRows = "";
                 $(o).find("td").not(e.settings.exclude).each(function (i,o) {
                     tempRows += "<td>" + $(o).html() + "</td>";
                 });
                 e.tableRows.push(tempRows);
-            });
+            });*/
 
             // get contents of table except for exclude
            

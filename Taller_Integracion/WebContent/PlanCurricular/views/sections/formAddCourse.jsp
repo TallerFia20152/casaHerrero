@@ -3,7 +3,6 @@
     pageEncoding="UTF-8"%>
 <span id="dlg-title" hidden="true">Agregar Nuevo de Curso</span>
 <div>
-<% System.out.println("formAddCourse"); %>
 	<p>Este cambio le permite agregar un nuevo curso al plan curricular actual. Para esto solo ingrese los datos requeridos del curso.</p>
 	<form id="frm-change" action="">
 		<label class="label">Nombre:</label>

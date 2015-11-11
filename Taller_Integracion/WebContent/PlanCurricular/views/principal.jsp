@@ -1,3 +1,5 @@
+<%@page import="edu.usmp.fia.taller.common.bean.PlanCurricular.ChangeBean"%>
+<%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Taller Proyectos</title>
 	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>USMP - Cambio de Curricula</title>
 	<jsp:include page="commons/resources.jsp"/>
 	<script type="text/javascript" src='<c:url value="/PlanCurricular/resources/js/functions.js" />'></script>
@@ -98,12 +100,11 @@
 				<select id="slc-course" style="width:355px; height: 29px; vertical-align: middle; color:#999;">
 					<option value="0" style="color:#999;">Seleccione uno</option>
 					<c:forEach items="${sessionCourses}" var="course">
-						<option value="${course.code}">${course.name}</option>
+						<option value="${course.code}" style="color:#999;">${course.name}</option>
 					</c:forEach>
 				</select>
 				<button id="buttonC" class="ui-form-buttons" style="width: 166px; color:#999;">Modificar Curso</button>
-				<button id="button3" class="ui-form-buttons" style="width: 200px; color:#999;">Agregar Curso a Plan Curricular</button>
-				
+				<button id="button3" class="ui-form-buttons" style="width: 166px; color:#999;">Agregar Curso</button>
 			</div>			
 			<div id="div-chgbtn" style="display: none">
 				<hr/>
@@ -112,32 +113,54 @@
 				<button id="button2" class="ui-form-buttons" style="width: 166px; color:#999;">Cambiar Horas</button>
 				<button id="button4" class="ui-form-buttons" style="width: 166px; color:#999;">Mover Curso</button>
 				<button id="button5" class="ui-form-buttons" style="width: 166px; color:#999;">Dar de baja</button>
-				<button id="button6" class="ui-form-buttons" style="width: 166px; color:#999;">Cambiar Orden</button>
 			</div>
 		</div>
 	<!-- </div> -->
 	<div id="div-change" style="padding-top: 5px">
 		<table id="tb-change" class="table-curriculum">
-			<thead>
+			<thead id="0">
 				<tr style="cursor: move;">
-					<th colspan="6" class="noExl">Cambios Diseñados</th>
+					<th colspan="5">Cambios Diseñados</th>
 				</tr>
 				<tr style="cursor: move;">
 					<th style="width: 5%;">Ciclo</th>
 					<th style="width: 25%;">Curso</th>
 					<th style="width: 60%;">Cambio</th>
-					<th style="width: 5%; text-align: center;" class="noExl">Eliminar</th>
-					<th style="width: 5%; text-align: center;" class="noExl">Habilitar</th>
+					<th style="width: 5%; text-align: center;">Eliminar</th>
+					<th style="width: 5%; text-align: center;">Habilitar</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="0">
 				<c:forEach items="${sessionChanges}" var="change">
 					<tr id="tr${change.uuid}">
 						<td style="width: 5%; text-align: center;">${change.course.cycle}</td>
 						<td>${change.course.code}&nbsp;${change.course.name}</td>
 						<td>${change.description}</td>
-						<td style="width: 5%; text-align: center;" class="noExl"><button onclick="javascript:changeRemove(this.value)" value="${change.uuid}">Remove</button></td>
-						<td style="width: 5%; text-align: center;" class="noExl"><input onclick="javascript:changeState(this.value)" id="${change.uuid}" checked="checked" value="${change.uuid}" type="checkbox"></td>
+						<td style="width: 5%; text-align: center;"><button class="ui-action-icons" onclick="javascript:changeRemove(this.value)" value="${change.uuid}">Remove</button></td>
+						<td style="width: 5%; text-align: center;"><input onclick="javascript:changeState(this.value)" id="${change.uuid}" checked="checked" value="${change.uuid}" type="checkbox"></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<div id="visible" style="display:none;">
+		<table id="tb-cambios" class="table-curriculu">
+			<thead id="0">
+				<tr style="cursor: move;">
+					<th colspan="3">Cambios Diseñados</th>
+				</tr>
+				<tr style="cursor: move;">
+					<th style="width: 5%;">Ciclo</th>
+					<th style="width: 25%;">Curso</th>
+					<th style="width: 60%;">Cambio</th>
+				</tr>
+			</thead>
+			<tbody id="0">
+				<c:forEach items="${sessionChanges}" var="change">
+					<tr id="tr${change.uuid}">
+						<td style="width: 5%; text-align: center;">${change.course.cycle}</td>
+						<td>${change.course.code}&nbsp;${change.course.name}</td>
+						<td>${change.description}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -145,17 +168,28 @@
 	</div>
 	<button id=exportar>Eportar Cambios</button>
 </div>
+<% if (request.getAttribute("mensajesNuevos") != null) { 
+	List<String> mensajesNuevos = (List<String>)request.getAttribute("mensajesNuevos");
+	for (int i = 0; i < mensajesNuevos.size(); i++) { %>
+	<div class="alert alert-success alert-dismissable">
+	    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+	    <%=mensajesNuevos.get(i) %>.
+		</div>	
+<%	}}%>
+
 <div class="ui-layout-east">
 	<div id="div-toolbar" >
 		<div id="toolbar" class="ui-widget-header ui-corner-all" align="right">
 			<div style="float: left;">
 				<a id="a-toggle-all" href="javascript:void(0)" title="Expandir"><c:out value="${semester}"></c:out></a>
 			</div>
-			<button id="button8" class="ui-action-buttons" style="color:#999;">Aplicar</button>
-			<button id="button9" class="ui-action-buttons" style="color:#999;">Reset</button>
-			<button id="button10" class="ui-action-buttons" style="color:#999;">Guardar</button>
+			<button id="button8" style="color:#999;">Aplicar</button>
+			<button id="button9" style="color:#999;">Reset</button>
+			<form action="<%=request.getContextPath() %>/saveChanges" method="get" id="saveChanges">
+				<button id="button10" style="color:#999;">Guardar</button>
+			</form>
 			<form action="<%=request.getContextPath() %>/exportChanges" method="get" id="exportChanges">
-				<button id="button11" class="ui-action-buttons" style="color:#999;">Exportar</button>
+				<button id="button11" style="color:#999;">Exportar</button>
 			</form>
 		</div>
 	</div>
@@ -176,11 +210,9 @@
 <script>
 	$(function() {
 		$("#exportar").click(function(){
-			  $("#tb-change").table2excel({
-			    // exclude CSS class
-			    exclude: ".noExl",
-    name: "Excel Document Name",
-
+			  $("#tb-cambios").table2excel({
+    			name: "Excel Document Name",
+    			filename: "CambiosRealizados.xls"
 			  });
 			});
 	});
@@ -622,20 +654,6 @@
 		$.ajax({
 			method 		: "GET",
 			url 		: "<c:url value='/resetChanges'/>",
-			dataType 	: "html",
-			cache : false
-		}).done(function(data) {
-			$('#div-curriculum').empty();
-			$('#div-curriculum').append(data);
-		}).fail(function() {
-			console.log("FALLO!!!");
-		});
-	});
-	
-	$('#button10').click(function() {
-		$.ajax({
-			method 		: "GET",
-			url 		: "<c:url value='/saveChanges'/>",
 			dataType 	: "html",
 			cache : false
 		}).done(function(data) {

@@ -2,6 +2,7 @@ package edu.usmp.fia.taller.PlanCurricular.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +30,13 @@ public class CURSaveServlet extends HttpServlet implements Constants {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-
+		System.out.println("CURSaveServlet.doGet()");
 		CurriculumBusiness chgBusiness = new CurriculumBusinessImpl();
 		List<Curso> courses 	= Utils.getSessionCourses(request);
 		List<Curso> newCourses = Utils.getSessionNewCourses(request);
 		List<ChangeBean> changes 	= Utils.getSessionChanges(request);
+		List<Curso> cursosCambiados = new ArrayList<Curso>();
+		List<Curso> cursosNuevos = new ArrayList<Curso>();
 		
 		List<Curso> coursesChg = new ArrayList<Curso>();
 		for (Curso c : courses) {
@@ -44,11 +47,13 @@ public class CURSaveServlet extends HttpServlet implements Constants {
 					case CHANGE_TYPE_NAME:
 						if (ch.isEnable()) {
 							ncourse.setName(ch.getCourse().getName());
+							cursosCambiados.add(ncourse);
 						}
 						break;
 					case CHANGE_TYPE_REQUERIMENTS:
 						if (ch.isEnable()) {
 							ncourse.setRequirements(ch.getCourse().getRequirements());
+							cursosCambiados.add(ncourse);
 						}
 						break;
 					case CHANGE_TYPE_HOURS:
@@ -56,6 +61,7 @@ public class CURSaveServlet extends HttpServlet implements Constants {
 							ncourse.setTheoHours(ch.getCourse().getTheoHours());
 							ncourse.setPracHours(ch.getCourse().getPracHours());
 							ncourse.setLaboHours(ch.getCourse().getLaboHours());
+							cursosCambiados.add(ncourse);
 						}
 						break;
 					case CHANGE_TYPE_MOVE:
@@ -63,11 +69,13 @@ public class CURSaveServlet extends HttpServlet implements Constants {
 							ncourse.setCycle(ch.getCourse().getCycle());
 							ncourse.setType(ch.getCourse().getType());
 							ncourse.setMentions(ch.getCourse().getMentions());
+							cursosCambiados.add(ncourse);
 						}
 						break;
 					case CHANGE_TYPE_CANCEL:
 						if (ch.isEnable()) {
 							ncourse.setId(2);
+							cursosCambiados.add(ncourse);
 						}
 						break;
 					case CHANGE_TYPE_ORDER:
@@ -76,6 +84,17 @@ public class CURSaveServlet extends HttpServlet implements Constants {
 							System.out.println("ch.orden: " + ch.getCourse().getOrder());
 							ncourse.setType(ch.getCourse().getType());
 							ncourse.setMentions(ch.getCourse().getMentions());
+							cursosCambiados.add(ncourse);
+						}
+						break;
+					case CHANGE_TYPE_ADD:
+						if (ch.isEnable()) {
+							ncourse = ch.getCourse();
+							System.out.println("ch.nuevo: " + ch.getCourse().getCode());
+							ncourse.setType(ch.getCourse().getType());
+							ncourse.setMentions(ch.getCourse().getMentions());
+							System.out.println("codigo nuevo: " + ncourse.getCode());
+							cursosNuevos.add(ch.getCourse());
 						}
 						break;
 					}
@@ -95,37 +114,22 @@ public class CURSaveServlet extends HttpServlet implements Constants {
 		}
 		
 		Map<String, List<Curso>> curriculum = chgBusiness.applyNewCurriculum(coursesChg);
-		List<Curso> cursosBD = new ArrayList<Curso>();
-		DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-		DAOFactoryPCurricular daoPlan = dao.getCourseDAO();
-		cursosBD = daoPlan.obtenerCursosPCD();
-		List<Curso> cursosCambiados = new ArrayList<Curso>();
 		
-		for (int i = 0; i<newCourses.size(); i++) {
-			for (int j = 0; j < cursosBD.size(); j++) {
-				if (cursosBD.get(j).getCode().equals(newCourses.get(i).getCode())) {
-					System.out.println("son iguales:" + cursosBD.get(j).getCode() + " y " + newCourses.get(i).getCode());
-					cursosCambiados.add(newCourses.get(i));
-				} else {
-					
-				}
-			}
-		}
-		
-		for (int i = 0; i < newCourses.size(); i++) {
-			System.out.println("codigos nuevos: " + newCourses.get(i).getCode());
-		}
-		Map<String, List<Curso>> curriculumNuevo2 = chgBusiness.actualizarCambios(coursesChg);
-		Map<String, List<Curso>> curriculumNuevo = chgBusiness.grabarNewCurriculum(newCourses);
+		HashMap<String, String> mensajesActualizacion = chgBusiness.actualizarCambios(cursosCambiados);
+		List<String> mensajesNuevos = chgBusiness.grabarNewCurriculum(cursosNuevos);
 		request.setAttribute(Constants.CURRICULUM_REQUIRED_COURSES,
 				curriculum.get(Constants.CURRICULUM_REQUIRED_COURSES));
 		request.setAttribute(Constants.CURRICULUM_MENTION_COURSES,
 				curriculum.get(Constants.CURRICULUM_MENTION_COURSES));
 		request.setAttribute(Constants.CURRICULUM_FREE_COURSES,
 				curriculum.get(Constants.CURRICULUM_FREE_COURSES));
+		if (mensajesNuevos != null) {
+			request.setAttribute("mensajesNuevos", mensajesNuevos);
+		}		
+		request.setAttribute("mensajesActualizacion", mensajesActualizacion);
 		
-		RequestDispatcher reqDisp = getServletContext().getRequestDispatcher(
-				VIEW_SECTION_PATH +"tableCurriculum.jsp");
+		
+		RequestDispatcher reqDisp = getServletContext().getRequestDispatcher("/PlanCurricular");
 		reqDisp.forward(request, response);
 	}
 }
