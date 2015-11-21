@@ -10,12 +10,13 @@ public interface DAOFactorySMatricula {
 	public boolean GenerarPreMatricula(String codAlumno, String[] codCurso) throws Exception ;
 	public boolean EliminarPreMatricula(String codAlumno) throws Exception ;
 	public boolean EliminarHorariosAlumno(String codAlumno) throws Exception ;
+	public boolean EliminarCruceAlumno(String codAlumno) throws Exception ;
 	public List<Seccion> SeleccionarSeccion(String idCurso) throws Exception ;
 	public List<Horas> HorasSeccion(String idCurso,String seccion) throws Exception ;
 	public List<Seccion> SeleccionarSeccionAgrupados(String idCurso) throws Exception ;
 	
-	
-	public boolean RegistrarHorariosAlumno(String codAlumno, String[] codCurso,String[] seccion) throws Exception ;
+	public boolean RegistrarHorariosAlumno(String codAlumno, List<String> codCurso,List<String> seccion) throws Exception ;
+	public boolean RegistrarCrucesHorariosAlumno(String codAlumno, List<String> codCurso1,List<String> seccion1,List<String> codCurso2,List<String> seccion2) throws Exception ;
 		
 	//ENCARGADO
 	public List<Alumno> ListarAlumnos() throws Exception;	
@@ -39,5 +40,11 @@ public interface DAOFactorySMatricula {
 	public boolean BuscarHorariosAlumnos(String codAlumno)throws Exception;	
 	
 	public List<Curso> ListarReporteMatriculaProgrevisa() throws Exception;
+	
+	public List<Curso> ListarCursosXCiclo(String ciclo) throws Exception;
+	
+	public List<CursoCruce> ListarCursosXCicloCruces() throws Exception;
+	
+	
 	
 }

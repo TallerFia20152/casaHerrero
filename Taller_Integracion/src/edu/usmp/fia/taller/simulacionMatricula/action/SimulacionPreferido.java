@@ -33,9 +33,16 @@ public class SimulacionPreferido extends ActionServlet {
 			listaArea = factory.getSimulacionMatricula().SimulacionCursosPreferidos();
 			
 			System.out.println("LISTA DE AREAS "+ listaArea);
-
-			request.setAttribute("listaAreaCurso", listaArea);
-			request.getRequestDispatcher("SimulacionMatricula/SimulacionCursosPreferidos.jsp").forward(request, response);
+			
+			if (listaArea!=null)
+			{
+				request.setAttribute("listaAreaCurso", listaArea);
+				request.getRequestDispatcher("SimulacionMatricula/SimulacionCursosPreferidos.jsp").forward(request, response);
+			}
+			else
+			{
+				//request.setAttribute("mensajeCorreo", "El alumno no ha seleccionado sus cursos preferibles");				
+			}			
 			
 		} catch (Exception e) {
 			System.out.println("ERROR ====>> " +e.getMessage() + "");

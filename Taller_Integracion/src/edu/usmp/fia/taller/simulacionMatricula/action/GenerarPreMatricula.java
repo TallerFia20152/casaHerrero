@@ -58,6 +58,7 @@ public class GenerarPreMatricula extends ActionServlet {
 			System.out.println("INGRESARÁ");
 			if(registro)
 			{
+				eliminar=factory.getSimulacionMatricula().EliminarCruceAlumno(oUsuario.getPersona().getIdPersona().toString());
 				System.out.println("CORRECTO");
 				mensaje="Se registró correctamente los cursos preferibles";
 			}

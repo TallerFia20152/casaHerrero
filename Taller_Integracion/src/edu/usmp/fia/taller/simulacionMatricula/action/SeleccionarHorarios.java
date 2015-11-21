@@ -85,8 +85,6 @@ public class SeleccionarHorarios extends ActionServlet {
 						
 					}
 					
-					
-						
 		            System.out.println("SALE DEL SERVLET SELECCIONAAHORARIOS");
 					request.setAttribute("listadoCursos", listadoReturn);
 					request.getRequestDispatcher("SimulacionMatricula/SeleccionarHorarios.jsp").forward(request, response);
