@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns="http://java.sun.com/xml/ns/javaee" 
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
-	id="WebApp_ID" version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>Taller_Integracion</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -12,31 +9,23 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
-  <!-- SMTP settings -->
-	<context-param>
-		<param-name>host</param-name>
-		<!-- <param-value>smtp.gmail.com</param-value> -->
-		<param-value>outlook.office365.com</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>port</param-name>
-		<param-value>587</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>user</param-name>
-		<param-value>rogger_torres@usmp.pe</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>pass</param-name>
-		<param-value>95003245</param-value>
-	</context-param>
-
-	<welcome-file-list>
-		<welcome-file>EnviarMensaje.jsp</welcome-file>
-	</welcome-file-list>
-	
+  <context-param>
+    <param-name>host</param-name>
+    <param-value>outlook.office365.com</param-value>
+  </context-param>
+  <context-param>
+    <param-name>port</param-name>
+    <param-value>587</param-value>
+  </context-param>
+  <context-param>
+    <param-name>user</param-name>
+    <param-value>rogger_torres@usmp.pe</param-value>
+  </context-param>
+  <context-param>
+    <param-name>pass</param-name>
+    <param-value>95003245</param-value>
+  </context-param>
+  <welcome-file-list>
+    <welcome-file>EnviarMensaje.jsp</welcome-file>
+  </welcome-file-list>
 </web-app>

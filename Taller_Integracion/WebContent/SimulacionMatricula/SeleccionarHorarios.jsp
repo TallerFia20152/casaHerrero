@@ -48,18 +48,20 @@
 				} else {
 			%>
 			
-		
+		<!-- 
 			<form id="formulario"
 						action="<%=request.getContextPath()%>/RegistrarHorarios" method="post">
+		-->
 			<div class="row">
 			
 			<%
 				for(Curso curso:listado)
 				{
 				%>
+				<!-- 
 				CODIGOS: <input style='border-color:white;' type="text" name="codigos" value="<%=curso.getCodigo()%>">
 				 <br/>
-				
+				 -->	
 			<% 
 				}
 			 %> 
@@ -149,7 +151,7 @@
 									<!-- 
 									<a href="javascript:;" onclick="jQuery('#modal-6').modal('show', {backdrop: 'static'});" class="btn btn-primary">Informar Cruces</a>
 									 -->
-									<input type="submit" id="boton" value="Registrar"
+									<input type="submit" id="BotonRegistrar" value="Registrar"
 										class="btn btn-black">
 								</p>
 							</div>
@@ -161,7 +163,9 @@
 					
 				</div>
 			</div>
+			<!-- 
 			</form>
+			 -->
 			<!-- Footer -->
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>
@@ -175,16 +179,151 @@
 		var json;
 		var cruce="";
 		var tablaCruce;
+		var controlarError=0;
+		var jsonCursosSeccion;
+		var jsonCruces;		
 		
-		
-		$(document).ready(function() {
-			table = $('#table-2').DataTable({
-				"paging" : true,
+		$(document).ready(function() 
+		{
+			table = $('#table-2').DataTable({				
+				"paging" : false,
 				"ordering" : false,
+				"bFilter": false, 
+				"bInfo": false,
 			});
 			
-			tablaCruce= $('#tablaCruce').DataTable();
+			tablaCruce= $('#tablaCruce').DataTable({				
+				"paging" : false,
+				"ordering" : false,
+				"bFilter": false, 
+				"bInfo": false,
+			});
+			
 		});
+		
+		$( "#BotonRegistrar" ).click(function() {
+			
+				
+			$('#table-2 tr').each(function () {					
+				var codigoCurso= $(this).find("td").eq(0).html();
+				
+				if (codigoCurso!== undefined){
+					//alert( "paso" );
+					var seccion=$("#"+codigoCurso).val();
+					console.log(codigoCurso);
+					console.log(seccion);
+					
+					if(seccion=="" || seccion== undefined)
+					{
+						controlarError=1;												
+					}
+				}
+			});
+			
+			if (controlarError==1)
+			{
+				alert( "Debe de escoger las secciones de los cursos" );
+				controlarError=0;
+			}
+			else
+			{
+				jsonCursosSeccion=GenerarJsonCursoSeccion();
+				jsonCruces=GenerarJsonCruces();
+				
+				console.log('jsonCruces ' + jsonCruces);
+				console.log('jsonCursosSeccion ' + jsonCursosSeccion);
+				
+				$.ajax({					
+    				url:"RegistroHorariosSeleccionados",
+    		      	datatype:'json',
+    		      	method:'Post',
+    		      	data:{
+    		      			'jsonCursoSeccion':JSON.stringify(jsonCursosSeccion),
+    		      			'jsonCruces':JSON.stringify(jsonCruces),    		      			
+    		      		 },
+	               	async:false,
+    				success : function(horasSeccion) 
+    				{		
+    					toastr["info"]('Se registro correctamente los cursos preferibles' );
+    					$('#BotonRegistrar').attr("disabled", true);
+    					$("select").attr('disabled', 'disabled');
+    				}
+    			});				
+			}
+		});
+		
+		function GenerarJsonCruces()
+		{
+			var arrayList=[];			
+			var cant=0;
+			var cursoObjeto;
+			var codCurso1;
+			var seccion1;
+			var codCurso2;
+			var seccion2;
+			
+			$('#tablaCruce tr').each(function () {				
+				
+				if(cant>0)
+				{
+					codigoCurso1= $(this).find("td").eq(0).html();
+					seccion1= $(this).find("td").eq(2).html();
+					codigoCurso2= $(this).find("td").eq(3).html();
+					seccion2= $(this).find("td").eq(5).html();
+													
+					if(codigoCurso1!="" &&  codigoCurso1!== undefined)
+					{												
+						cursoObjeto = new CursosCruces(codigoCurso1,seccion1,codigoCurso2,seccion2);
+						arrayList.push(cursoObjeto);
+					}
+				}				
+				cant=cant+1;
+			});
+
+			var jsonData = JSON.stringify(arrayList);
+			var javascriptObject = JSON.parse(jsonData);			
+			return javascriptObject;
+		}
+		
+		
+		function CursosCruces(codCurso1,seccion1,codCurso2,seccion2){			
+			this.CodCurso1 = codCurso1;
+			this.Seccion1  = seccion1;
+			this.CodCurso2 = codCurso2;
+			this.Seccion2  =  seccion2;
+		}
+		
+		function GenerarJsonCursoSeccion()
+		{
+			var arrayList=[];			
+			var cant=0;
+			var cursoObjeto;
+			
+			$('#table-2 tr').each(function () {				
+				
+				if(cant>0)
+				{
+					codigoCurso= $(this).find("td").eq(0).html();					
+					seccion=$("#"+codigoCurso).val();									
+					
+					if(seccion!="" &&  seccion!== undefined)
+					{												
+						cursoObjeto = new CursoSeccion(codigoCurso,seccion);
+						arrayList.push(cursoObjeto);
+					}
+				}				
+				cant=cant+1;
+			});
+
+			var jsonData = JSON.stringify(arrayList);
+			var javascriptObject = JSON.parse(jsonData);			
+			return javascriptObject;
+		}
+		
+		function CursoSeccion(codCurso,seccion){			
+			this.CodCurso=codCurso;
+			this.Seccion = seccion;					    
+		}
 	</script>
 	
 	<script type="text/javascript">		
@@ -274,13 +413,10 @@
 		            var djUno = generarDia(json[j].Dia1, DevolverMinutos(json[j].HoraInicio1), DevolverMinutos(json[j].HoraFinal1), json[j].NombreCurso,json[j].CodCurso,json[j].Seccion);
 		            var djDos = generarDia(json[j].Dia2, DevolverMinutos(json[j].HoraInicio2), DevolverMinutos(json[j].HoraFinal2), json[j].NombreCurso,json[j].CodCurso,json[j].Seccion);
 					
-		            comparar(diUno, djUno);        	
-		            comparar(diUno, djDos);		            
+		            comparar(diUno, djUno); 
+		            comparar(diUno, djDos);
 		            comparar(diDos, djUno);
 		            comparar(diDos, djDos);
-		            
-		            //LimpiarDatosTablaVacia();
-		            
 		        }
 		    }
 		}	
@@ -291,7 +427,8 @@
 			var cantidad=0;
 			
 			$('#tablaCruce tr').each(function () {				
-				codCurso = $(this).find("td").eq(0).html();
+				codCurso = $(this).find("td").eq(0).val();
+				cantidad = $(this).find("td").eq(0).val();
 				
 				if (codCurso=="")
 				{
@@ -317,40 +454,25 @@
 		}
 
 		function comparar(dia1, dia2) {
-		    
-			console.log('dia1 ' + dia1.nombre);
-			console.log('dia2 ' + dia2.nombre);
+			var cruce =false;
+			
 		    if (dia1.nombre == dia2.nombre) {
 		        if (dia1.horai < dia2.horai) {
-		            if (!(dia2.horai >= dia1.horaf)) {
-		                console.log("hay cruce entre " + dia1.curso + " y " + dia2.curso);		             
-		                
-		                //toastr["error"]('<center>El horario selecionado tiene cruces con los siguientes Cursos</center><br/><center>'+ cruce+'</center>' );
-    					
-    					console.log(dia1);
-		                VerficarTablaCruce(dia1.curso,dia2.curso);
-				        
-				        //toastr["error"]('<center>El horario selecionado tiene cruces con los siguientes Cursos</center><br/><center>' + dia1.curso + " y " + dia2.curso +'</center>' );
-				        
-		                return true;
-		            } else {
-		            	//toastr["info"]("<center>Horario escogido sin cruce</center>");
-		                return false;
-		            }
+		            if (!(dia2.horai >= dia1.horaf)) {		                
+		                cruce=true;
+		            }		            
 		        } else {
-		            if (!(dia1.horai >= dia2.horaf)) {
-		                console.log("hay cruce entre " + dia1.curso + " y " + dia2.curso);
-		                //cruce=cruce+ dia1.curso + " y " + dia2.curso+"<br/>"
-		                
-		                VerficarTablaCruce(dia1,dia2);               
-		                return true;
-
-		            } else {
-		            	//toastr["info"]("<center>Horario escogido sin cruce</center>");  
-		                return false;
-		            }
+		            if (!(dia1.horai >= dia2.horaf)) {            
+		                cruce=true;
+		            } 
 		        }
 		    }
+		    
+		    if (cruce)
+		    {
+		    	VerficarTablaCruce(dia1,dia2);
+                console.log("hay cruce entre " + dia1.curso + " y " + dia2.curso);
+		    }		    
 		}
 		
 		function VerficarTablaCruce(dia1,dia2)
@@ -364,44 +486,32 @@
 			existe1=0;
 			existe2=0;
 						
-			console.log($('#tablaCruce >tbody >tr').length);
+			//console.log($('#tablaCruce >tbody >tr').length);
 			/* DIA 1*/
 			$("#tablaCruce tr").find('td:eq(0)').each(function () {
-				 codCurso1 = $(this).html();
- 
+				 codCurso1 = $(this).html(); 
                   //comparamos para ver si el código es igual a la busqueda
-                  if(codCurso1==dia1.codigo){
-						trDelResultado=$(this).parent();                        
-                         
+                  if(dia1.codigo==codCurso1){               	  
                          //CURSO 2
-                         $("#tablaCruce tr").find('td:eq(2)').each(function () {
+                         $("#tablaCruce tr").find('td:eq(3)').each(function () {
             				 codCurso2 = $(this).html();
-                              if(codCurso2==dia2.codigo){             
-                                    existe1= 1;             
+                              if(dia2.codigo==codCurso2){             
+								existe1= 1;             
                               }                        
 	                  	})
                   }
- 
           })
+                    
           /* DIA 2*/
-          $("#tablaCruce tr").find('td:eq(2)').each(function () {
-				 codCurso1 = $(this).html();
-				 console.log('codCurso1 ' +codCurso1);
- 
+          $("#tablaCruce tr").find('td:eq(3)').each(function () {
+				 codCurso2 = $(this).html();				 
                   //comparamos para ver si el código es igual a la busqueda
-                  if(codCurso1==dia1.codigo){
-						trDelResultado=$(this).parent();                        
-                         
+                  if(dia1.codigo==codCurso2){						                      
                          //CURSO 2
                          $("#tablaCruce tr").find('td:eq(0)').each(function () {
-            				 codCurso2 = $(this).html();
-            				 console.log('codCurso2 ' +codCurso2);
-            				 codCurso2=trDelResultado.find("td:eq(2)").html();
-            				 
-            				 console.log('codCurso2 2 ' +codCurso2);
-             
+            				 codCurso1 = $(this).html(); 
                               //comparamos para ver si el código es igual a la busqueda
-                              if(codCurso2==dia2.codigo){             
+                              if(dia2.codigo==codCurso1){                           	  
                             	  existe2= 1;             
                               }                        
 	                  	})
@@ -415,15 +525,28 @@
 				if ($('#tablaCruce >tbody >tr').length > 0){
 					if(dia1.codigo!="" && dia1.codigo!==undefined)
 					{
-						tablaCruce.row.add( [
-							 		           '<input type="text" class="form-control" name="codCursoCruce1" value="'+dia1.codigo+'">',
-							 		           '<input type="text" class="form-control"name="seccionCruce1" value="'+dia1.curso+'">',
-							 		           '<input type="text" class="form-control"name="seccionCruce1" value="'+dia1.seccion+'">',							 		           
-							 		           '<input type="text" class="form-control" name="codCursoCruce2" value="'+dia2.codigo+'">',
-							 		          '<input type="text" class="form-control"name="seccionCruce2" value="'+dia2.curso+'">',
-							 		           '<input type="text" class="form-control"name="seccionCruce1" value="'+dia2.seccion+'">',
-							 		        ] ).draw( false );
-						
+						if(dia2.codigo>dia1.codigo)
+						{
+							tablaCruce.row.add( [							 		         
+								 		           dia1.codigo,
+								 		           dia1.curso,
+								 		           dia1.seccion,
+								 		           dia2.codigo,
+								 		           dia2.curso,
+								 		           dia2.seccion,							 		           
+								 		        ] ).draw( false );
+						}
+						else
+						{
+							tablaCruce.row.add( [							 		         
+								 		           dia2.codigo,
+								 		           dia2.curso,
+								 		           dia2.seccion,
+								 		           dia1.codigo,
+								 		           dia1.curso,
+								 		           dia1.seccion,							 		           
+								 		        ] ).draw( false );							
+						}				
 						toastr["error"]('<center>El horario selecionado tiene cruces con los siguientes Cursos</center><br/><center>' + dia1.curso + " y " + dia2.curso+'</center>' );
 					}
 				}				
@@ -454,8 +577,7 @@
 				if(cant>0)
 				{
 					codigoCurso= $(this).find("td").eq(0).html();
-					nomCurso= $(this).find("td").eq(1).html();
-					
+					nomCurso= $(this).find("td").eq(1).html();								
 					dia1 = $(this).find("td").eq(5).html();	
 					
 					seccion=$("#"+codigoCurso).val();									
@@ -463,9 +585,8 @@
 					if(seccion!="" &&  seccion!== undefined)
 					{
 						horaInicio1= $(this).find("td").eq(6).html();
-						horaFin1 = $(this).find("td").eq(7).html();
-
-						dia2 = $(this).find("td").eq(8).html();
+						horaFin1 = $(this).find("td").eq(7).html();				
+						dia2 = $(this).find("td").eq(8).html();					
 						
 						if(dia2!="" &&  dia2!== undefined)
 						{
@@ -476,7 +597,7 @@
 						{
 							horaInicio2= "";
 							horaFin2 = "";
-						}										
+						}						
 						cursoObjeto = new Curso(codigoCurso,nomCurso, dia1, horaInicio1,horaFin1,dia2,horaInicio2,horaFin2,seccion);
 						arrayList.push(cursoObjeto);
 					}
@@ -498,13 +619,11 @@
 		    this.HoraFinal1 = horaFinal1;
 		    this.Dia2 = dia2;
 		    this.HoraInicio2 = horaInicio2;
-		    this.HoraFinal2 = horaFinal2;
-		    
-		}	
+		    this.HoraFinal2 = horaFinal2;		    
+		}
 		
 		function Verificar()
 		{
-			 console.log(json);
 			 for (var i = 0; i < json.length; i++) {		       
 		       var diUno = generarDia(json[i].Dia1, DevolverMinutos(json[i].HoraInicio1), DevolverMinutos(json[i].HoraFinal1), json[i].NombreCurso,json[i].CodCurso,json[i].Seccion);
 	           var diDos = generarDia(json[i].Dia2, DevolverMinutos(json[i].HoraInicio2), DevolverMinutos(json[i].HoraFinal2), json[i].NombreCurso,json[i].CodCurso,json[i].Seccion);
