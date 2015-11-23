@@ -94,6 +94,8 @@
 										</tr>
 									</thead>
 									<%
+									if (listaArea!=null)
+									{
 										for (Area area:listaArea) {
 									%>
 									<tbody>
@@ -117,6 +119,7 @@
 									</tbody>
 									<%
 										}
+									}
 									%>
 								</table>
 							</div>
