@@ -51,6 +51,13 @@ public class ReporteCiclo extends HttpServlet {
 			factory= DAOFactory.getDAOFactory(DAOFactory.MYSQL);		
 			listado= factory.getSimulacionMatricula().ListarCursosXCiclo(ciclo);
 			
+			for(Curso curso:listado)
+			{
+				System.out.println("REPORTE CRUCES");
+				System.out.println(curso.getCodigo());
+				System.out.println(curso.getCurso());
+			}
+			
 			response.setContentType("application/json;charset=UTF-8");
 			Gson gson = new Gson();				
 	        String json = gson.toJson(listado);
