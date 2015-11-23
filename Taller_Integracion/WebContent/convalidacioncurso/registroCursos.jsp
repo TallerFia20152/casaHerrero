@@ -8,11 +8,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Taller Proyectos</title>
+
+
 <jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+<script>
+	$.noConflict();
+</script>
 <link href="css/selectize.default.css" rel="stylesheet" type="text/css" />
 <link href="css/fileinput.min.css" rel="stylesheet" type="text/css" />
 <link href="css/registroCursos.css" rel="stylesheet" type="text/css" />
-<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
+<!-- <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script> -->
+
 <script src="js/selectize.min.js" type="text/javascript"></script>
 <script src="js/fileinput.min.js" type="text/javascript"></script>
 <script src="js/fileinput_locale_es.js" type="text/javascript"></script>
@@ -29,9 +37,9 @@
 		<div class="main-content">
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 
-			<div>
+			
 				<div class="row">
-					<h1>Proceso de Convalidacion > Registrar Cursos</h1>
+					<h1>Registrar Cursos</h1>
 					<section id="SeleccionarAlumno">
 						<div>
 							<div id="label">
@@ -45,11 +53,11 @@
 					</section>
 
 
-					<div id="imprcab">
+								<div id="imprcab" class="col-md-12 col-sm-12">
 						<fieldset>
 							<legend>Datos Generales</legend>
-							<table style="height: 30px">
-								<tr id="datosalumno">
+							<table style="width: 100%">
+								<tr id="datosalumno" style="height: 40px;width: 100%">
 									<td class="subsubtit" style="width: 50px;">Código:</td>
 									<td style="width: 100px;">
 										<div id="codigo"></div>
@@ -74,10 +82,7 @@
 							</table>
 						</fieldset>
 					</div>
-					<hr style="visibility: hidden;">
-					<hr>
-					<hr style="visibility: hidden;">
-
+					<hr class="col-md-10 col-xs-10 col-sm-10">
 					<div class="row">
 						<div class="col-md-offset-2 col-md-8">
 							<div class="form-group">
@@ -96,7 +101,7 @@
 
 						<form id="form">
 						<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-11">
 							<table class="table table-hover table-bordered " style="font-size:13px;">
 								<thead>
 								<tr>
@@ -116,31 +121,35 @@
 								</tbody>
 							</table>
 						</div>
-					
+						
 						<label class="col-md-12 col-xs-12 col-sm-12">Cursos no encontrados</label>
-						<div class="col-md-6 col-xs-6 col-sm-6">
-							<input id="agregarcurso" style="width:50px;"
+						<div class="col-md-12 col-xs-12 col-sm-12">
+							<input type="button" id="agregarcurso" style="width:50px;"
 								class="btn btn-success btn-lg mitooltip" data-placement="right"
 								title="AGREGAR UN CURSO" value="+"/>
 						</div>
-						<hr style="visibility: hidden">
-						<hr style="visibility: hidden">
-						<hr style="visibility: hidden">
+						<hr class="col-md-10 col-xs-10 col-sm-10" style="visibility: hidden">
 						
-							<div class="col-md-12" id="cursosaprobados"></div>
-							<hr style="visibility: hidden">
-							<hr style="visibility: hidden">
-							<div style="text-align: center;">
-								<input type="submit" class="btn btn-success"
-									value="Registrar Cursos" />
-							</div>
+						<div class="col-md-12" id="cursosaprobados"></div>
+
+							
 						</div>	
-						</form>
-						<hr style="visibility: hidden">
-						</div>
+						
+
+						
+						<hr class="col-md-10 col-xs-10 col-sm-10" style="visibility: hidden">
+							<div style="text-align: center;" class="row">
+								<input type="submit" class="btn btn-success"
+									value="Registrar Cursos" id="registrar"/>
+							</div>
+							</form>
+							</div>
 					</div>
+				
+				<div id="confirmacion">
+					<h3>¿Desea confirmar la acción?</h3>
 				</div>
-			</div>
+		
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 		</div>
 		<jsp:include page="/resources/include/chat.jsp"></jsp:include>
@@ -148,6 +157,6 @@
 	</div>
 
 	<jsp:include page="/resources/include/footer-resources.jsp"></jsp:include>
-
+<script src="js/jquery-ui.js" type="text/javascript"></script>
 </body>
 </html>
