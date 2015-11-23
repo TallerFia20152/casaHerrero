@@ -53,9 +53,9 @@
 						<li><a href="#v-home" class="principal" data-toggle="tab" id="8"><strong>CICLO 8</strong></a></li>
 						<li><a href="#v-home" class="principal" data-toggle="tab" id="9"><strong>CICLO 9</strong></a></li>
 						<li><a href="#v-home" class="principal" data-toggle="tab" id="10"><strong>CICLO 10</strong></a></li>
-						<li><a href="#v-home" class="principal" data-toggle="tab" id="11"><strong>ELECTIVOS</strong></a></li>
-						<li><a href="#v-home" class="principal" data-toggle="tab" id="12"><strong>ELECTIVOS</strong></a></li>
-						<li><a href="#v-home" class="principal" data-toggle="tab" id="13"><strong>ELECTIVOS</strong></a></li>
+						<li><a href="#v-home" class="principal" data-toggle="tab" id="11"><strong>ELECTIVOS SISTEMA DE INFORMACION</strong></a></li>
+						<li><a href="#v-home" class="principal" data-toggle="tab" id="12"><strong>ELECTIVOS TECNOLOGIA DE INFORMACION</strong></a></li>
+						<li><a href="#v-home" class="principal" data-toggle="tab" id="13"><strong>ELECTIVOS INGENIERIA DE SOFTWARE</strong></a></li>
 					</ul>
 					
 					<div class="tab-content">
