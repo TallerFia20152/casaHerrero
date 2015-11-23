@@ -26,7 +26,55 @@
 			<jsp:include page="/resources/include/profile-bar.jsp"></jsp:include>
 			
 			 <h1 style="text-align: center">REPORTE DE CONVALIDACIONES</h1>
-       
+       		<div class="row">
+       			    <section id="SeleccionarAlumno">
+						<div>
+							<div id="label">
+								<span>ALUMNO</span>
+							</div>
+							<div>
+								<input type="text" id="comboAlumno"
+									placeholder="Ingrese primer apellido o código de alumno para comenzar" />
+							</div>
+						</div>
+					</section>
+					<div id="imprcab">
+						<fieldset>
+							<legend>Datos Generales</legend>
+							<table style="width: 100%">
+								<tr id="datosalumno" style="height: 40px;width: 70%">
+									<td class="subsubtit" style="width: 50px;">Código:</td>
+									<td style="width: 100px;">
+										<div id="codigo"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Apellidos:</td>
+									<td style="width: 120px;">
+										<div id="apellidos"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Nombres:</td>
+									<td style="width: 120px;">
+										<div id="nombres"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Facultad:</td>
+									<td style="width: 150px;">
+										<div id="facultad"></div>
+									</td>
+									<td class="subsubtit" style="width: 50px;">Escuela:</td>
+									<td style="width: 150px;">
+										<div id="escuela"></div>
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+					</div>
+       			
+       			
+       			
+       			
+       		</div>
+			
+			
+			
 			
 			
 

@@ -1,5 +1,6 @@
 jQuery(function ($) {
-	  $('.mitooltip').tooltip();
+	$('#confirmacion').hide();
+	$('.mitooltip').tooltip();
 	var comboAlumno = $("#comboAlumno").alumnoSelectize("dynamicOptionsAlumno");
     comboAlumno.enable();
     var comboUniversidad = $("#comboUniversidad").universidadSelectize();
@@ -112,6 +113,7 @@ jQuery(function ($) {
 
     $(document).on('click', '#agregarcurso', function() {
         var nuevodiv= "";
+        if(comboAlumno.getValue()){
         nuevodiv+='<div  class="row">';
         nuevodiv+='<div class="col-md-3 col-xs-4 col-sm-3">';
         nuevodiv+='<input type="text" class="codigocurso form-control"  style="text-transform:uppercase;" required="required" placeholder="Codigo de Curso" />';
@@ -131,9 +133,9 @@ jQuery(function ($) {
         nuevodiv+='<div class="col-md-1 col-xs-4 col-sm-1">';
         nuevodiv+='<button type="button" class="borrar btn btn-danger mitooltip"  data-placement="bottom" title="ELIMINAR CURSO">x</button>';
         nuevodiv+='</div>';
-       
+        nuevodiv+='<hr class="col-md-12 col-xs-12 col-sm-12" style="visibility:hidden;margin:5px;">';        
         nuevodiv+='</div>';
-        nuevodiv+='<hr visibility="hidden">';
+        
        
        
         $('#cursosaprobados').append(nuevodiv);
@@ -149,76 +151,154 @@ jQuery(function ($) {
             showPreview:false
         });
         $('.mitooltip').tooltip();
+        
+    }else{
+    	toastr["warning"]("Seleccione un Alumno");
+    }
+        
+        
         });
 
     $(document).on('click', '.borrar', function() {
         //$(this).parent().prev().children("input").remove();
         $(this).parent().parent().remove();
     });
-    
+    function AbrirDialogo(){
+    	console.log("abrirdialogo");
+    	$('#confirmacion').dialog({
+            show: "scale",
+            hide: "scale",
+            rezisable:false,
+            draggable:false,
+            modal:true,
+            title: "Confirmar Registro",
+            width: 400,
+            buttons: {
+                Aceptar: function(){
+                	console.log("entro al registrar");
+                	var convalidacionalumno=[];
+                	var convalidacion=[];
+
+                	//los obtenidos del historico
+                	
+                	$("#cursosregistrados tr").each(function(){
+                		//console.log(this);
+                		if(($(this).find('.chk')).is(':checked')){
+                			convalidacionalumno.push({
+                    			'cursoorigencodigo':$(this).data("object").cursoorigencodigo,
+                    			'cursoorigennombre':$(this).data("object").cursoorigennombre,
+                    			'alumno':comboAlumno.getValue(),
+                    			'nota':$(this).find('.numeros').val(),
+                    			'universidadorigen':comboUniversidad.getValue()
+                    		});
+                			convalidacion.push({
+                				'plancurricular':$(this).data("object").plancurricular.id
+                				,
+                				'curso':$(this).data("object").curso.id
+                				,
+                				'codigocursoorigen':$(this).data("object").cursoorigencodigo,
+                				'alumno':comboAlumno.getValue()
+                	    	});
+                			
+                		}
+                		
+                	});
+                	//los nuevos a registrar
+                	$("#cursosaprobados .row").each(function(){
+                		convalidacionalumno.push({
+                			'cursoorigencodigo':$(this).find('.codigocurso').val(),
+                			'cursoorigennombre':$(this).find('.nombrecurso').val(),
+                			'alumno':comboAlumno.getValue(),
+                			'nota':$(this).find('.notacurso').val(),
+                			'universidadorigen':comboUniversidad.getValue()
+                		});
+                		
+                	});
+                	console.log(convalidacionalumno.length);
+                	console.log(convalidacion.length);
+                	var ajaxdata={'f':'registrarCursos','convalidacionesalumno':JSON.stringify(convalidacionalumno),'convalidaciones':JSON.stringify(convalidacion)};
+                	console.log(JSON.stringify(ajaxdata));
+                	$.ajax({
+            			url : "../registrodatos",
+            			data : ajaxdata,
+            			dataType : 'json',
+            			type : 'POST',
+            			success : function(datos) {
+            				if (datos == "OK") {
+            					console.log(datos);
+            					 toastr["success"]("Registro Exitoso");
+            					 limpiarCampos();
+            				} else {
+            					console.log(datos);
+            					toastr["warning"](datos);
+            				}
+            			}
+            		});
+                	$(this).dialog('close');
+                	
+                },
+                Cerrar: function () {
+                    $(this).dialog('close');
+                }
+            }
+        });
+    };
     
     //envio total
     $(document).on("submit", '#form', function(event) {
     	event.preventDefault();
-    	var convalidacionalumno=[];
-    	var convalidacion=[];
-    	//los obtenidos del historico
-    	$("#cursosregistrados tr").each(function(){
-    		//console.log(this);
-    		if(($(this).find('.chk')).is(':checked')){
-    			convalidacionalumno.push({
-        			'cursoorigencodigo':$(this).data("object").cursoorigencodigo,
-        			'cursoorigennombre':$(this).data("object").cursoorigennombre,
+    	if(comboAlumno.getValue()){//selecciono alumno
+    		var convalidacionalumno=[];
+        	var convalidacion=[];
+
+        	//los obtenidos del historico
+        	
+        	$("#cursosregistrados tr").each(function(){
+        		//console.log(this);
+        		if(($(this).find('.chk')).is(':checked')){
+        			convalidacionalumno.push({
+            			'cursoorigencodigo':$(this).data("object").cursoorigencodigo,
+            			'cursoorigennombre':$(this).data("object").cursoorigennombre,
+            			'alumno':comboAlumno.getValue(),
+            			'nota':$(this).find('.numeros').val(),
+            			'universidadorigen':comboUniversidad.getValue()
+            		});
+        			convalidacion.push({
+        				'plancurricular':$(this).data("object").plancurricular.id
+        				,
+        				'curso':$(this).data("object").curso.id
+        				,
+        				'codigocursoorigen':$(this).data("object").cursoorigencodigo,
+        				'alumno':comboAlumno.getValue()
+        	    	});
+        			
+        		}
+        		
+        	});
+        	//los nuevos a registrar
+        	$("#cursosaprobados .row").each(function(){
+        		convalidacionalumno.push({
+        			'cursoorigencodigo':$(this).find('.codigocurso').val(),
+        			'cursoorigennombre':$(this).find('.nombrecurso').val(),
         			'alumno':comboAlumno.getValue(),
-        			'nota':$(this).find('.numeros').val(),
+        			'nota':$(this).find('.notacurso').val(),
         			'universidadorigen':comboUniversidad.getValue()
         		});
-    			convalidacion.push({
-    				'plancurricular':$(this).data("object").plancurricular.id
-    				,
-    				'curso':$(this).data("object").curso.id
-    				,
-    				'codigocursoorigen':$(this).data("object").cursoorigencodigo,
-    				'alumno':comboAlumno.getValue()
-    	    	});
-    			
-    		}
+        		
+        	});
+        	if(convalidacionalumno.length!=0 || convalidacion.length!=0){
+        		AbrirDialogo();
+        	}else{
+        		toastr["warning"]("Seleccione o Ingrese un Curso");
+        	}
+        		
     		
-    	});
-    	//los nuevos a registrar
-    	$("#cursosaprobados .row").each(function(){
-    		convalidacionalumno.push({
-    			'cursoorigencodigo':$(this).find('.codigocurso').val(),
-    			'cursoorigennombre':$(this).find('.nombrecurso').val(),
-    			'alumno':comboAlumno.getValue(),
-    			'nota':$(this).find('.notacurso').val(),
-    			'universidadorigen':comboUniversidad.getValue()
-    		});
     		
-    	});
+    	}else{
+    		 toastr["warning"]("Seleccione un Alumno");
+    	}
     	
-    	
-    	
-    	
-    	var ajaxdata={'f':'registrarCursos','convalidacionesalumno':JSON.stringify(convalidacionalumno),'convalidaciones':JSON.stringify(convalidacion)};
-    	console.log(JSON.stringify(ajaxdata));
-    	$.ajax({
-			url : "../registrodatos",
-			data : ajaxdata,
-			dataType : 'json',
-			type : 'POST',
-			success : function(datos) {
-				if (datos == "OK") {
-					console.log(datos);
-					 toastr["success"]("Registro Exitoso");
-					 limpiarCampos();
-				} else {
-					console.log(datos);
-					toastr["warning"](datos);
-				}
-			}
-		});
-    	
+    		
     });
     
     function limpiarCampos(){
