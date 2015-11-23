@@ -68,36 +68,44 @@ public class RegistroHorariosSeleccionados extends HttpServlet {
             
             //CURSOS CRUCES
             String jsonCruces=request.getParameter("jsonCruces");
-            JSONArray jsonCruces1 = new JSONArray(jsonCruces);            
-            System.out.println("jsonCruces1 " + jsonCruces1);
+            
+            String texto="No data available in table";
             
             List<String> codCurso1 = new ArrayList<String>();
             List<String> seccion1 = new ArrayList<String>();
             List<String> codCurso2 = new ArrayList<String>();
             List<String> seccion2 = new ArrayList<String>();
-            
-            for(int index = 0; index < jsonCruces1.length(); index++) 
+            if(!jsonCruces.contains(texto))
             {
-                JSONObject jsonObjectCruce = jsonCruces1.getJSONObject(index);
-                
-                String codCur1= jsonObjectCruce.getString("CodCurso1");
-                String secc1= jsonObjectCruce.getString("Seccion1");
-                
-                String codCur2= jsonObjectCruce.getString("CodCurso2");
-                String secc2= jsonObjectCruce.getString("Seccion2");
-                
-                System.out.println("COD CURSO1 " + codCur1);
-                System.out.println("SECCION1 " + secc1);
-                
-                System.out.println("COD CURSO2 " + codCur2);
-                System.out.println("SECCION2 " + secc2);
-                System.out.println("");
-                
-                codCurso1.add(codCur1);
-                seccion1.add(secc1);                
-                codCurso2.add(codCur2);
-                seccion2.add(secc2);
+            	System.out.println("jsonCruces-Cruce " + jsonCruces);
+                JSONArray jsonCruces1 = new JSONArray(jsonCruces);            
+                System.out.println("jsonCruces1 " + jsonCruces1);    
+                                
+                for(int index = 0; index < jsonCruces1.length(); index++) 
+                {
+                    JSONObject jsonObjectCruce = jsonCruces1.getJSONObject(index);
+                    
+                    String codCur1= jsonObjectCruce.getString("CodCurso1");
+                    String secc1= jsonObjectCruce.getString("Seccion1");
+                    
+                    String codCur2= jsonObjectCruce.getString("CodCurso2");
+                    String secc2= jsonObjectCruce.getString("Seccion2");
+                    
+                    System.out.println("COD CURSO1 " + codCur1);
+                    System.out.println("SECCION1 " + secc1);
+                    
+                    System.out.println("COD CURSO2 " + codCur2);
+                    System.out.println("SECCION2 " + secc2);
+                    System.out.println("");
+                    
+                    codCurso1.add(codCur1);
+                    seccion1.add(secc1);                
+                    codCurso2.add(codCur2);
+                    seccion2.add(secc2);
+                }
             }
+            
+            
             eliminar=false;            
             registro=false;
             
@@ -111,7 +119,10 @@ public class RegistroHorariosSeleccionados extends HttpServlet {
 			System.out.println("INGRESARÁ");
 			if(registro)
 			{
-				registro = factory.getSimulacionMatricula().RegistrarCrucesHorariosAlumno(oUsuario.getPersona().getIdPersona().toString(),codCurso1,seccion1,codCurso2,seccion2);
+				if(!jsonCruces.contains(texto))
+	            {
+					registro = factory.getSimulacionMatricula().RegistrarCrucesHorariosAlumno(oUsuario.getPersona().getIdPersona().toString(),codCurso1,seccion1,codCurso2,seccion2);
+	            }
 				System.out.println("CORRECTO");
 				mensaje="Se registró correctamente los horarios para los cursos preferidos.";
 			}
