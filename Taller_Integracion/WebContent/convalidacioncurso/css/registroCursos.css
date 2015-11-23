@@ -1,6 +1,6 @@
 #SeleccionarAlumno {
 	padding: 10px;
-	margin: 20px; //
+	margin: 10px; //
 	background-color: rgba(177, 6, 58, 0.87);
 	background-color: #a22424;
 	box-shadow: 2px 2px 2px transparent inset, -5px 5px 5px
@@ -13,10 +13,13 @@
 	text-shadow: 0.5px 0.5px 0.5px rgba(11, 3, 3, 0.43);
 	font-weight: bolder;
 }
-
+#imprcab{
+	width:1040px;
+}
 .subsubtit {
 	font-weight: bold;
-	padding-left: 10px;
+	padding-left: 5px;
+	margin-right:0px;
 	font-variant: small-caps;
 }
 th{

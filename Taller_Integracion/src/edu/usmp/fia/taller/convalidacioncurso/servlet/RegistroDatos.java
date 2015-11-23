@@ -33,6 +33,7 @@ import edu.usmp.fia.taller.common.bean.convalidacioncurso.Especialidad;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.InsertConvalidacion;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.ModalidadIngreso;
 import edu.usmp.fia.taller.common.bean.convalidacioncurso.Persona;
+import edu.usmp.fia.taller.common.bean.convalidacioncurso.Provincia;
 import edu.usmp.fia.taller.common.dao.DAOFactory;
 
 
@@ -72,8 +73,14 @@ public class RegistroDatos extends ActionServlet {
         alu.setDistrito(new Distrito());
         alu.getDistrito().setId(request.getParameter("dis"));
         
+        alu.setProvincia(new Provincia());
+        alu.getProvincia().setId(request.getParameter("pro"));
+        
         alu.setDepartamento(new Departamento());
         alu.getDepartamento().setId(request.getParameter("dep"));
+        
+        
+        
         
         
         
