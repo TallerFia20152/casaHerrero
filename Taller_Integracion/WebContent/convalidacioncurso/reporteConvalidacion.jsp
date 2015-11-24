@@ -7,10 +7,19 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
-	<script src="js/reporteConvalidacion.js" type="text/javascript"></script>
-	<title>Taller Proyectos</title>
 	<jsp:include page="/resources/include/header-resources.jsp"></jsp:include>
+	<link href="css/selectize.default.css" rel="stylesheet" type="text/css" />
+	<link href="css/toastr.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/reporte.css" rel="stylesheet" type="text/css" />
+	<script src="js/jquery.blockUI.js" type="text/javascript"></script>
+	<script src="js/toastr.min.js" type="text/javascript"></script>
+	<script src="js/selectize.min.js" type="text/javascript"></script>
+	<script src="js/selectizes/alumnoSelectize.js" type="text/javascript"></script>
+	<script src="js/selectizes/cursoOrigenSelectize.js" type="text/javascript"></script>
+	<script src="js/reporteConvalidacion.js" type="text/javascript"></script>
+	
+	<title>Taller Proyectos</title>
+	
 </head>
 
 <%
@@ -67,7 +76,51 @@
 							</table>
 						</fieldset>
 					</div>
-       			
+					<div class="col-md-8">
+					 <h2 style='text-align:center;'>Convalidaciones</h2>
+                	<table style="width: 100%;" class="table table-hover table-bordered ">
+                    <thead>
+                    <tr style="text-align:center;">
+                    	<td colspan="2">UNIV. ORIGEN</td>
+                    	<td colspan="2" >USMP</td>
+                    </tr>
+                        <tr style='text-align:center;font-size:14px;'>
+                        	<th style="text-align: center">C&oacute;digo Univ. Origen</th>
+                            <th style="text-align: center">Curso Univ. ORigen</th>
+                            <th style="text-align: center">C&oacute;digo</th>
+                            <th style="text-align: center">Curso</th>
+<!--                             <th style="text-align: center">Nota</th> -->
+                        </tr>
+                    </thead>
+                    <tbody id="convalidados" style="font-size:12px;">
+                    </tbody>
+                </table>
+					
+					</div>
+       			<div class="col-md-4" >
+<!-- 					<div style="position:fixed;"> -->
+				<div id="navcur">
+				
+                <h2 style='text-align:center;'>No Convalidados</h2>
+                <table style="width: 100%;" class="table table-hover table-bordered ">
+                    <thead >
+                    
+                        <tr style='text-align:center;font-size:14px;'>
+                            <th style="text-align: center">C&oacute;digo</th>
+                            <th style="text-align: center">Curso</th>
+                            
+                            <th style="text-align: center">Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cursosorigen" style="font-size:12px;">
+                    </tbody>
+                </table>
+				<hr style="visibility:hidden;">
+           
+				
+            </div>
+            								
+			</div>     
        			
        			
        			

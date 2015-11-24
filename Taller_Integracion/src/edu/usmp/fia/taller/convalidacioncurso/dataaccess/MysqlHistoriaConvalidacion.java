@@ -36,7 +36,7 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 				.
 				// amarre con codigos de facultad y escuela del alumno con el
 				// plan
-				append("order by 5;");
+		append("order by 5;");
 
 		try {
 			this.Conectar(false);
@@ -70,8 +70,42 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 
 	@Override
 	public List<Convalidacion> listarconvalidaciones(Alumno wAlumno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Convalidacion> convalidaciones;
+		ResultSet rs=null;
+		StringBuilder sql = new StringBuilder();
+		sql.append("select distinct con.curso_id,con.curso_origen_codigo,conalu.curso_origen_nombre,con.curso_id,cur.nombre,nota "). 
+		append("from t_convalidacion con  ").
+		append("join t_convalidacion_alumno  conalu on con.alumno_id = conalu.alumno_id and con.curso_origen_codigo = conalu.curso_origen_codigo ").
+		append("join t_plan_curricular_detalle plandet on plandet.ciclo_id ").
+		append("join t_curso cur on cur.id = con.curso_id ").
+		append("where con.alumno_id='").append(wAlumno.getPersona().getId()).append("';");
+
+		try {
+			this.Conectar(false);
+			rs = this.EjecutarOrdenDatos(sql.toString());
+			convalidaciones = new ArrayList<>();
+			while (rs.next()) {
+			Convalidacion con = new Convalidacion();
+			con.setCurso(new Curso());
+			con.getCurso().setNombre(rs.getString("nombre"));
+			con.getCurso().setId(rs.getString("curso_id"));
+			con.setCursoorigencodigo(rs.getString("curso_origen_codigo"));
+			con.setCursoorigennombre(rs.getString("curso_origen_nombre"));
+			convalidaciones.add(con);
+			}
+			rs.close();
+			this.Cerrar(true);
+		} catch (Exception e) {
+			this.Cerrar(false);
+			throw e;
+		} finally {
+			if (rs != null) {
+				rs = null;
+			}
+		}
+		return convalidaciones;
+
+	
 	}
 
 	@Override
@@ -224,12 +258,11 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 				"INSERT INTO t_alumno(id,dni,fecha_nacimiento,direccion,departamento_id,provincia_id,distrito_id,numero_celular,numero_casa,modalidad_ingreso_id,especialidad_id,facultad_id)")
 				.append(" VALUES('").append(wAlumno.getPersona().getId()).append("','").append(wAlumno.getDni())
 				.append("','").append(wAlumno.getFechanacimiento()).append("','").append(wAlumno.getDireccion())
-				.append("','").append(wAlumno.getDepartamento().getId())
-				.append("','").append(wAlumno.getProvincia().getId())
-				.append("','").append(wAlumno.getDistrito().getId()).append("',")
-				.append(wAlumno.getNumerocelular())
-				.append(",").append(wAlumno.getNumerocasa()).append(",'").append(wAlumno.getModalidadingreso().getId())
-				.append("',").append(wAlumno.getEspecialidad().getId()).append(",").
+				.append("','").append(wAlumno.getDepartamento().getId()).append("','")
+				.append(wAlumno.getProvincia().getId()).append("','").append(wAlumno.getDistrito().getId()).append("',")
+				.append(wAlumno.getNumerocelular()).append(",").append(wAlumno.getNumerocasa()).append(",'")
+				.append(wAlumno.getModalidadingreso().getId()).append("',").append(wAlumno.getEspecialidad().getId())
+				.append(",").
 				// append(wAlumno.getFacultad().getId()).append("')");
 				append("9)");
 
@@ -281,13 +314,12 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 	}
 
 	@Override
-	public List<Distrito> listardistritos(Departamento wDepartamento,Provincia wProvincia) throws Exception {
+	public List<Distrito> listardistritos(Departamento wDepartamento, Provincia wProvincia) throws Exception {
 		List<Distrito> distritos;
 		ResultSet rs = null;
 		StringBuilder sql = new StringBuilder();
-		sql.append("select id,upper(nombre) nombre from t_distrito where departamento_id='").
-				append(wDepartamento.getId()).append("' and provincia_id='").
-				append(wProvincia.getId()).append("';");
+		sql.append("select id,upper(nombre) nombre from t_distrito where departamento_id='")
+				.append(wDepartamento.getId()).append("' and provincia_id='").append(wProvincia.getId()).append("';");
 
 		try {
 			this.Conectar(false);
@@ -311,7 +343,6 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 		}
 		return distritos;
 	}
-
 
 	@Override
 	public List<Departamento> listardepartamentos() throws Exception {
@@ -342,13 +373,14 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 		}
 		return departamentos;
 	}
+
 	@Override
 	public List<Provincia> listarprovincias(Departamento wDepartamento) throws Exception {
 		List<Provincia> provincias;
 		ResultSet rs = null;
 		StringBuilder sql = new StringBuilder();
-		sql.append("select id,upper(nombre) nombre from t_provincia where departamento_id='").
-		append(wDepartamento.getId()).append("';");
+		sql.append("select id,upper(nombre) nombre from t_provincia where departamento_id='")
+				.append(wDepartamento.getId()).append("';");
 
 		try {
 			this.Conectar(false);
@@ -372,7 +404,7 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 		}
 		return provincias;
 	}
-	
+
 	@Override
 	public List<ModalidadIngreso> listarmodalidades() throws Exception {
 		List<ModalidadIngreso> modalidades;
@@ -461,6 +493,7 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 				ConvalidacionAlumno conalu = new ConvalidacionAlumno();
 				conalu.setCursoorigencodigo(rs.getString("curso_origen_codigo"));
 				conalu.setCursoorigennombre(rs.getString("curso_origen_nombre"));
+				conalu.setNota(rs.getInt("nota"));
 				conalus.add(conalu);
 			}
 			rs.close();
@@ -526,8 +559,8 @@ public class MysqlHistoriaConvalidacion extends DAO implements DAOHistoriaConval
 		List<ConvalidacionAlumno> cursos;
 		ResultSet rs = null;
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from t_convalidacion_alumno where alumno_id='")
-				.append(wAlumno.getPersona().getId()).append("' ")
+		sql.append("select * from t_convalidacion_alumno where alumno_id='").append(wAlumno.getPersona().getId())
+				.append("' ")
 				.append("and curso_origen_codigo not in(select distinct curso_origen_codigo from t_convalidacion where alumno_id='")
 				.append(wAlumno.getPersona().getId()).append("');");
 

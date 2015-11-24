@@ -156,6 +156,31 @@ public class HistoriaConvalidacion extends ActionServlet {
 	        }
 	    }
 	    
+	    @HttpMethod(HttpMethodType.POST)
+	    @RequireLogin(false)
+	    public void listarCursosConvalidados() throws IOException, Exception {
+	    	List<Convalidacion> convalidaciones = null;
+	    	Alumno alu = new Alumno();
+	    	alu.setPersona(new Persona());
+	    	alu.getPersona().setId(request.getParameter("codalu"));
+	    	
+	        DAOFactory oDAOFactory;
+	        response.setContentType("application/json;charset=UTF-8");
+	        PrintWriter out = response.getWriter();
+	        Gson gson = new Gson();
+	        try {
+	            oDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+	            convalidaciones = oDAOFactory.getConvalidacion().getHistoriaConvalidacion().listarconvalidaciones(alu);
+	            out.print(gson.toJson(convalidaciones));
+	        } catch (Exception e) {
+	            out.print(gson.toJson(e.getMessage()));
+	            throw e;
+	        } finally {
+	            
+	            out.close();
+	        }
+	    }
+	    
 	    @HttpMethod(HttpMethodType.GET)
 	    @RequireLogin(false)
 	    public void listardistritos() throws IOException, Exception {
