@@ -13,13 +13,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.mysql.jdbc.CallableStatement;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-import edu.usmp.fia.taller.common.bean.MallaCurricular.T_course;
 import edu.usmp.fia.taller.common.dao.modules.DAOFactoryGeneral;
 import edu.usmp.fia.taller.common.dao.modules.MysqlFactoryGeneral;
 import edu.usmp.fia.taller.common.dao.modules.PlanCurricular.DAOFactoryPCurricular;
@@ -31,8 +29,6 @@ import edu.usmp.fia.taller.common.dao.modules.elaboracionhorario.MysqlFactoryEla
 import edu.usmp.fia.taller.common.dao.modules.registrodocente.DAOFactoryRegDocente;
 import edu.usmp.fia.taller.common.dao.modules.registrodocente.MysqlFactoryRegDocente;
 
-
-import edu.usmp.fia.taller.common.util.ThreadUtil;
 import edu.usmp.fia.taller.mallacurricular.MySql.MySqlFactoryMCurricular;
 import edu.usmp.fia.taller.mallacurricular.interfaces.DAOFactoryMCurricular;
 import edu.usmp.fia.taller.silabo.MySql.MySqlSilaboDao;
@@ -175,15 +171,9 @@ public class MySqlDAOFactory extends DAOFactory {
 	public DAOFactoryRegDocente getRegistroDocente() {return new MysqlFactoryRegDocente();}
 
 	@Override
-	public DAOFactoryConvalidacion getConvalidacion() {
-		return new MysqlFactoryConvalidacion();
-	}
-
+	public DAOFactoryConvalidacion getConvalidacion() {	return new MysqlFactoryConvalidacion();}
 	public DAOFactoryMCurricular getMallaCurricular() { return new MySqlFactoryMCurricular(); }
-	
-	
 	public DAOFactoryPCurricular getCourseDAO() { return new MySqlFactoryPCurricular(); }
-
 	public DAOSilabo getSilaboDAO() { return new MySqlSilaboDao(); }  
 
 
